@@ -115,7 +115,7 @@
 
 	$(document).ready(function(){
 
-		if(ID_exc==0){
+		if (ID_exc==0) {
 			
 			$(".select_exc").hide();
 			$("#elimina").hide();
@@ -123,8 +123,8 @@
 			set_array();
 			
 			modify=0;
-		}
-		else{
+		
+		} else {
 				
 			modify=1;
 			var y=0;
@@ -155,10 +155,10 @@
 
 		ExceptionID = $('#exception').val();
 
-		if(ExceptionID==0){
+		if (ExceptionID==0) {
 			$("#salva").find("label").text("Aggiungi");
 			$("#elimina").hide();
-		}else{
+		} else {
 			$("#salva").find("label").text("Modifica");
 			$("#elimina").show();
 		}
@@ -179,7 +179,7 @@
   				date_e= Data.data_end;
   				array_ecc= Data.eccezione;
 
-  				if(ExceptionID==0){
+  				if (ExceptionID==0) {
   					$("#attivadata").show();
   					$('#rangestart').calendar('set date',"");
 					$('#rangeend').calendar('set date', "");
@@ -190,9 +190,10 @@
 	  				$('.checkbox').find('.active_date').prop("checked",false);
 					$('.checkbox').find('.active_date').attr("checked",false);
 						
-  				}else{
+  				} else {
 
 					$("#attivadata").hide();
+		  			
 		  			date_start = new Date(date_s);
 	  				date_end = new Date(date_e);
 	
@@ -200,18 +201,19 @@
 					$('#rangeend').calendar('set date', date_end);
 
 					var app=24;
+					
 					for(var i=0;i<7;i++){
 						
 							var slice=array_ecc.slice((app*i),app*(i+1));
 							var split=slice.split("");
 							eccezione[i]=split;	
 							}
-					}
+				}
 
 				change_tab();
 
-				if(ExceptionID!=0){
-					if(date_s.indexOf("000")>-1){
+				if (ExceptionID!=0) {
+					if (date_s.indexOf("000")>-1) {
 
 	 					$('.checkbox').find('.active_date').prop("checked",false);
 						$('.checkbox').find('.active_date').attr("checked",false);
@@ -459,10 +461,12 @@
 	$("#salva").on('click',function(){
 
 
-		if(ExceptionID==0){
+		if (ExceptionID==0) {
+			
 			modify=0;
 			
-		}else{
+		} else {
+			
 			modify=1;
 		}
 		
@@ -473,18 +477,23 @@
 			alert("Devi inserire entrambe le date");
 		}
 
-		for(y=0;y<=giorno;y++){
-			for(x=0;x<=ore;x++){		
-				if(eccezione[y][x]==0){
+		for (y=0;y<=giorno;y++) {
+			
+			for (x=0;x<=ore;x++) {		
+				
+				if (eccezione[y][x]==0) {
+				
 					flag=1;
-				}
-				else{
+				
+				} else {
+				
 					flag=0;	
 					break;
 				}	
 			}
 
-			if(flag==0){
+			if (flag==0) {
+			
 			break;
 			}
 		}

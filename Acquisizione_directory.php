@@ -13,7 +13,7 @@
 	
 	if (is_dir($root_path)) {
   		//echo $GLOBALS['$root_path'] . "Root directory exist.<br>";
-	}else{
+	} else {
 		mkdir($root_path);
   		//echo $$GLOBALS['$root_path'] . 'è stata creata la Root directory.<br>';
 	}
@@ -30,9 +30,9 @@
 
 	$extendedpath=$root_path.$category;
 
-	if(is_dir($extendedpath)){
+	if (is_dir($extendedpath)) {
 		//echo $extendedpath ." directory presente.<br>";
-	}else{
+	} else {
 		mkdir($extendedpath);
 		//echo $extendedpath . " è stata creata la directory.<br>";
 	}

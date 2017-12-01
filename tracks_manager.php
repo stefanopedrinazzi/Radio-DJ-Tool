@@ -229,27 +229,29 @@
 		<thead>
         
 			<tr>
-			<th>
-				<i class="music icon"></i>Titolo	
-			</th>
-			<th>
-				<i class="user icon"></i>Artista
-			</th>
-			<th>
-				<i class="hashtag icon"></i>Eccezioni
-			</th>
-			<th>
-				<i class="setting icon"></i>Azione
-			</th>
+				<th>
+					<i class="music icon"></i>Titolo	
+				</th>
+				<th>
+					<i class="user icon"></i>Artista
+				</th>
+				<th>
+					<i class="hashtag icon"></i>Eccezioni
+				</th>
+				<th>
+					<i class="setting icon"></i>Azione
+				</th>
 
-		</tr>
+			</tr>
+
 		</thead>
+
 		<tbody>
+
 		</tbody>	
+
 	</table>
 
-	
-		
 	
 	</body>
 </html>

@@ -319,21 +319,28 @@
 	}
 
 	//funzione per contare il numero di eccezioni presenti per ogni traccia
-	function Number_exception(&$songID){
+	function Number_exception(){
 
 		$connectionap=DBap_connection();
+
+		$array=array();
 
 		global $db_nameap;
 
 		mysqli_select_db($connectionap,$db_nameap);
 
-		$exception="SELECT count(*) AS total FROM songs_exceptions WHERE songs_exceptions.ID_song='$songID'";
+		$exception="SELECT ID_song,count(*) AS total FROM songs_exceptions GROUP BY ID_song";
 
-		$exc=$connectionap->query($exception);
+		if($exc=$connectionap->query($exception)){
 
-		$riga =$exc->fetch_assoc();
+			while($riga =$exc->fetch_assoc()){
 
-		return($riga['total']);
+			$array[$riga['ID_song']]=$riga['total'];
+
+			}
+		}
+
+		return($array);
 	}
 
 	//funzione per acquisire titolo e artista della canzone per stampare nel form di eccezioni

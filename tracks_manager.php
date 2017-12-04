@@ -58,6 +58,7 @@
 
   		function refresh(){
 
+
   			
   			$('#caricamento').addClass("active");
   			
@@ -79,21 +80,24 @@
 				$("#gen.folder").removeClass("open");
 			}
 
- /* 			$.ajax({
+  			$.ajax({
 	        type: 'POST',
 	        url: 'PrintSong.php',
 	        data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
 	        	success: function(stamp_song) {
 	           	$('#caricamento').removeClass("active");
-*/
+	           	//$('#tablesong').html(stamp_song);
+
 	            $('#tablesong').dataTable( {
-	            	"ajax": {
-    					"url": "PrintSong.php",
-    					"type": "POST",
-    					"data": { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
+	            	serverSide: true,
+	            	ajax: {
+    					url: 'PrintSong.php',
+    					type: 'POST',
+    					data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
     					
   					}
 				});
+				
 /*	            	
 	    			table = $('#tablesong').DataTable( {
    			 			paging: false
@@ -104,7 +108,7 @@
 					$.fn.dataTable.ext.errMode = 'none';
 
 					table = $('#tablesong').DataTable( {
-						
+
 						language: {
 	            			"lengthMenu": "<p style=\"margin-left:10px\"> Elementi per pagina: _MENU_</p>",
 	            			"zeroRecords": "Nessuna traccia",
@@ -118,9 +122,12 @@
    			 			},
     					searching: false
 					} );
+*/
+					
 	    		}
 	    	});	
-*/		
+		
+
 		}
 
 		$('#category').on('change',function() {

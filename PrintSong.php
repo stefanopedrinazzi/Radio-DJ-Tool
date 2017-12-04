@@ -30,6 +30,7 @@
 
 		$song ="";
 
+		$array=Number_exception();
 
 
 		if($category_ID=="0" && $ID_genre=="0" && $ID_subcat=="0"){
@@ -76,6 +77,7 @@
 
 		}
 
+		
 		$stamp_song="<thead><tr><th><i class=\"music icon\"></i>Titolo</th><th><i class=\"user icon\"></i>Artista</th><th><i class=\"hashtag icon\"></i>Eccezioni</th><th><i class=\"setting icon\"></i>Azione</th></tr></thead><tbody>";
 		
 
@@ -84,9 +86,10 @@
 	
 			while($riga =$songquery->fetch_assoc()){
 
-
-				$number=Number_exception($riga['ID']);
-
+			error_reporting(E_ERROR | E_WARNING | E_PARSE);
+			$number=$array[$riga['ID']];
+			error_reporting(E_ALL);
+					
 				if($number!=0){
 					$button="";
 					$button="<button class=\"mini ui icon labeled primary button\" name=\"get_song\" value=\"".$riga['ID']."\"><i class=\"setting icon\"></i>Modifica</button>";
@@ -108,5 +111,5 @@
 		}
 		$stamp_song .="</tbody>";
 
-		echo($stamp_song);
+		echo ($stamp_song);
 ?>

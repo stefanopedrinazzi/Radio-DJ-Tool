@@ -56,12 +56,14 @@
   	$(document).ready(function(){
 
 
+
   		function refresh(){
   			
 			var ID_cat=$('#category').val();
 			var ID_subcat=$('#subcategory').val();
 			var ID_genre=$('#genre').val();
 			var search=$('#search').val();
+			
 
 			if(ID_cat=="0"){
 				$("#cat.folder").removeClass("open");
@@ -83,13 +85,14 @@
 */
 			if ( $.fn.DataTable.isDataTable('#tablesong') ) {
   				$('#tablesong').DataTable().destroy();
+				$('#tablesong').off('xhr.dt');
 			}
 
 			//$('#tablesongt tbody').empty();
 
 			$('#tablesong')
 		        .on('xhr.dt', function ( e, settings, json, xhr ) {
-
+		        	console.log(json.data);
 		            json.data=json.data.map(function(song){
 		            	if(song.Eccezioni!==0){
 						

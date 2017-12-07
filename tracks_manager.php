@@ -57,14 +57,7 @@
 
 
   		function refresh(){
-
-
   			
-  			$('#caricamento').addClass("active");
-  			
-
-  			var response="";
-			
 			var ID_cat=$('#category').val();
 			var ID_subcat=$('#subcategory').val();
 			var ID_genre=$('#genre').val();
@@ -79,7 +72,7 @@
 			if(ID_genre=="0"){
 				$("#gen.folder").removeClass("open");
 			}
-
+/*
   			$.ajax({
 	        type: 'POST',
 	        url: 'PrintSong.php',
@@ -87,16 +80,60 @@
 	        	success: function(stamp_song) {
 	           	$('#caricamento').removeClass("active");
 	           	//$('#tablesong').html(stamp_song);
+*/
+			if ( $.fn.DataTable.isDataTable('#tablesong') ) {
+  				$('#tablesong').DataTable().destroy();
+			}
 
-	            $('#tablesong').dataTable( {
-	            	serverSide: true,
-	            	ajax: {
-    					url: 'PrintSong.php',
-    					type: 'POST',
-    					data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
-    					
-  					}
+			//$('#tablesongt tbody').empty();
+
+			$('#tablesong')
+		        .on('xhr.dt', function ( e, settings, json, xhr ) {
+
+		            json.data=json.data.map(function(song){
+		            	if(song.Eccezioni!==0){
+						
+							song.Azione='<button class="mini ui icon labeled primary button" name="get_song" value='+song.Azione+'><i class="setting icon"></i>Modifica</button>';
+						}else{
+
+							song.Azione='<button class="mini ui icon labeled green button" name="get_song" value='+song.Azione+'><i class="icon plus"></i>Aggiungi</button>';
+						}
+						return song;
+		            })
+
+		            $('#caricamento').removeClass("active");
+
+		        })
+		            
+		        .dataTable( {
+		            serverSide: true,
+		            ajax: {
+	    				url: 'PrintSong.php',
+	    				type: 'POST',
+	    				data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
+
+	  				},columns:[
+	  					{ data: "Artista" },
+	  					{ data: "Titolo" },
+	  					{ data: "Eccezioni" },
+	  					{ data: "Azione" }
+	  				],
+	  				searching:false,
+	  				language: {
+	            		"lengthMenu": "<p style=\"margin-left:10px\"> Elementi per pagina: _MENU_</p>",
+	            		"zeroRecords": "Nessuna traccia",
+	            		"info": "<p style=\"margin-left:10px\"> elementi da _START_ a _END_ di _TOTAL_ elementi</p>",
+	            		"oPaginate": {
+	      					"sFirst":      "Prima",
+	        				"sLast":       "Ultima",
+	        				"sNext":       "Prossima",
+	        				"sPrevious":   "Precedente"
+	    				},
+   			 		}	
+
+
 				});
+		        
 				
 /*	            	
 	    			table = $('#tablesong').DataTable( {
@@ -122,17 +159,19 @@
    			 			},
     					searching: false
 					} );
-*/
+
 					
 	    		}
 	    	});	
-		
+*/		
 
 		}
 
 		$('#category').on('change',function() {
 
 			$("#cat.folder").addClass("open");
+
+  			$('#caricamento').addClass("active");
 
 			refresh();
 
@@ -155,18 +194,28 @@
 
   		
 		$('#subcategory').on('change',function() {	
-			$("#sub.folder").addClass("open");	  			
+			$("#sub.folder").addClass("open");
+
+  			$('#caricamento').addClass("active");
+ 
+	  			
 			refresh();
   		});
   		
 
 		$('#genre').on('change',function() {
-			$("#gen.folder").addClass("open");	  			
+			$("#gen.folder").addClass("open");
+
+  			$('#caricamento').addClass("active");  
+
 			refresh();
   		});
 
   		$('#search').on('keyup',function() {
-  					  			
+
+  			$('#caricamento').addClass("active");
+  			
+		  			
 			refresh();
   		});
   		

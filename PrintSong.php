@@ -9,6 +9,9 @@
 	global $db_namerd;
 	global $db_nameap;
 
+	mysqli_set_charset($connectionrd,"utf8");
+	mysqli_set_charset($connectionap,"utf8");
+
 	mysqli_select_db($connectionrd,$db_namerd);
 	mysqli_select_db($connectionap,$db_nameap);
 
@@ -20,6 +23,12 @@
 
 		$search = $_POST['Search'];
 
+		$draw = $_POST['draw'];
+
+		$length = $_POST['length'];
+
+		$start = $_POST['start'];
+
 		$explode = explode('~', $ID_cat);
 
 		$category_ID=$explode[0];
@@ -30,29 +39,41 @@
 
 		$song ="";
 
+		$limit=" LIMIT ".$length . " OFFSET " . $start;
+
 		$array=Number_exception();
 
 
 		if($category_ID=="0" && $ID_genre=="0" && $ID_subcat=="0"){
 
-		$song="SELECT songs.ID, songs.artist, songs.title FROM songs";
+		$song="SELECT songs.ID, songs.artist, songs.title FROM songs ORDER BY songs.title ".$limit;
 
+		$count="SELECT COUNT(*) AS total FROM songs";
 
 		}elseif ($ID_subcat=="0" && $ID_genre=="0"){
 		
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID'";
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID' ORDER BY songs.title ".$limit;
+			
+			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID'";
 
 		}elseif($ID_subcat=="0" && $ID_genre!="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID'";
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ORDER BY songs.title ".$limit;
+
+			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID'";
 		
 		}elseif($ID_subcat!="0" && $ID_genre=="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ORDER BY songs.title ".$limit;
+
+			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
+
 		
 		}elseif($ID_subcat!="0" && $ID_genre!="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ORDER BY songs.title ".$limit;
+
+			$count="SELECT COUNT(*) AS total FROM  category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
 		
 		}
 
@@ -62,54 +83,50 @@
 			
 			$app="";
 
-			$app=" WHERE songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%'";
+			$app=" WHERE songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%' ORDER BY songs.title ".$limit;
 
 			$song = $song."".$app;
 		
+			$count = $count."".$app;
+
 		}
 		if($search!="" && $category_ID!="0"){
 
 			$app="";
 
-			$app=" AND (songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%')";
+			$app=" AND (songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%')  ORDER BY songs.title ".$limit;
 
 			$song = $song."".$app;
 
+			$count = $count."".$app;
+
 		}
 
-		
-		$stamp_song="<thead><tr><th><i class=\"music icon\"></i>Titolo</th><th><i class=\"user icon\"></i>Artista</th><th><i class=\"hashtag icon\"></i>Eccezioni</th><th><i class=\"setting icon\"></i>Azione</th></tr></thead><tbody>";
-		
+		if($countquery=$connectionrd->query($count)){
+
+			$query=$countquery->fetch_assoc();
+	
+			$total=$query['total'];
+
+		}
+		$elenco_songs=array('draw'=> $draw,'recordsTotal'=>$total,'recordsFiltered'=>$total,'data'=>array( ));
 
 		if($songquery=$connectionrd->query($song)){
 
 	
-			while($riga =$songquery->fetch_assoc()){
+			while($riga=$songquery->fetch_assoc()){
 
 			error_reporting(E_ERROR | E_WARNING | E_PARSE);
-			$number=$array[$riga['ID']];
+			$number=is_null($array[$riga['ID']]) ? 0 : $array[$riga['ID']];
 			error_reporting(E_ALL);
-					
-				if($number!=0){
-					$button="";
-					$button="<button class=\"mini ui icon labeled primary button\" name=\"get_song\" value=\"".$riga['ID']."\"><i class=\"setting icon\"></i>Modifica</button>";
-				}else{
-					$button="";
-					$button="<button class=\"mini ui icon labeled green button\" name=\"get_song\" value=\"".$riga['ID']."\"><i class=\"icon plus\"></i>Aggiungi</button>";
-				}
+				
 
-				//$array_number=Get_exception($riga['ID']);
+				array_push($elenco_songs['data'], array('Titolo' => $riga['title'], 'Artista' => $riga['artist'], 'Eccezioni' => $number, 'Azione'=>$riga['ID']));
 
-
-				$stamp_song .= "<tr>
-								<td>".$riga['title']."</td>
-								<td>".$riga['artist']."</td>
-								<td>".$number."</td>
-								<td>".$button."</td></tr>";
 			}
 
-		}
-		$stamp_song .="</tbody>";
+		}		
 
-		echo ($stamp_song);
+
+		echo json_encode($elenco_songs);
 ?>

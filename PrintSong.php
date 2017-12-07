@@ -1,5 +1,6 @@
 <?php
 
+	session_start();
 
 	include("FunctionNew.php");
 
@@ -29,6 +30,8 @@
 
 		$start = $_POST['start'];
 
+		$old = $_POST['old'];
+
 		$explode = explode('~', $ID_cat);
 
 		$category_ID=$explode[0];
@@ -39,39 +42,48 @@
 
 		$song ="";
 
+		$count="";
+
+
 		$limit=" LIMIT ".$length . " OFFSET " . $start;
 
 		$array=Number_exception();
 
+		if($old!="0"){
+
+		$song=$_SESSION["song"];
+		$count=$_SESSION["count"];
+
+		} else {
 
 		if($category_ID=="0" && $ID_genre=="0" && $ID_subcat=="0"){
 
-		$song="SELECT songs.ID, songs.artist, songs.title FROM songs ORDER BY songs.title ".$limit;
+		$song="SELECT songs.ID, songs.artist, songs.title FROM songs ";
 
 		$count="SELECT COUNT(*) AS total FROM songs";
 
 		}elseif ($ID_subcat=="0" && $ID_genre=="0"){
 		
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID' ORDER BY songs.title ".$limit;
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID' ";
 			
 			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID'";
 
 		}elseif($ID_subcat=="0" && $ID_genre!="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ORDER BY songs.title ".$limit;
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ";
 
-			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID'";
+			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ";
 		
 		}elseif($ID_subcat!="0" && $ID_genre=="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ORDER BY songs.title ".$limit;
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ";
 
 			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
 
 		
 		}elseif($ID_subcat!="0" && $ID_genre!="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ORDER BY songs.title ".$limit;
+			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ";
 
 			$count="SELECT COUNT(*) AS total FROM  category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
 		
@@ -83,7 +95,7 @@
 			
 			$app="";
 
-			$app=" WHERE songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%' ORDER BY songs.title ".$limit;
+			$app=" WHERE (songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%') ";
 
 			$song = $song."".$app;
 		
@@ -94,13 +106,24 @@
 
 			$app="";
 
-			$app=" AND (songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%')  ORDER BY songs.title ".$limit;
+			$app=" AND (songs.title LIKE '%$search%' OR songs.artist LIKE '%$search%') ";
 
 			$song = $song."".$app;
 
 			$count = $count."".$app;
 
 		}
+
+		$song=$song."ORDER BY songs.title ".$limit;
+
+		}
+
+		$_SESSION["song"]=$song;
+		$_SESSION["count"]=$count;
+		//$_SESSION["ID_cat"]=$explode[0];
+		$_SESSION["ID_cat"]=$ID_cat;
+		$_SESSION["ID_subcat"]=$ID_subcat;
+		$_SESSION["ID_genre"]=$ID_genre;
 
 		if($countquery=$connectionrd->query($count)){
 

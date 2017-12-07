@@ -542,7 +542,7 @@
 
 	$("#annulla").on('click',function(){
 	
-		window.location.href = ("tracks_manager.php");
+		window.location.href = ("tracks_manager.php?global");
 
 	});	
 

@@ -1,5 +1,6 @@
 <?php
 
+	session_start();
 
 	include("FunctionNew.php");
 
@@ -55,14 +56,24 @@
   	
   	$(document).ready(function(){
 
+  		var old=<?php  if(isset($_GET["global"])){
+							echo "1";
+						}else{
+							echo "0";
+						}
+			?>
 
+		var ID_cat;
+		var ID_subcat;
+		var ID_genre;
+		var search;	
 
   		function refresh(){
   			
-			var ID_cat=$('#category').val();
-			var ID_subcat=$('#subcategory').val();
-			var ID_genre=$('#genre').val();
-			var search=$('#search').val();
+			ID_cat=$('#category').val();
+			ID_subcat=$('#subcategory').val();
+			ID_genre=$('#genre').val();
+			search=$('#search').val();
 			
 
 			if(ID_cat=="0"){
@@ -74,25 +85,15 @@
 			if(ID_genre=="0"){
 				$("#gen.folder").removeClass("open");
 			}
-/*
-  			$.ajax({
-	        type: 'POST',
-	        url: 'PrintSong.php',
-	        data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
-	        	success: function(stamp_song) {
-	           	$('#caricamento').removeClass("active");
-	           	//$('#tablesong').html(stamp_song);
-*/
+
 			if ( $.fn.DataTable.isDataTable('#tablesong') ) {
   				$('#tablesong').DataTable().destroy();
 				$('#tablesong').off('xhr.dt');
 			}
 
-			//$('#tablesongt tbody').empty();
-
 			$('#tablesong')
 		        .on('xhr.dt', function ( e, settings, json, xhr ) {
-		        	console.log(json.data);
+		        	
 		            json.data=json.data.map(function(song){
 		            	if(song.Eccezioni!==0){
 						
@@ -113,7 +114,7 @@
 		            ajax: {
 	    				url: 'PrintSong.php',
 	    				type: 'POST',
-	    				data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search},
+	    				data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search,old: old},
 
 	  				},columns:[
 	  					{ data: "Artista" },
@@ -136,39 +137,41 @@
 
 
 				});
-		        
-				
-/*	            	
-	    			table = $('#tablesong').DataTable( {
-   			 			paging: false
-					} );
- 
-					table.destroy();
-
-					$.fn.dataTable.ext.errMode = 'none';
-
-					table = $('#tablesong').DataTable( {
-
-						language: {
-	            			"lengthMenu": "<p style=\"margin-left:10px\"> Elementi per pagina: _MENU_</p>",
-	            			"zeroRecords": "Nessuna traccia",
-	            			"info": "<p style=\"margin-left:10px\"> Pagina _PAGE_ di _PAGES_</p>",
-	            			"oPaginate": {
-	      						"sFirst":      "Prima",
-	        					"sLast":       "Ultima",
-	        					"sNext":       "Prossima",
-	        					"sPrevious":   "Precedente"
-	    					},
-   			 			},
-    					searching: false
-					} );
-
-					
-	    		}
-	    	});	
-*/		
 
 		}
+
+		//controllo dell'esistenza di una sessione attiva
+		if(old==1){
+			var cate=<?php if(isset($_SESSION["ID_cat"])){
+							echo $_SESSION["ID_cat"];
+						}else{
+							echo "0";
+						}
+
+				?>;
+			var subcat=<?php if(isset($_SESSION["ID_subcat"])){
+							echo $_SESSION["ID_subcat"];
+						}else{
+							echo "0";
+						}
+
+				?>;
+			var genr=<?php if(isset($_SESSION["ID_genre"])){
+							echo $_SESSION["ID_genre"];
+						}else{
+							echo "0";
+						}
+
+				?>;	
+			$('#category').val(cate);
+			$('#subcategory').val(subcat);
+			$('#genre').val(genr);
+			refresh();
+			old=0;
+		}
+
+
+		//eventi legati agli onchage delle select
 
 		$('#category').on('change',function() {
 

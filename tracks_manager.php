@@ -142,8 +142,9 @@
 
 		//controllo dell'esistenza di una sessione attiva
 		if(old==1){
-			var cate=<?php if(isset($_SESSION["ID_cat"])){
-							echo $_SESSION["ID_cat"];
+			var cat=<?php if(isset($_SESSION["ID_cat"])){
+							echo json_encode($_SESSION["ID_cat"]);
+							unset($_SESSION["ID_cat"]);
 						}else{
 							echo "0";
 						}
@@ -151,6 +152,7 @@
 				?>;
 			var subcat=<?php if(isset($_SESSION["ID_subcat"])){
 							echo $_SESSION["ID_subcat"];
+							unset($_SESSION["ID_subcat"]);
 						}else{
 							echo "0";
 						}
@@ -158,21 +160,43 @@
 				?>;
 			var genr=<?php if(isset($_SESSION["ID_genre"])){
 							echo $_SESSION["ID_genre"];
+							unset($_SESSION["ID_genre"]);
 						}else{
 							echo "0";
 						}
 
 				?>;	
-			$('#category').val(cate);
-			$('#subcategory').val(subcat);
+
+			//assegnazione del valori alle select
+			$('#category').val(cat);
+
+			ID_cat=$('#category').val();			
+
+			$.ajax({
+		        type: 'POST',
+		        url: 'Operation.php',
+		        dataType: "HTML",
+		        data: { ID_cat: ID_cat},
+		        success: function(stamp_subcategory) {
+	        	
+	            	$('#subcategory').html(stamp_subcategory);
+	            	$('#subcategory').val(subcat);
+	        		}
+	        		
+	    	});
+			
 			$('#genre').val(genr);
 			refresh();
 			old=0;
 		}
 
 
-		//eventi legati agli onchage delle select
 
+
+
+		//eventi legati agli onchange delle select
+
+		//OnChange di category
 		$('#category').on('change',function() {
 
 			$("#cat.folder").addClass("open");
@@ -181,9 +205,7 @@
 
 			refresh();
 
-  			var cat='<?php echo $stamp_category; ?>';
-
-  			var ID_cat=$('#category').val();
+  			ID_cat=$('#category').val();
 
   			$.ajax({
 		        type: 'POST',
@@ -198,7 +220,7 @@
   			
   		});
 
-  		
+  		//OnChange di subcategory
 		$('#subcategory').on('change',function() {	
 			$("#sub.folder").addClass("open");
 
@@ -208,7 +230,7 @@
 			refresh();
   		});
   		
-
+		//OnChange di genere
 		$('#genre').on('change',function() {
 			$("#gen.folder").addClass("open");
 
@@ -217,6 +239,7 @@
 			refresh();
   		});
 
+		//OnChange di search
   		$('#search').on('keyup',function() {
 
   			$('#caricamento').addClass("active");

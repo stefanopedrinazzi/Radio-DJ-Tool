@@ -120,7 +120,6 @@
 
 		$_SESSION["song"]=$song;
 		$_SESSION["count"]=$count;
-		//$_SESSION["ID_cat"]=$explode[0];
 		$_SESSION["ID_cat"]=$ID_cat;
 		$_SESSION["ID_subcat"]=$ID_subcat;
 		$_SESSION["ID_genre"]=$ID_genre;

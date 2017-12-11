@@ -36,22 +36,28 @@
 
   		<script type="text/javascript">
   			
-  			$(document).ready(function(){
+  		$(document).ready(function(){
 
-	  			$('#cat').on('change',function() {
-	  				
-	  				var category=$('#cat').val();
+	  		$('#cat').on('change',function() {
+	 				
+ 				var category=$('#cat').val();
 
-	  			if(category=="0"){
-	  				$("#consolida").prop("disabled",true);
-					$("#category.folder").removeClass("open");
-				}else{
-					$("#consolida").prop("disabled",false);
-					$("#category.folder").addClass("open");	  			
-		  		}
-	  			});
+  			if(category=="0"){
+	  			$("#consolida").prop("disabled",true);
+				$("#category.folder").removeClass("open");
+			}else{
+				$("#consolida").prop("disabled",false);
+				$("#category.folder").addClass("open");	  			
+		  	}
 	  		});
 
+	  		$("#annulla").on('click',function(){
+		
+			window.location.href = ('main_menu.php');
+
+			});	
+
+		});	
 
   		</script>
 		<meta charset="UTF-8">
@@ -86,15 +92,16 @@
 			</td>
 		</tr>
 
-		<tr class="center aligned">
-			<td colspan="2">
-				<button id="consolida" class="medium ui icon labeled primary button" disabled="true">
-  				<i class="checkmark icon"></i><label>Consolida</label>
-				</button>
-			</td>
-		</tr>
-	
 	</table>
+
+	</form>
+
+		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
+  			<i class="reply icon"></i><label>Chiudi</label>
+		</button>
+		<button id="consolida" class="big right floated ui icon labeled primary button" disabled="true" style="margin-top:10px;>
+  			<i class="checkmark icon"></i><label>Consolida</label>
+		</button>	
 
 	</body>
 </html>

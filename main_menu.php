@@ -1,3 +1,8 @@
+<?php
+
+	include("FunctionNew.php");
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -15,9 +20,37 @@
 	  	<script type="text/javascript">
 	  	
 	  	$(document).ready(function(){
+
+	  		var control=<?php if (check_config()==1){
+  							
+  								echo 0;
+  						
+  							}else{
+
+  								echo 1;
+  								$riga=check_config();
+  								$_SESSION['db_namerd']=$riga[0];
+  								$_SESSION['hostnamerd']=$riga[1];
+  								$_SESSION['usernamerd']=$riga[2];
+  								$_SESSION['passwordrd']=$riga[3];
+  								$_SESSION['usernameap']=$riga[4];
+  								$_SESSION['passwordap']=$riga[5];
+  								
+  								
+
+  							}
+  						
+  						?>;
+
+  			if(control==1){
+
+  				$('#eccezioni').prop("disabled",false);
+  				$('#validazione').prop("disabled",false);
+  			}			
+
 	  		$('#validazione').on('click',function(){
 	
-				window.location.href = ("Validazione_categorie.php");
+				window.location.href = ("consolida_categorie.php");
 
 			});	
 	  		
@@ -33,6 +66,21 @@
 
 			});	  		
 
+/*			$('#chiudi').on('click',function(){
+
+			$.ajax({
+			        url: 'clear_all.php'
+			        success: function(result) {
+		        	
+		            	alert("OK.");
+		            	
+	        		}
+	    		});
+	
+			window.close();
+
+			});
+*/
 
 	  	});
 
@@ -46,12 +94,12 @@
 		<table id="menutable" class="ui blue large table" style="margin-top:50px">
 			<tr>
 				<td>
-					<h3>Tool per la validazione delle categorie</h3>
+					<h3>Tool per consolidare le categorie</h3>
 					permette di aggiornare il path salvato nel database e spostare le tracce audio nella cartella indicata dal nuovo path. 
 				</td>
 				<td class="center aligned" style="width:40%">
-					<button id="validazione" class="fluid big ui blue button">
-  					<i class="share icon"></i><label>Validazione Categorie</label>
+					<button id="validazione" class="fluid big ui blue button" disabled="true">
+  					<i class="share icon"></i><label>Consolida Categorie</label>
 					</button>
 				</td>
 			</tr>
@@ -61,7 +109,7 @@
 					permette di definire e modificare delle eccezioni orarie,settimanali e mensili per ogni traccia audio.
 				</td>
 				<td class="center aligned">
-					<button id="eccezioni" class="fluid big ui blue button">
+					<button id="eccezioni" class="fluid big ui blue button" disabled="true">
   					<i class="share icon"></i><label>Eccezioni Traccia</label>
 					</button>
 				</td>
@@ -78,5 +126,9 @@
 				</td>	
 			</tr>
 		</table>
+
+		<button id="chiudi" class=" big red right floated ui icon labeled button" style="margin-right:30px">
+  		<i class="window close icon"></i><label>Esci</label>
+		</button>
 	</body>
 </html>

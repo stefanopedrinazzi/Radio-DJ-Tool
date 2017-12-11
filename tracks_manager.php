@@ -1,7 +1,5 @@
 <?php
 
-	session_start();
-
 	include("FunctionNew.php");
 
 	$connectionrd=DBrd_connection();
@@ -126,7 +124,7 @@
 	  				language: {
 	            		"lengthMenu": "<p style=\"margin-left:10px\"> Elementi per pagina: _MENU_</p>",
 	            		"zeroRecords": "Nessuna traccia",
-	            		"info": "<p style=\"margin-left:10px\"> elementi da _START_ a _END_ di _TOTAL_ elementi</p>",
+	            		"info": "<p style=\"margin-left:10px\"> elementi da _START_ a _END_ di _TOTAL_ elementi totali.</p>",
 	            		"oPaginate": {
 	      					"sFirst":      "Prima",
 	        				"sLast":       "Ultima",
@@ -355,8 +353,8 @@
 	
 	</form>
 
-		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
-  		<i class="reply icon"></i><label>Chiudi</label>
+		<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
+  		<i class="window close icon"></i><label>Chiudi</label>
 		</button>
 
 	

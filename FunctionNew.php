@@ -1,5 +1,21 @@
 <?php
 	
+    //if(!isset($_SESSION)) 
+    //{ 
+        session_start(); 
+    //} 
+
+	$hostnamerd=$_SESSION['hostnamerd'];
+	$usernamerd=$_SESSION['usernamerd'];
+	$passwordrd=$_SESSION['passwordrd'];
+	$db_namerd=$_SESSION['db_namerd'];
+	$hostnameap=$_SESSION['hostnamerd'];
+	$usernameap=$_SESSION['usernameap'];
+	$passwordap=$_SESSION['passwordap'];
+	$db_nameap="rdj_library_assistant";
+
+	
+/*
 	$hostnamerd="127.0.0.1";
 	$usernamerd="root";
 	$passwordrd="";
@@ -8,11 +24,48 @@
 	$usernameap="root";
 	$passwordap="";
 	$db_nameap="rdj_library_assistant";
+*/	
+	function check_config(){
+
+		$path = 'config.txt';
+		if (file_exists($path)) {
+
+			$config = fopen("config.txt", "r") or die("Unable to open file!");
+
+				while(!feof($config)) {
+		  			$riga[]=fgets($config);
+				}
+			
+			fclose($config);
+
+			if($riga[0]==""){
+
+				return 1;
+			
+			}else{
+
+				return $riga;
+
+			}
+
+			
+
+		
+		}else{
+
+			$config = fopen("config.txt", "w") or die("Unable to open file!");
+		
+			fclose($config);
+
+			return 1;
+		}
+
+	}
 
 	
 	function DBap_connection(){
 
-		$URL="http://localhost/phpmyadmin/rdj_library_assistant/";
+		//$URL="http://localhost/phpmyadmin/rdj_library_assistant/";
 
 		global $hostnameap,$usernameap,$passwordap,$db_nameap;
 
@@ -29,24 +82,31 @@
 
 	function DBrd_connection(){
 
-
 		global $hostnamerd,$usernamerd,$passwordrd,$db_namerd;
 
-		$URL="http://localhost/phpmyadmin/radiodjnew/";
+		//$URL="http://localhost/phpmyadmin/radiodjnew/";
 
 		$connectionrd = new mysqli($hostnamerd,$usernamerd,$passwordrd,$db_namerd);
 
 		if ($connectionrd->connect_error) {
  		   die('Failed to connect to MySQL: ('. $connectionrd->connect_errno.')'
- 		. $connectionrd->connect_error);;
+ 		. $connectionrd->connect_error);
 		}
-
-
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		 //global $connectionrd;
 
 		return $connectionrd;
 
+	}
+
+	function test_db_connection(&$db_namerd,&$hostnamerd,&$usernamerd,&$passwordrd){
+
+			$connection = @mysqli_connect($hostnamerd,$usernamerd,$passwordrd,$db_namerd);
+
+			if (!$connection) {
+	 		   return 0;
+			}else{
+			return 1;
+			}
+		mysqli_close ( $connection );
 	}
 
 

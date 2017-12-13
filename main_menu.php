@@ -11,11 +11,10 @@
 		<title>Radio DJ Library Assistant</title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
-	  	<script type="text/javascript"  charset="utf8" src="js/datatables.min.js"></script>
 	  	<script type="text/javascript" type="text/css" href="js/buttons.semanticui.min.css"></script>
 	  	<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
 	  	<script src="js/semantic.min.js"></script>
-	  	<link rel="stylesheet" type="text/css" href="js/dataTables.semanticui.min.css">
+
 
 	  	<script type="text/javascript">
 	  	
@@ -66,21 +65,17 @@
 
 			});	  		
 
-/*			$('#chiudi').on('click',function(){
+			$('#chiudi').on('click',function(){
 
-			$.ajax({
-			        url: 'clear_all.php'
-			        success: function(result) {
-		        	
-		            	alert("OK.");
-		            	
-	        		}
-	    		});
-	
-			window.close();
+				$.ajax({
+					url: 'clear_all.php',
+					success: function(result) {
+						
+					}
+				});
 
 			});
-*/
+
 
 	  	});
 

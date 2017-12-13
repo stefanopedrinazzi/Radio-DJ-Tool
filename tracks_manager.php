@@ -35,7 +35,7 @@
 
 	}
 
-
+	$connectionrd->close();
 
 ?>
 <!DOCTYPE html>

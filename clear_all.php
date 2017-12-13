@@ -2,5 +2,4 @@
 
 	session_destroy();
 	
-
 ?>

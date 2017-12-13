@@ -1,10 +1,10 @@
 <?php
 	
-    //if(!isset($_SESSION)) 
-    //{ 
+    if(!isset($_SESSION)) 
+    { 
         session_start(); 
-    //} 
-
+    } 
+/*
 	$hostnamerd=$_SESSION['hostnamerd'];
 	$usernamerd=$_SESSION['usernamerd'];
 	$passwordrd=$_SESSION['passwordrd'];
@@ -14,17 +14,17 @@
 	$passwordap=$_SESSION['passwordap'];
 	$db_nameap="rdj_library_assistant";
 
-	
-/*
+*/	
+
 	$hostnamerd="127.0.0.1";
 	$usernamerd="root";
 	$passwordrd="";
-	$db_namerd="radiodjnew";
+	$db_namerd="radiodj";
 	$hostnameap="127.0.0.1";
 	$usernameap="root";
 	$passwordap="";
 	$db_nameap="rdj_library_assistant";
-*/	
+	
 	function check_config(){
 
 		$path = 'config.txt';
@@ -106,7 +106,9 @@
 			}else{
 			return 1;
 			}
+
 		mysqli_close ( $connection );
+
 	}
 
 
@@ -207,6 +209,9 @@
 				}
 			}
 		}	
+
+		$connectionrd->close();
+		$connectionap->close();
 			
 		return "tabella di appoggio aggiornata con successo. \n\n";
 
@@ -317,6 +322,9 @@
 
 		}
 
+		$connectionrd->close();
+		$connectionap->close();
+
 		return $info;
 	}
 
@@ -341,6 +349,8 @@
 
 			} 
 		} 
+
+		$connectionrd->close();
 
 	}
 
@@ -374,6 +384,9 @@
 		}
 		$exc.="]";
 
+
+		$connectionap->close();
+
 		return($exc);
 	
 	}
@@ -400,7 +413,9 @@
 			}
 		}
 
+		$connectionap->close();
 		return($array);
+
 	}
 
 	//funzione per acquisire titolo e artista della canzone per stampare nel form di eccezioni
@@ -425,6 +440,8 @@
 		$riga['artist'], $riga['title']
 		);
 
+		$connectionrd->close();
+		
 
 		return($artist_title);
 
@@ -524,6 +541,8 @@
 		
 		$inser=$connectionap->query($insert);
 		
+		$connectionap->close();
+
 		echo ($inser);
 	}
 
@@ -540,6 +559,8 @@
 		$delete="DELETE FROM songs_exceptions WHERE songs_exceptions.ID_song='$songID' AND songs_exceptions.ID='$ExceptionID'";
 
 		$delet=$connectionap->query($delete);
+
+		$connectionap->close();
 
 		return ($delet);
 	}
@@ -588,6 +609,8 @@
 		
 		$date_string.="];";
 		
+		$connectionap->close();
+
 		return ($date_string);
 
 	}
@@ -670,6 +693,8 @@
 		if($result['count']!=0){
 			$control=1;
 		}
+
+		$connectionap->close();
 		
 		return $control;
 

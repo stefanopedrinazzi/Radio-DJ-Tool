@@ -12,7 +12,7 @@
 	
 	$passwordrd=$_POST['pwd'];
 
-	$usernamerap=$_POST['toolusr'];
+	$usernameap=$_POST['toolusr'];
 	
 	$passwordap=$_POST['toolpwd'];
 	
@@ -29,6 +29,8 @@
 
 
 		fclose($config);
+
+	echo $usernameap;
 
 
 ?>

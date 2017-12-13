@@ -49,12 +49,12 @@
 
 			$("#conferma").on('click',function(){
 
-			var nomedb=$('#nomedb').val();
-			var nomehost=$('#nomehost').val();
-			var usr=$('#usr').val();
-			var pwd=$('#pwd').val();
-			var toolusr=$('#toolusr').val();
-			var toolpwd=$('#toolpwd').val();
+			nomedb=$('#nomedb').val();
+			nomehost=$('#nomehost').val();
+			usr=$('#usr').val();
+			pwd=$('#pwd').val();
+			toolusr=$('#toolusr').val();
+			toolpwd=$('#toolpwd').val();
 
 			if(nomedb=="" || nomehost=="" || toolusr=="" || usr==""){
 
@@ -65,12 +65,13 @@
 				        type: 'POST',
 				        url: 'test_connection.php',
 				        dataType: "HTML",
-				        data: { nomedb: nomedb, nomehost: nomehost,usr: usr,pwd: pwd,toolusr: toolusr,toolpwd: toolpwd},
+				        data: { nomedb: nomedb, nomehost: nomehost, usr: usr, pwd: pwd, toolusr: toolusr,toolpwd: toolpwd},
 				        success: function(result) {
 
 						//alert(result);								
+						var res = parseInt(result, 10)
 
-						if(result==0){
+						if(res===0){
 							alert("I parametri inseriti non sono corretti");
 				
 						}else{

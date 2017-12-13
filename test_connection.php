@@ -16,7 +16,7 @@
 
 	$toolpwd=$_POST['toolpwd'];
 
-	$control="";
+	$control=0;
 
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
@@ -34,7 +34,6 @@
 
 	}
 
-	
 
 	echo $control;
 

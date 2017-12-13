@@ -1,7 +1,5 @@
 <?php
 
-	session_start();
-
 	include("FunctionNew.php");
 
 	$connectionrd=DBrd_connection();

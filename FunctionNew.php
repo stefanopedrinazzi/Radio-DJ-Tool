@@ -1,10 +1,9 @@
 <?php
+	 
+	session_start();
+
+	error_reporting(E_ERROR);
 	
-    if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    } 
-/*
 	$hostnamerd=$_SESSION['hostnamerd'];
 	$usernamerd=$_SESSION['usernamerd'];
 	$passwordrd=$_SESSION['passwordrd'];
@@ -13,18 +12,20 @@
 	$usernameap=$_SESSION['usernameap'];
 	$passwordap=$_SESSION['passwordap'];
 	$db_nameap="rdj_library_assistant";
-
-*/	
-
-	$hostnamerd="127.0.0.1";
-	$usernamerd="root";
-	$passwordrd="";
-	$db_namerd="radiodj";
-	$hostnameap="127.0.0.1";
-	$usernameap="root";
-	$passwordap="";
-	$db_nameap="rdj_library_assistant";
 	
+	error_reporting(E_ALL);
+/*	
+	
+	$hostnamerd="";
+	$usernamerd="";
+	$passwordrd="";
+	$db_namerd="";
+	$hostnameap="";
+	$usernameap="";
+	$passwordap="";
+	$db_nameap="";
+	
+*/		
 	function check_config(){
 
 		$path = 'config.txt';
@@ -97,18 +98,37 @@
 
 	}
 
-	function test_db_connection(&$db_namerd,&$hostnamerd,&$usernamerd,&$passwordrd){
+	function test_db_connection(&$db_name,&$hostname,&$username,&$password){
 
-			$connection = @mysqli_connect($hostnamerd,$usernamerd,$passwordrd,$db_namerd);
+			/*$connection =new mysqli($hostname,$username,$password,$db_name);
 
 			if (!$connection) {
-	 		   return 0;
+				mysqli_close ($connection);
+	 			return 0;
 			}else{
-			return 1;
+				mysqli_close ($connection);
+				return 1;
 			}
 
-		mysqli_close ( $connection );
 
+*/
+			error_reporting(E_ERROR);
+			$link = mysqli_connect($hostname,$username,$password,$db_name);
+
+			/* check connection */
+			if (mysqli_connect_errno()) {
+				return false;
+			}
+
+			/* check if server is alive */
+			if (mysqli_ping($link)) {
+			    mysqli_close($link);
+			    return true;
+			} else {
+				mysqli_close($link);
+				return false;
+			}
+			error_reporting(E_ALL);
 	}
 
 

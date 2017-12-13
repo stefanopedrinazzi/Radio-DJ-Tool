@@ -1,6 +1,55 @@
 <?php
 
 	include("FunctionNew.php");
+
+
+	$riga=check_config();
+
+	$nomedbrd=$riga[0];
+
+	$hostname=$riga[1];
+
+	$usr=$riga[2];
+
+	$pwd=$riga[3];
+
+	$toolusr=$riga[4];
+
+	$toolpwd=$riga[5];
+
+	$nomedbap='rdj_library_assistant';
+	
+	$control=0;
+	
+
+	
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+	
+	$nomedbrd=str_replace($order, $replace,$nomedbrd);
+	$hostname=str_replace($order, $replace,$hostname);
+	$usr=str_replace($order, $replace,$usr);
+	$pwd=str_replace($order, $replace,$pwd);
+	$toolusr=str_replace($order, $replace,$toolusr);
+	$toolpwd=str_replace($order, $replace,$toolpwd);
+
+
+	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
+
+		$control=0;
+
+	}else{
+
+		if(!test_db_connection($nomedbap,$hostname,$toolusr,$toolpwd)){
+
+			$control=0;
+		}else{
+
+			$control=1;
+		}
+
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,24 +74,22 @@
   								echo 0;
   						
   							}else{
-
-  								echo 1;
-  								$riga=check_config();
-  								$_SESSION['db_namerd']=$riga[0];
-  								$_SESSION['hostnamerd']=$riga[1];
-  								$_SESSION['usernamerd']=$riga[2];
-  								$_SESSION['passwordrd']=$riga[3];
-  								$_SESSION['usernameap']=$riga[4];
-  								$_SESSION['passwordap']=$riga[5];
-  								
-  								
-
-  							}
-  						
+  									if($control==1){
+	  									echo 1;
+	  								$riga=check_config();
+	  								$_SESSION['db_namerd']=$nomedbrd;
+	  								$_SESSION['hostnamerd']=$hostname;
+	  								$_SESSION['usernamerd']=$usr;
+	  								$_SESSION['passwordrd']=$pwd;
+	  								$_SESSION['usernameap']=$toolusr;
+	  								$_SESSION['passwordap']=$toolpwd;
+	  								}else{
+	  									echo 0;	
+	  								}
+	  						}
   						?>;
 
-  			if(control==1){
-
+  			if(control===1){
   				$('#eccezioni').prop("disabled",false);
   				$('#validazione').prop("disabled",false);
   			}			

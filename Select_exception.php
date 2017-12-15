@@ -9,8 +9,6 @@
 
 	mysqli_select_db($connectionap,$db_nameap);
 
-	$year=date("Y");
-	
 
 	$song_ID = $_POST['ID_song'];
 
@@ -22,26 +20,9 @@
 
 	$riga = $take->fetch_assoc();
 	
-	$day=substr($riga['data_in'],-2);
+	$data_start=different_convert_date($riga['data_in']);
 
-	$mese=explode($day,$riga['data_in']);
-
-	if($mese[0]=="1" || $mese[0]=="2" || $mese[0]==2 || $mese[0]==4 || $mese[0]==5 || $mese[0]==6 || $mese[0]==7 || $mese[0]==8 || $mese[0]==9){
-		$mese[0]="0".$mese[0];
-	}
-	
-	$data_start=$year."-".$mese[0]."-".$day;
-
-	$day=substr($riga['data_out'],-2);
-
-	$mese=explode($day,$riga['data_out']);
-
-	if($mese[0]=="1" || $mese[0]=="2" || $mese[0]==2 || $mese[0]==4 || $mese[0]==5 || $mese[0]==6 || $mese[0]==7 || $mese[0]==8 || $mese[0]==9){
-		$mese[0]="0".$mese[0];
-	}
-	
-	$data_end=$year."-".$mese[0]."-".$day;
-
+	$data_end=different_convert_date($riga['data_out']);
 
 	echo json_encode(array('ID_song' => $riga['ID_song'] , 'data_start' => $data_start , 'data_end' => $data_end , 'eccezione'=>$riga['grid']));
 

@@ -117,6 +117,8 @@
 
 		if (ID_exc==0) {
 			
+			$("#datecal").hide();
+			$("#attivadata").hide();
 			$(".select_exc").hide();
 			$("#elimina").hide();
 
@@ -137,7 +139,8 @@
 			y++;
 		});
 
-
+		$("#datecal").show();
+		$("#attivadata").show();
 		$("#salva").find("label").text("Aggiungi");
 		$("#elimina").hide();
 
@@ -626,7 +629,7 @@
 	  		</div>
 	  	</td>
 		<td>
-			<div class="ui form">
+			<div id="datecal" class="ui form">
 		    	<div class="two fields">
 		    		<div class="field">
 		        	<label>Data inizio</label>

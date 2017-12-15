@@ -66,7 +66,17 @@
 	mysqli_select_db($connectionap,$db_nameap);
 
 
-	$now = date ('md', time());
+	$now="1217";
+	$hour="12";
+	$id_subcat=1;
+
+	$mytime= different_convert_date($now)." ".$hour.":00:00";
+
+	echo $mytime."<br>";
+
+	$actual_day = date ('N', $mytime);
+
+	echo $actual_day."<br>";
 
 	//echo $now."<br>";
 
@@ -88,9 +98,9 @@
 		}
 		
 	}
-	//echo "a:";
-	//print_r($a);
-	//echo "<br><br><br>";
+	echo "a:";
+	print_r($a);
+	echo "<br><br><br>";
 	
 	//Array ID e ID_song di tutte le eccezioni di default
 
@@ -110,9 +120,9 @@
 		}
 		
 	}
-	//echo "b:";
-	//print_r($b);
-	//echo "<br><br><br><br>";
+	echo "b:";
+	print_r($b);
+	echo "<br><br><br><br>";
 
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
 	
@@ -155,12 +165,11 @@
 
 	}		
 
-	//echo "c:";	
-	//print_r($c);
-	//echo"<br><br><br>";
+	echo "c:";	
+	print_r($c);
+	echo"<br><br><br>";
 
 
-	//query per ricavare la grid settimanale di ogni traccia
 	for($x=0;$x<sizeof($c);$x++){
 
 		$ID_exc=$c[$x][0];
@@ -172,70 +181,88 @@
 		$Grid=$connectionap->query($grid);
 
 		$result=$Grid->fetch_assoc();
+	
 
-		//print_r($result);
-		
-		echo "ID exception ".$ID_exc."<br>";		
-
-		$actual_day = date ('N', time())-1;
-
-		echo "Giorno della settimana ".$actual_day."<br>";
-
-
-		$actual_hour = date ('H', time())+1;
-
-		//$day = date ('m-d',time());
-
-		$day = time();
-		$dayplushour = time() + 3600;
-
-
-
-/*
-		$today  = strftime("%Y-%m-%d, %H:%M:%S", $day);
-		$dayplushour_f=strftime("%Y-%m-%d, %H:%M:%S", $dayplushour);
-
-		echo "today ".$day ."<br>";
-		echo "dayplushour ".$dayplushour ."<br>";
-
-		echo "today_f ".$today ."<br>";
-		echo "today+1_f ".$dayplushour_f ."<br>";
-
-	*/
-		echo $actual_hour;
-		if($actual_hour>23){
-
-			$actual_hour=0;
-
-			if($actual_day>=6){
-				$actual_day=0;
-			}else{
-				$actual_day=$actual_day+1;
-			}
-		}
-
-		//creo l'array per il giorno corrente
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
 
-			$array_day[]=$result["grid"][$y];
+				$array_day[]=$result["grid"][$y];
 
 		}
 
+		/*echo "<br>";
 		print_r($array_day);
-		
+		echo "<br>";*/
+		$matrix[$x][]=$ID_song;
+		$matrix[$x][]=$array_day[$hour];
 
-		echo "<br>actual day ".$actual_day;
+		echo $ID_song.": ";
+		print_r($array_day[$hour]);
 
-		echo "<br>Ora per attivazione:".$actual_hour ."<br>";
-
-		//ricavo il valore per attivare o disattivare la traccia
-		$status=$array_day[$actual_hour];
-
-		toggle_song($ID_song,$status);
+		echo "<br>";
 
 		$array_day= array();
+
+	}
+	echo "***************************<br>";
+	print_r($matrix);
+	echo "***************************<br>";
+
+	$connectionrd=DBrd_connection();
+
+	global $db_namerd;
+
+	mysqli_select_db($connectionrd,$db_namerd);
+
+	$i=0;
+
+	$query="SELECT * FROM songs WHERE id_subcat='$id_subcat'";
+
+	if($song_subcat=$connectionrd->query($query)){
+
+		while($song=$song_subcat->fetch_assoc()){
+
+			$category[$i][]=$song['ID'];
+			$category[$i][]=$song['enabled'];
+
+			echo $song['ID'].": ".$song['enabled'];
+
+			echo "<br>";
+
+			$i++;
+
+		}
+	}
+	print_r($category);
+
+	for($x=0;$x<sizeof($category);$x++){
+
+		
+		for($y=0;$y<sizeof($matrix);$y++){
+
+			if($category[$x][0]==$matrix[$y][0]){
+
+				$category[$x][1]=$matrix[$y][1];
+				break;
+			}else{
+				$category[$x][1]=1;
+			}
+		}
 	}
 
+	echo "<br>.................<br><br><br><br>";
+	print_r($category);
+	echo "<br>.................<br><br><br><br>";
 
+	$disabled=0;
+	$all=sizeof($category);
+
+	for($x=0;$x<sizeof($category);$x++){
+
+		if ($category[$x][1]==0){
+			$disabled=$disabled+1;
+		}
+	}
+	$enabled = $all - $disabled;
+	echo "<br>disabilitati: ".$disabled;
+	echo "<br>abilitati: ".$enabled;
 ?>
-

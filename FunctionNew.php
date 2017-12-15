@@ -742,11 +742,11 @@
 
 		if($status==0){
 			$status=1;
+			echo "Traccia attiva<br><br>";
 		}else{
 			$status=0;
+			echo "Traccia disattiva<br><br>";
 		}
-
-		echo $status;
 
 		$connectionrd=DBrd_connection();
 
@@ -754,13 +754,102 @@
 
 		mysqli_select_db($connectionrd,$db_namerd);
 
-		$update="UPDATE songs SET songs.enabled='$status' WHERE songs.ID='$ID_song'";
+		$id_subcat=get_subcat_from_ID_song($ID_song);
+
+		$minmax=get_min_max_playout($id_subcat);
+
+		$daterand=randomize($minmax);
+
+		echo $id_subcat."<br>";
+
+		print_r($minmax);
+
+		echo "<br>".$daterand."<br><br>";
+
+		$update="UPDATE songs SET enabled='$status', date_played='$daterand' WHERE songs.ID='$ID_song'";
+
+		echo "<br>".$update."<br><br>";
+
 
 		$stat=$connectionrd->query($update);
-	
-		print_r($stat);
 
 		$connectionrd->close();
 	}
 
+	function different_convert_date(&$data){
+
+		$year=date("Y");
+		
+		if($data!=0){
+			$day=substr($data,-2);
+
+			$mese=explode($day,$data);
+
+				if($mese[0]==1 || $mese[0]==2 || $mese[0]==2 || $mese[0]==4 || $mese[0]==5 || $mese[0]==6 || $mese[0]==7 || $mese[0]==8 || $mese[0]==9){
+					$mese[0]="0".$mese[0];
+				}
+			
+			$data_convert=$year."-".$mese[0]."-".$day;
+		
+		}else{
+			$data_convert="0000-00-00";
+		}
+
+		return $data_convert;
+	}
+
+	function get_subcat_from_ID_song(&$ID_song){
+
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
+		mysqli_select_db($connectionrd,$db_namerd);
+
+		$query="SELECT songs.id_subcat FROM songs WHERE ID='$ID_song'";
+
+		if($subc=$connectionrd->query($query)){
+
+			while($riga = $subc->fetch_assoc()){
+
+				$result=$riga['id_subcat'];	
+			}
+		}
+
+		return $result;
+		$connectionrd->close();
+	}
+
+	function get_min_max_playout(&$id_subcat){
+
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
+		mysqli_select_db($connectionrd,$db_namerd);
+
+		$query="SELECT songs.ID, MIN(songs.date_played) AS minimo, MAX(songs.date_played) AS massimo FROM songs WHERE id_subcat='$id_subcat' AND enabled=1";
+
+		if($subc=$connectionrd->query($query)){
+
+			while($riga = $subc->fetch_assoc()){
+
+				$result[]=strtotime($riga['minimo']);
+				$result[]=strtotime($riga['massimo']);	
+			}
+		}			
+	
+		return $result;
+		$connectionrd->close();
+
+	} 
+
+	function randomize(&$val){
+
+		$rand = rand($val[0],$val[1]);
+
+		$rand = strftime("%Y-%m-%d %H:%M:%S", $rand);
+
+		return $rand;
+	}
 ?>	

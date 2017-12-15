@@ -535,7 +535,7 @@
 			}
 		
 
-		$date="2017-".$app."-".$date_day." 00:00:01";
+		$date=$app.$date_day;
 		}
 		return ($date);
 
@@ -603,21 +603,33 @@
 
 			while($riga = $date_array->fetch_assoc()){
 
-				$data_start=substr($riga['data_in'], 5, 6);
+				//$data_start=substr($riga['data_in'], 5, 6);
 				
-				$data_end=substr($riga['data_out'], 5 , 6);
+				//$data_end=substr($riga['data_out'], 5 , 6);
 
-				$start=Convert_date_name($data_start);
+				//$start=Convert_date_name($data_start);
 				
-				$end=Convert_date_name($data_end);
+				//$end=Convert_date_name($data_end);
 
-				if($end=="Default"){
+
+				$start=Convert_date_name($riga['data_in']);
+				
+				$end=Convert_date_name($riga['data_out']);
+
+
+				if($start=="Default"){
 					$end="";
+
+				$end=substr($end, 0 , strlen($end));
+
+				$date_string .= "\"".$start."\",";
+				}else{
+
+				$end=substr($end, 0 , strlen($end));
+
+				$date_string .= "\"dal ".$start." al ".$end."\",";
 				}
 
-				$end=substr($end, 0 , strlen($end)-1);
-
-				$date_string .= "\"".$start."". $end."\",";
 			}
 		}
 		
@@ -637,36 +649,41 @@
 
 	function Convert_date_name(&$data){
 
-		$explode=explode('-', $data);
+		$day=substr($data,-2);
 
-		$mese=$explode[0];
+		$mese=explode($day,$data);
+
+		//$explode=explode('-', $data);
+
+		//$mese=$explode[0];
+		$mese=$mese[0];
 
 		switch ($mese) {
-	    		case "01":
+	    		case "1":
 	        		$mese="Gennaio";
 	        		break;
-	    		case "02":
+	    		case "2":
 	        		$mese="Febbraio";
 	        		break;
-	        	case "03":
+	        	case "3":
 	        		$mese="Marzo";
 	        		break;
-	        	case "04":
+	        	case "4":
 	        		$mese="Aprile";
 	        		break;
-	        	case "05":
+	        	case "5":
 	        		$mese="Maggio";
 	        		break;
-	        	case "06":
+	        	case "6":
 	        		$mese="Giugno";
 	        		break;
-	        	case "07":
+	        	case "7":
 	        		$mese="Luglio";
 	        		break;
-	        	case "08":
+	        	case "8":
 	        		$mese="Agosto";
 	        		break;
-	        	case "09":
+	        	case "9":
 	        		$mese="Settembre";
 	        		break;
 	        	case "10":
@@ -684,8 +701,9 @@
 		if($mese=="Default"){
 			$return="".$mese."";
 		}else{
-			$explode[1]=substr($explode[1], 0 , strlen($explode[1])-1);
-			$return="".$explode[1]." ".$mese."/";
+			//$explode[1]=substr($explode[1], 0 , strlen($explode[1])-1);
+			//$return="".$explode[1]." ".$mese."/";
+			$return=$day." , ".$mese;
 			
 		}
 
@@ -720,5 +738,29 @@
 
 	}
 
+	function toggle_song(&$ID_song,&$status){
+
+		if($status==0){
+			$status=1;
+		}else{
+			$status=0;
+		}
+
+		echo $status;
+
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
+		mysqli_select_db($connectionrd,$db_namerd);
+
+		$update="UPDATE songs SET songs.enabled='$status' WHERE songs.ID='$ID_song'";
+
+		$stat=$connectionrd->query($update);
+	
+		print_r($stat);
+
+		$connectionrd->close();
+	}
 
 ?>	

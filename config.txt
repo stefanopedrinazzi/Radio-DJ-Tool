@@ -1,4 +1,4 @@
-radiodj
+radiodjnew
 localhost
 root
 

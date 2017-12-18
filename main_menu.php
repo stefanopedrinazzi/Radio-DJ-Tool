@@ -92,6 +92,7 @@
   			if(control===1){
   				$('#eccezioni').prop("disabled",false);
   				$('#validazione').prop("disabled",false);
+  				$('#informazioni').prop("disabled",false);
   			}			
 
 	  		$('#validazione').on('click',function(){
@@ -110,7 +111,13 @@
 	
 				window.location.href = ("impostazioni.php");
 
-			});	  		
+			});
+
+			$('#informazioni').on('click',function(){
+	
+				window.location.href = ("report_data.php");
+
+			});	  	
 
 			$('#chiudi').on('click',function(){
 
@@ -153,6 +160,17 @@
 				<td class="center aligned">
 					<button id="eccezioni" class="fluid big ui blue button" disabled="true">
   					<i class="share icon"></i><label>Eccezioni Traccia</label>
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h3>Tool per ottenere informazioni sulle eccezioni per categoria</h3>
+					permette di ottenere il numero di eccezioni per categoria e giorno.
+				</td>
+				<td class="center aligned">
+					<button id="informazioni" class="fluid big ui blue button" disabled="true">
+  					<i class="share icon"></i><label>Informazioni per Categoria</label>
 					</button>
 				</td>
 			</tr>

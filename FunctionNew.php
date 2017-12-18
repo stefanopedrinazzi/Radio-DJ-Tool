@@ -573,16 +573,53 @@
 
 		global $db_nameap;
 
+		$ID_default="";
+
+		$active_delete=0;
+
 		mysqli_select_db($connectionap,$db_nameap);
 
+		$query="SELECT songs_exceptions.ID FROM songs_exceptions WHERE songs_exceptions.data_in='0' AND songs_exceptions.ID_song='$songID'";
 
-		$delete="DELETE FROM songs_exceptions WHERE songs_exceptions.ID_song='$songID' AND songs_exceptions.ID='$ExceptionID'";
+		if($control=$connectionap->query($query)){
 
-		$delet=$connectionap->query($delete);
+			while($default = $control->fetch_assoc()){
 
-		$connectionap->close();
+				$ID_default=$default['ID'];
+			}
+		}
 
-		return ($delet);
+		$query1="SELECT count(*) AS count FROM songs_exceptions WHERE songs_exceptions.data_in!='0' AND songs_exceptions.ID_song='$songID'";
+
+		if($num_exc=$connectionap->query($query1)){
+
+			while($num = $num_exc->fetch_assoc()){
+
+				if($num['count']!=0){
+					$number_exception=$num['count'];
+				}else{
+					$number_exception=0;
+				}
+			}
+		}
+	
+		if($number_exception>0 && $ID_default==$ExceptionID){
+
+			$connectionap->close();
+
+			echo 0;
+
+		}else{
+		
+			$delete="DELETE FROM songs_exceptions WHERE songs_exceptions.ID_song='$songID' AND songs_exceptions.ID='$ExceptionID'";
+
+			$delet=$connectionap->query($delete);
+
+			$connectionap->close();
+
+			echo 1;
+		}
+	
 	}
 
 	function Get_date(&$songID){
@@ -792,6 +829,7 @@
 			$data_convert=$year."-".$mese[0]."-".$day;
 		
 		}else{
+			
 			$data_convert="0000-00-00";
 		}
 

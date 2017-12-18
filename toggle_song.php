@@ -175,7 +175,7 @@
 
 		//print_r($result);
 		
-		echo "ID exception ".$ID_exc."<br>";		
+		echo "<br><br><br>ID exception ".$ID_exc."<br>";		
 
 		$actual_day = date ('N', time())-1;
 

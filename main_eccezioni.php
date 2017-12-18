@@ -121,6 +121,7 @@
 			$("#attivadata").hide();
 			$(".select_exc").hide();
 			$("#elimina").hide();
+			$("#infromazioni").show();
 
 			set_array();
 			
@@ -143,6 +144,7 @@
 		$("#attivadata").show();
 		$("#salva").find("label").text("Aggiungi");
 		$("#elimina").hide();
+		$("#infromazioni").hide();
 
 		}
 
@@ -317,7 +319,7 @@
   			 monthFirst: false,
 
   			text: {
-     				days: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'],
+     				days: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
      			 	months: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
       
     		},
@@ -391,7 +393,7 @@
 			monthFirst: false,
 
 			text: {
-     				days: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'],
+     				days: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
      			 	months: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
       
     		},
@@ -559,8 +561,15 @@
 				url: "elimina_eccezioni.php",
 				data: {ID_song: ID_song,ExceptionID: ExceptionID},
 				success: function(result){
-					alert("Eccezione eliminata con successo.");
-					location.reload(true);	
+
+					var res = parseInt(result, 10)
+
+					if(res===1){
+						alert("Eccezione eliminata con successo.");
+						location.reload(true);
+					}else{
+						alert("Non puoi eliminare il default prima delle altre eccezioni.");
+					}
 				}
 
 		});
@@ -612,14 +621,19 @@
 				</div>
 			</td>
 		</tr>
+		<tr id="infromazioni">
+			<td colspan="4">
+				<h4>Per inserire un eccezione con data bisogna prima inserirne una di default.</h4>
+			</td>
+		</tr>
 		<tr>
 		<td class="center aligned two wide">
 		<i class="ordered list large icon select_exc"></i><label class="select_exc">Eccezioni</label>
 		</td>	
 		<td>
 		<div class="ui input focus select_exc">
-  		<select class="ui selection dropdown" id="exception" name="exception"  style="width:400px">
-  			<option value="0" selected="selected">Nessuna</option>
+  		<select class="ui selection dropdown" id="exception" name="exception"  style="width:400px;height:45px">
+  			<option value="0" selected="selected">Aggiungi...</option>
 		</div>
 		</td>
 		

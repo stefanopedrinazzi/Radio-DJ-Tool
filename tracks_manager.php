@@ -179,17 +179,13 @@
 	        	
 	            	$('#subcategory').html(stamp_subcategory);
 	            	$('#subcategory').val(subcat);
+	            	$('#genre').val(genr);
+	            	refresh();
 	        		}
-	        		
 	    	});
 			
-			$('#genre').val(genr);
-			refresh();
 			old=0;
 		}
-
-
-
 
 
 		//eventi legati agli onchange delle select
@@ -224,8 +220,7 @@
 
   			$('#caricamento').addClass("active");
  
-	  			
-			refresh();
+	  		refresh();
   		});
   		
 		//OnChange di genere
@@ -241,8 +236,7 @@
   		$('#search').on('keyup',function() {
 
   			$('#caricamento').addClass("active");
-  			
-		  			
+  					
 			refresh();
   		});
   	

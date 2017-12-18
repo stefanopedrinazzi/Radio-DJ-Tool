@@ -18,11 +18,12 @@
 
 		$explode = explode('~', $ID_cat);
 
+		if($ID_cat!=0){
 		$category=$explode[1];
+		}
 
 		$category_ID=$explode[0];
 
-	
 		$subcategory_query=("SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid='$category_ID'");
 
 		$stamp_subcategory = "<option value=\"0\" selected=\"selected\">All</option>";

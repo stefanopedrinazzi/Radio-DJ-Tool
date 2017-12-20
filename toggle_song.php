@@ -6,21 +6,21 @@
 
 	$nomedbrd=$riga[0];
 
-	$hostname=$riga[1];
+	$hostname='127.0.0.1';
 
 	$usr=$riga[2];
 
 	$pwd=$riga[3];
 
-	$toolusr=$riga[4];
+	$toolusr='root';
 
-	$toolpwd=$riga[5];
+	$toolpwd='';
 
 	$nomedbap='rdj_library_assistant';
 	
 	$control=0;
 	
-
+	$logger = fopen("log.txt", "a") or die("Unable to open file!");
 	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
@@ -59,16 +59,19 @@
 	
 	}
 
+
 	$connectionap=DBap_connection();
 
 	global $db_nameap;
 
 	mysqli_select_db($connectionap,$db_nameap);
 
-
 	$now = date ('md', time());
 
-	//echo $now."<br>";
+	fwrite($logger," ".PHP_EOL);
+	fwrite($logger, gmdate("Y-m-d H:i:s",time()).PHP_EOL);
+
+	//echo gmdate("Y-m-d H:i:s",time())."<br>";
 
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
@@ -175,11 +178,11 @@
 
 		//print_r($result);
 		
-		echo "<br><br><br>ID exception ".$ID_exc."<br>";		
+		fwrite($logger, "ID exception ".$ID_exc." ");		
 
 		$actual_day = date ('N', time())-1;
 
-		echo "Giorno della settimana ".$actual_day."<br>";
+		//echo "Giorno della settimana ".$actual_day."<br>";
 
 
 		$actual_hour = date ('H', time())+1;
@@ -202,7 +205,7 @@
 		echo "today+1_f ".$dayplushour_f ."<br>";
 
 	*/
-		echo $actual_hour;
+		//echo $actual_hour;
 		if($actual_hour>23){
 
 			$actual_hour=0;
@@ -221,17 +224,17 @@
 
 		}
 
-		print_r($array_day);
+		//print_r($array_day);
 		
 
-		echo "<br>actual day ".$actual_day;
+		//echo "<br>actual day ".$actual_day;
 
-		echo "<br>Ora per attivazione:".$actual_hour ."<br>";
+		//echo "<br>Ora per attivazione:".$actual_hour ."<br>";
 
 		//ricavo il valore per attivare o disattivare la traccia
 		$status=$array_day[$actual_hour];
 
-		toggle_song($ID_song,$status);
+		fwrite($logger,toggle_song($ID_song,$status).PHP_EOL);
 
 		$array_day= array();
 	}

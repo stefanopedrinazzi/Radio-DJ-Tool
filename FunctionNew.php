@@ -777,12 +777,14 @@
 
 	function toggle_song(&$ID_song,&$status){
 
+		$is_active="";
+
 		if($status==0){
 			$status=1;
-			echo "Traccia attiva<br><br>";
+			$is_active.= "Traccia attiva ";
 		}else{
 			$status=0;
-			echo "Traccia disattiva<br><br>";
+			$is_active.= "Traccia disattiva ";
 		}
 
 		$connectionrd=DBrd_connection();
@@ -797,15 +799,11 @@
 
 		$daterand=randomize($minmax);
 
-		echo $id_subcat."<br>";
-
-		print_r($minmax);
-
-		echo "<br>".$daterand."<br><br>";
 
 		$update="UPDATE songs SET enabled='$status', date_played='$daterand' WHERE songs.ID='$ID_song'";
 
-		echo "<br>".$update."<br><br>";
+		$is_active.=$update;
+		return $is_active;
 
 
 		$stat=$connectionrd->query($update);

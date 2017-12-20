@@ -77,42 +77,36 @@
 
 	$id_subcat=$explode[0];
 
-	echo $data."<br>";
+	//echo $data."<br>";
 
 	$now=convert_date($data);
 
-
+	//echo $now."<br>";
 	//$now=different_convert_date($now);
 
-	
+	if($now==""){
 
-	//$actual_day = date ('N', time())-1;
+	$actual_day = date ('N', time())-1;
 
-	/*if($actual_day>=6){
-		
-		$actual_day=0;
-	
+	//echo $actual_day ."<br>";
+
 	}else{
-		
-		$actual_day=$actual_day+1;
 	
-	}*/
-
-	//$now="1217";
-	//$hour="12";
-	//$id_subcat=1;
-
-	echo $now."<br>";
-
-	$mytime= different_convert_date($now)." 00:00:00";
-
-	echo $mytime."<br>";
-
-	$actual_day = date('N', $mytime);
-
-	echo $actual_day ."<br>";
-
 	//echo $now."<br>";
+
+	$mytime= different_convert_date($now).", 00:00:00";
+
+	//echo $mytime."<br>";
+
+	$mytime=strtotime($mytime);
+
+	//echo $mytime."<br>";
+
+	$actual_day = date('N', $mytime)-1;
+
+	//echo $actual_day ."<br>";
+
+	}
 
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
@@ -358,6 +352,7 @@
 
   		<script type="text/javascript">
   			$(document).ready(function(){
+
   				$("#annulla").on('click',function(){
 	
 					window.location.href = ("report_data.php");
@@ -370,7 +365,12 @@
 		<table class="ui blue table">
 			<tr>
 				<td>
-					<h3><?php echo "Risultati per il giorno ".$data;?></h3>
+					<h3><?php if($now==""){
+						echo "Risultati per oggi "; 
+					}else{
+						echo "Risultati per il giorno ".$data;
+					}
+					?></h3>
 				</td>
 			</tr>
 			<tr>

@@ -42,7 +42,7 @@
 
   			$('#dateinput').calendar({
   		
-  			 monthFirst: false,
+  			monthFirst: false,
 
   			text: {
      				days: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
@@ -103,20 +103,12 @@
         		}
     		},
   			
-  			endCalendar: $('#rangeend'),
-		
-			onChange: function (date, text) {
-					$('.checkbox').find('.active_date').prop("checked",true);
-					$('.checkbox').find('.active_date').attr("checked",true);
-     			date_start = text;
-    		},
-
-
 		});
 
-	  		$('#cat').on('change',function() {
+
+	  	$('#cat').on('change',function() {
 	 				
- 				var category=$('#cat').val();
+ 			var category=$("#cat").val();
 
   			if(category=="0"){
 	  			$("#consolida").prop("disabled",true);

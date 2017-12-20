@@ -163,6 +163,11 @@
 		if (ExceptionID==0) {
 			$("#salva").find("label").text("Aggiungi");
 			$("#elimina").hide();
+			$("#attivadata").show();
+			$('.checkbox').find('.active_date').prop("checked",false);
+			$('.checkbox').find('.active_date').attr("checked",false);
+			
+
 		} else {
 			$("#salva").find("label").text("Modifica");
 			$("#elimina").show();
@@ -224,7 +229,7 @@
 						$('.checkbox').find('.active_date').attr("checked",false);
 					}  				
 				}
-		
+
 			}
 			
 		});

@@ -816,22 +816,22 @@
 	function different_convert_date(&$data){
 
 		$year=date("Y");
+
+		if(strlen($data)==3){
+			$data.="0".$data;
+		}
 		
 		if($data!=0){
 			$day=substr($data,-2);
+			$mese=substr($data, -4,-2);
 
-			$mese=explode($day,$data);
+				$data_convert=$year."-".$mese."-".$day;
+				
 
-				if($mese[0]==1 || $mese[0]==2 || $mese[0]==2 || $mese[0]==4 || $mese[0]==5 || $mese[0]==6 || $mese[0]==7 || $mese[0]==8 || $mese[0]==9){
-					$mese[0]="0".$mese[0];
+				}else{
+			
+					$data_convert="0000-00-00";
 				}
-			
-			$data_convert=$year."-".$mese[0]."-".$day;
-		
-		}else{
-			
-			$data_convert="0000-00-00";
-		}
 
 		return $data_convert;
 	}

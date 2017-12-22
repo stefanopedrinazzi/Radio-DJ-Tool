@@ -1,3 +1,20 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+	<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+   			if (window.location.href.indexOf('reload')==-1) {
+         		window.location.replace(window.location.href+'?reload');
+   			 }
+		});
+
+		setTimeout (window.close, 10000);
+		
+	</script>
+	</head>
+</html>
 <?php
 
 	include("FunctionNew.php");
@@ -6,15 +23,15 @@
 
 	$nomedbrd=$riga[0];
 
-	$hostname='127.0.0.1';
+	$hostname=$riga[1];
 
 	$usr=$riga[2];
 
 	$pwd=$riga[3];
 
-	$toolusr='root';
+	$toolusr=$riga[4];
 
-	$toolpwd='';
+	$toolpwd=$riga[5];
 
 	$nomedbap='rdj_library_assistant';
 	
@@ -69,7 +86,10 @@
 	$now = date ('md', time());
 
 	fwrite($logger," ".PHP_EOL);
-	fwrite($logger, gmdate("Y-m-d H:i:s",time()).PHP_EOL);
+
+	$actual_hour = date ('H', time());
+
+	fwrite($logger, gmdate("Y-m-d ".$actual_hour.":i:s",time()).PHP_EOL);
 
 	//echo gmdate("Y-m-d H:i:s",time())."<br>";
 
@@ -185,16 +205,16 @@
 		//echo "Giorno della settimana ".$actual_day."<br>";
 
 
-		$actual_hour = date ('H', time())+1;
+		
 
 		//$day = date ('m-d',time());
-
+/*
 		$day = time();
 		$dayplushour = time() + 3600;
 
 
 
-/*
+
 		$today  = strftime("%Y-%m-%d, %H:%M:%S", $day);
 		$dayplushour_f=strftime("%Y-%m-%d, %H:%M:%S", $dayplushour);
 
@@ -205,18 +225,18 @@
 		echo "today+1_f ".$dayplushour_f ."<br>";
 
 	*/
-		//echo $actual_hour;
+		
 		if($actual_hour>23){
 
 			$actual_hour=0;
 
-			if($actual_day>=6){
+			/*if($actual_day>=6){
 				$actual_day=0;
 			}else{
 				$actual_day=$actual_day+1;
-			}
+			}*/
 		}
-
+		
 		//creo l'array per il giorno corrente
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
 
@@ -231,7 +251,7 @@
 
 		//echo "<br>Ora per attivazione:".$actual_hour ."<br>";
 
-		//ricavo il valore per attivare o disattivare la traccia
+		
 		$status=$array_day[$actual_hour];
 
 		fwrite($logger,toggle_song($ID_song,$status).PHP_EOL);

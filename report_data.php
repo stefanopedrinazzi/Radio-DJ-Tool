@@ -40,7 +40,14 @@
   			
   		$(document).ready(function(){
 
+  			var oggi=new Date();
+
+  			console.log(oggi);
+
+			$("#data_select").val(oggi.toLocaleString());
+
   			$('#dateinput').calendar({
+
   		
   			monthFirst: false,
 
@@ -119,11 +126,7 @@
 		  	}
 	  		});
 
-	  		$("#annulla").on('click',function(){
-		
-			window.location.href = ('main_menu.php');
-
-			});	
+	  	
 
 		});	
 
@@ -139,7 +142,7 @@
 	<h3 class="ui header" style="margin-top:10px; margin-left:10px">
  		 <i class="folder outline icon"></i>
   			<div class="content">
-    			Infromazioni eccezioni per categoria
+    			Informazioni eccezioni per categoria
   			</div>
 	</h3>
 
@@ -153,7 +156,7 @@
 				<div class="ui calendar" id="dateinput">
    					<div class="ui input left icon">
       					<i class="calendar icon"></i>
-      						<input type="text" placeholder="Date" name="data">
+      						<input id="data_select" type="text" placeholder="Date" name="data" value="javascript:today()">
     				</div>
   				</div>
 			</td>
@@ -175,14 +178,14 @@
 
 	</table>
 
-		<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
+		<button id="annulla" class=" big red right floated ui icon labeled button" onclick="window.location.href='main_menu.php'" style="margin-top:10px; margin-right:30px">
   			<i class="window close icon"></i><label>Chiudi</label>
 		</button>
 		<button id="consolida" class="big right floated ui icon labeled primary button" disabled="true" style="margin-top:10px;">
   			<i class="checkmark icon"></i><label>Continua</label>
 		</button>
 
-	</form>	
+	</form>
 
 	</body>
 </html>

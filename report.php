@@ -79,7 +79,7 @@
 
 	//echo $data."<br>";
 
-	$now=convert_date($data);
+	$now=Convert_date($data);
 
 	//echo $now."<br>";
 	//$now=different_convert_date($now);
@@ -87,8 +87,6 @@
 	if($now==""){
 
 	$actual_day = date ('N', time())-1;
-
-	//echo $actual_day ."<br>";
 
 	}else{
 	
@@ -104,9 +102,9 @@
 
 	$actual_day = date('N', $mytime)-1;
 
-	//echo $actual_day ."<br>";
-
 	}
+
+	//echo $actual_day ."<br>";
 
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
@@ -215,21 +213,23 @@
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
 
 				$array_day[]=$result["grid"][$y];
-
+		
 		}
+		
 		
 			$matrix[$x][]=$ID_song;
 
-		for($y=0;$y<=23;$y++){
+		for($z=$x*24;$z<($x*24)+24;$z++){
 
 		
-		$matrix[$x][]=$array_day[$y];
+		$matrix[$x][]=$array_day[$z];
 
 		
 
 		}
 	}
 	
+	//print_r($matrix);
 
 	$connectionrd=DBrd_connection();
 
@@ -256,6 +256,7 @@
 
 		}
 	}
+	//echo "<br><br><br>";
 	//print_r($category);
 
 	
@@ -271,7 +272,7 @@
 
 		}
 	}
-	//echo "<br>";
+	//echo "<br><br><br>";
 	//print_r($res);
 
 	$disabled=0;
@@ -291,7 +292,7 @@
 		$arrayhour[$y-1][1]=sizeof($category)-$disabled;
 		$disabled=0;
 	}
-	//echo "<br>";
+	//echo "<br><br><br><br>";
 	//print_r($arrayhour);
 
 	$stamp="<table><tr>
@@ -344,7 +345,7 @@
 	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Infromazioni eccezioni per categoria</title>
+		<title>Informazioni eccezioni per categoria</title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">

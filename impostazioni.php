@@ -11,6 +11,7 @@
 		$riga[3]="";
 		$riga[4]="";
 		$riga[5]="";
+		$riga[6]="";
 	}else{
 
 		$riga=check_config();
@@ -40,6 +41,7 @@
 			var pwd=$('#pwd').val(<?php echo json_encode($riga[3]) ?>);
 			var toolusr=$('#toolusr').val(<?php echo json_encode($riga[4]) ?>);
 			var toolpwd=$('#toolpwd').val(<?php echo json_encode($riga[5]) ?>);
+			var path=$('#root').val(<?php echo json_encode($riga[6]) ?>);
 
 	/*		var nomedb=$('#nomedb').val();
 			var nomehost=$('#nomehost').val();
@@ -55,10 +57,11 @@
 			pwd=$('#pwd').val();
 			toolusr=$('#toolusr').val();
 			toolpwd=$('#toolpwd').val();
+			var path=$('#root').val();
 
-			if(nomedb=="" || nomehost=="" || toolusr=="" || usr==""){
+			if(nomedb=="" || nomehost=="" || toolusr=="" || usr=="" || path==""){
 
-				alert("Devi inserire nome del database, host e Username.");
+				alert("Devi inserire nome del database, host, Username e path.");
 			}else{
 
 				$.ajax({
@@ -80,7 +83,7 @@
 						        type: 'POST',
 						        url: 'Config.php',
 						        dataType: "HTML",
-						        data: { nomedb: nomedb, nomehost: nomehost,usr: usr,pwd: pwd,toolusr: toolusr,toolpwd: toolpwd},
+						        data: { nomedb: nomedb, nomehost: nomehost,usr: usr,pwd: pwd,toolusr: toolusr,toolpwd: toolpwd, path: path},
 						        success: function(result) {
 					        	
 					            	alert("Operazione andata a buon fine.");
@@ -177,9 +180,9 @@
 					(per consolidare le categorie)
 				</td>
 				<td>
-					
-						<input id="root" type="file" name="rootdirectory"  directory mozdirectory webkitdirectory/>
-					
+					<div class="ui input focus large" style="width:400px">
+						<input id="root" type="text" name="rootdirectory"/>					
+					</div>
 				</td>
 			</tr>
 		

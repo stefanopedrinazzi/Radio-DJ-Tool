@@ -94,14 +94,14 @@
 
 	</table>
 
-	</form>
-
-		<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
+		<button id="annulla" class=" big red right floated ui icon labeled button" type="reset" style="margin-top:10px; margin-right:30px">
   			<i class="window close icon"></i><label>Chiudi</label>
 		</button>
-		<button id="consolida" class="big right floated ui icon labeled primary button" disabled="true" style="margin-top:10px;">
+		<button id="consolida" class="big right floated ui icon labeled primary button" type="submit" disabled="true" style="margin-top:10px;">
   			<i class="checkmark icon"></i><label>Consolida</label>
-		</button>	
+		</button>
+
+		</form>	
 
 	</body>
 </html>

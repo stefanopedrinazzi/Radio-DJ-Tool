@@ -17,6 +17,8 @@
 
 	$toolpwd=$riga[5];
 
+	$path=$riga[6];
+
 	$nomedbap='rdj_library_assistant';
 	
 	$control=0;
@@ -32,6 +34,7 @@
 	$pwd=str_replace($order, $replace,$pwd);
 	$toolusr=str_replace($order, $replace,$toolusr);
 	$toolpwd=str_replace($order, $replace,$toolpwd);
+	$path=str_replace($order, $replace,$path);
 
 
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
@@ -83,6 +86,8 @@
 	  								$_SESSION['passwordrd']=$pwd;
 	  								$_SESSION['usernameap']=$toolusr;
 	  								$_SESSION['passwordap']=$toolpwd;
+	  								$_SESSION['path']=$path;
+
 	  								}else{
 	  									echo 0;	
 	  								}

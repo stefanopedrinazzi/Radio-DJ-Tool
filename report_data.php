@@ -156,7 +156,7 @@
 				<div class="ui calendar" id="dateinput">
    					<div class="ui input left icon">
       					<i class="calendar icon"></i>
-      						<input id="data_select" type="text" placeholder="Date" name="data" value="javascript:today()">
+      						<input id="data_select" type="text" placeholder="Date" name="data">
     				</div>
   				</div>
 			</td>
@@ -178,14 +178,16 @@
 
 	</table>
 
-		<button id="annulla" class=" big red right floated ui icon labeled button" onclick="window.location.href='main_menu.php'" style="margin-top:10px; margin-right:30px">
+		<button id="annulla" class=" big red right floated ui icon labeled button" type="reset" onclick="window.location.href='main_menu.php'" style="margin-top:10px;margin-right: 30px">
   			<i class="window close icon"></i><label>Chiudi</label>
 		</button>
-		<button id="consolida" class="big right floated ui icon labeled primary button" disabled="true" style="margin-top:10px;">
+		<button id="consolida" class="big right floated ui icon labeled primary button" type="submit" disabled="true" style="margin-top:10px">
   			<i class="checkmark icon"></i><label>Continua</label>
 		</button>
 
 	</form>
+
+		
 
 	</body>
 </html>

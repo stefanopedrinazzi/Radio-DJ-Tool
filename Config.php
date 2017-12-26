@@ -15,6 +15,8 @@
 	$usernameap=$_POST['toolusr'];
 	
 	$passwordap=$_POST['toolpwd'];
+
+	$path=$_POST['path'];
 	
 	//$_SESSION['rootdirectory']=$_POST['rootdirectory'];
 
@@ -26,6 +28,7 @@
 		fwrite($config, $passwordrd.PHP_EOL);
 		fwrite($config, $usernameap.PHP_EOL);
 		fwrite($config, $passwordap.PHP_EOL);
+		fwrite($config, $path.PHP_EOL);
 
 
 		fclose($config);

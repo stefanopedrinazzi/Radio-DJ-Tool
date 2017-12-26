@@ -11,6 +11,7 @@
 	$hostnameap=$_SESSION['hostnamerd'];
 	$usernameap=$_SESSION['usernameap'];
 	$passwordap=$_SESSION['passwordap'];
+	$path=$_SESSION['path'];
 	$db_nameap="rdj_library_assistant";
 	
 	error_reporting(E_ALL);
@@ -100,18 +101,6 @@
 
 	function test_db_connection(&$db_name,&$hostname,&$username,&$password){
 
-			/*$connection =new mysqli($hostname,$username,$password,$db_name);
-
-			if (!$connection) {
-				mysqli_close ($connection);
-	 			return 0;
-			}else{
-				mysqli_close ($connection);
-				return 1;
-			}
-
-
-*/
 			error_reporting(E_ERROR);
 			$link = mysqli_connect($hostname,$username,$password,$db_name);
 

@@ -8,8 +8,17 @@
 	$var = $_POST['categoria'];
 
 
-	$root_path = "F:\Static_Music\\";
+	$root_path = $_SESSION['path'];
 
+	//echo $root_path."<br>";
+
+	if(substr($root_path, -1)!="\\"){
+		$root_path.="\\";
+	}
+
+	//echo $root_path;
+
+	error_reporting(E_ERROR);
 	
 	if (is_dir($root_path)) {
   		//echo $GLOBALS['$root_path'] . "Root directory exist.<br>";
@@ -17,6 +26,7 @@
 		mkdir($root_path);
   		//echo $$GLOBALS['$root_path'] . 'è stata creata la Root directory.<br>';
 	}
+	
 	
 //	echo $var . " ";
 
@@ -37,6 +47,7 @@
 		//echo $extendedpath . " è stata creata la directory.<br>";
 	}
 
+	error_reporting(E_ALL);
 
 	DBrd_connection();
 
@@ -66,7 +77,7 @@
   			$(document).ready(function(){
   				$("#annulla").on('click',function(){
 	
-					window.location.href = ("Validazione_categorie.php");
+					window.location.href = ("consolida_categorie.php");
   				});
   			});
 

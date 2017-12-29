@@ -2,7 +2,11 @@
 <html>
 	
 	<head>
+		<title>Toggle Song</title>
 	<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
+  	<script src="js/semantic.min.js"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
    			if (window.location.href.indexOf('reload')==-1) {
@@ -14,6 +18,13 @@
 		
 	</script>
 	</head>
+	<body>
+	
+		<div id="caricamento" class="ui active inverted dimmer">
+    		<div class="ui massive text loader">Abilitazione delle tracce in corso...</div>
+  		</div>
+	
+	</body>
 </html>
 <?php
 
@@ -37,7 +48,7 @@
 	
 	$control=0;
 	
-	$logger = fopen("log.txt", "a") or die("Unable to open file!");
+	$logger = fopen("log_active_track.txt", "a") or die("Unable to open file!");
 	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';

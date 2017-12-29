@@ -1,0 +1,60 @@
+ 
+2017-12-28 14:04:08
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-28 14:04:09
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-28 14:05:40
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:04:04
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:04:04
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:04:53
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:05:01
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:05:59
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:06:00
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:06:01
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:06:01
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:06:01
+ID exception 162 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='181'
+ID exception 157 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='165'
+ID exception 156 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-01-01 00:00:01' WHERE songs.ID='169'
+ 
+2017-12-29 13:54:40
+ID exception 169 Traccia attiva UPDATE songs SET enabled='1', date_played='2016-03-09 21:00:20' WHERE songs.ID='185'

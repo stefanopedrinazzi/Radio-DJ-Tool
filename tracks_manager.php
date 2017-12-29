@@ -108,15 +108,17 @@
 		        })
 		            
 		        .dataTable( {
-		            serverSide: true,
+		        	ordering: false,
+
+		      		serverSide: true,
 		            ajax: {
 	    				url: 'PrintSong.php',
 	    				type: 'POST',
 	    				data: { ID_cat: ID_cat, ID_subcat: ID_subcat, ID_genre: ID_genre, Search: search,old: old},
 
 	  				},columns:[
-	  					{ data: "Artista" },
 	  					{ data: "Titolo" },
+	  					{ data: "Artista" },
 	  					{ data: "Eccezioni" },
 	  					{ data: "Azione" }
 	  				],
@@ -316,34 +318,34 @@
   	
   	<div id="caricamento" class="ui inverted dimmer">
     		<div class="ui massive text loader">Caricamento...</div>
-  		</div>
-		<table id="tablesong"  class="ui striped blue large table">
+  	</div>
+	<table id="tablesong"  class="ui striped blue large table">
 			
-			<thead>
+		<thead>
 	        
-				<tr>
-					<th>
-						<i class="music icon"></i>Titolo	
-					</th>
-					<th>
-						<i class="user icon"></i>Artista
-					</th>
-					<th>
-						<i class="hashtag icon"></i>Eccezioni
-					</th>
-					<th>
-						<i class="setting icon"></i>Azione
-					</th>
+			<tr>
+				<th>
+					<i class="music icon"></i>Titolo	
+				</th>
+				<th>
+					<i class="user icon"></i>Artista
+				</th>
+				<th>
+					<i class="hashtag icon"></i>Eccezioni
+				</th>
+				<th>
+					<i class="setting icon"></i>Azione
+				</th>
 
-				</tr>
+			</tr>
 
-			</thead>
+		</thead>
 
-			<tbody>
+		<tbody>
 
-			</tbody>	
+		</tbody>	
 
-		</table>
+	</table>
 	
 	</form>
 

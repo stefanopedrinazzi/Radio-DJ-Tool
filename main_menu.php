@@ -122,18 +122,7 @@
 	
 				window.location.href = ("report_data.php");
 
-			});	  	
-
-			$('#chiudi').on('click',function(){
-
-				$.ajax({
-					url: 'clear_all.php',
-					success: function(result) {
-						
-					}
-				});
-
-			});
+			});	
 
 
 	  	});
@@ -192,8 +181,5 @@
 			</tr>
 		</table>
 
-		<button id="chiudi" class=" big red right floated ui icon labeled button" style="margin-right:30px">
-  		<i class="window close icon"></i><label>Esci</label>
-		</button>
 	</body>
 </html>

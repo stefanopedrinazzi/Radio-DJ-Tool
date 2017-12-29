@@ -161,6 +161,7 @@
 		ExceptionID = $('#exception').val();
 
 		if (ExceptionID==0) {
+			$("#datecal").show();
 			$("#salva").find("label").text("Aggiungi");
 			$("#elimina").hide();
 			$("#attivadata").show();
@@ -189,7 +190,16 @@
   				date_e= Data.data_end;
   				array_ecc= Data.eccezione;
 
+  				if(date_s==="0000-00-00"){
+  					$("#datecal").hide();
+
+  				} else {
+
+  					$("#datecal").show();
+  				}
+
   				if (ExceptionID==0) {
+  					$("#datecal").show();
   					$("#attivadata").show();
   					$('#rangestart').calendar('set date',"");
 					$('#rangeend').calendar('set date', "");

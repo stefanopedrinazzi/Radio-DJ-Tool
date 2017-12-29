@@ -28,8 +28,28 @@
 
 	$data_end=Convert_date($date_end);
 
-	$exception=Set_exceptions($song_ID,$data_start,$data_end,$array_exc,$modify,$ExceptionID);
+	if($data_start>1200 && $data_end<131){
 
-	return($exception);
+		$data_start1=$data_start;
+
+		$data_end1=1231;
+
+		$data_start2=101;
+
+		$data_end2=$data_end;
+
+		$exception=Set_exceptions($song_ID,$data_start1,$data_end1,$array_exc,$modify,$ExceptionID);
+	
+		$exception.=Set_exceptions($song_ID,$data_start2,$data_end2,$array_exc,$modify,$ExceptionID);
+	
+	}else{
+
+		$exception=Set_exceptions($song_ID,$data_start,$data_end,$array_exc,$modify,$ExceptionID);
+	}
+
+
+	
+
+	echo($exception);
 
 ?>

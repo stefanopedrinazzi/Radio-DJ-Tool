@@ -15,18 +15,8 @@
 	$db_nameap="rdj_library_assistant";
 	
 	error_reporting(E_ALL);
-/*	
-	
-	$hostnamerd="";
-	$usernamerd="";
-	$passwordrd="";
-	$db_namerd="";
-	$hostnameap="";
-	$usernameap="";
-	$passwordap="";
-	$db_nameap="";
-	
-*/		
+
+		
 	function check_config(){
 
 		$path = 'config.txt';
@@ -67,8 +57,6 @@
 	
 	function DBap_connection(){
 
-		//$URL="http://localhost/phpmyadmin/rdj_library_assistant/";
-
 		global $hostnameap,$usernameap,$passwordap,$db_nameap;
 
 		$connectionap = new mysqli($hostnameap,$usernameap,$passwordap,$db_nameap);
@@ -85,8 +73,6 @@
 	function DBrd_connection(){
 
 		global $hostnamerd,$usernamerd,$passwordrd,$db_namerd;
-
-		//$URL="http://localhost/phpmyadmin/radiodjnew/";
 
 		$connectionrd = new mysqli($hostnamerd,$usernamerd,$passwordrd,$db_namerd);
 
@@ -270,7 +256,7 @@
 						//imposto il flag 
 						$flag=1;
 
-						$info.= "è presente nella quelist. \n";
+						$info.= "è presente nella quelist, verrà spostata successivamente. \n";
 
 						break;
 			
@@ -792,10 +778,10 @@
 		$update="UPDATE songs SET enabled='$status', date_played='$daterand' WHERE songs.ID='$ID_song'";
 
 		$is_active.=$update;
-		return $is_active;
-
 
 		$stat=$connectionrd->query($update);
+
+		return $is_active;
 
 		$connectionrd->close();
 	}

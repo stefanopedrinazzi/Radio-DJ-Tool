@@ -267,7 +267,7 @@
 
 			if($category[$x]==$matrix[$y][0]){
 
-				$res[$x]=$matrix[$y];
+				$res[]=$matrix[$y];
 			}
 
 		}
@@ -369,7 +369,7 @@
 					<h3><?php if($now==""){
 						echo "Risultati per oggi "; 
 					}else{
-						echo "Risultati per il giorno ".$data;
+						echo "Risultati per la categoria ".$categoria." , per il giorno ".$data;
 					}
 					?></h3>
 				</td>

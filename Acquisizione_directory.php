@@ -2,37 +2,29 @@
 
 	include("FunctionNew.php");
 
-	//$GLOBALS['$debug']=1;
-
 	//recupero category
 	$var = $_POST['categoria'];
 
 
 	$root_path = $_SESSION['path'];
 
-	//echo $root_path."<br>";
 
 	if(substr($root_path, -1)!="\\"){
 		$root_path.="\\";
 	}
 
-	//echo $root_path;
 
 	error_reporting(E_ERROR);
 	
 	if (is_dir($root_path)) {
-  		//echo $GLOBALS['$root_path'] . "Root directory exist.<br>";
+  		
 	} else {
+		
 		mkdir($root_path);
-  		//echo $$GLOBALS['$root_path'] . 'è stata creata la Root directory.<br>';
+  		
 	}
-	
-	
-//	echo $var . " ";
 
 	$explode = explode('~', $var);
-
-//	print_r($explode);
 
 	$category=$explode[1];
 
@@ -41,23 +33,19 @@
 	$extendedpath=$root_path.$category;
 
 	if (is_dir($extendedpath)) {
-		//echo $extendedpath ." directory presente.<br>";
+
 	} else {
 		mkdir($extendedpath);
-		//echo $extendedpath . " è stata creata la directory.<br>";
+
 	}
 
-	error_reporting(E_ALL);
-
-	DBrd_connection();
-
-	DBap_connection();
+	
 
 	$response=Modifica_tabella_appoggio($root_path,$category,$category_ID);
 
 	$response.=Sposta_file();
 
-	
+	error_reporting(E_ALL);	
 
 	
 

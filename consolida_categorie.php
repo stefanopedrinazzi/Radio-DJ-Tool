@@ -2,14 +2,17 @@
 
 	include("FunctionNew.php");
 
+	//connessione al database di RadioDJ
 	$connectionrd=DBrd_connection();
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
+	//acquisizione del nome e ID delle sottocategorie
 	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1";
 
 	$stamp_category = "";
 
+	//creazione della select per la sottocategoria
 	if($category = mysqli_query($connectionrd,$query)){
 	
 		while($riga = mysqli_fetch_assoc($category)){

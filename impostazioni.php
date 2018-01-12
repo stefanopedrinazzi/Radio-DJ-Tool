@@ -2,7 +2,7 @@
 	
 	include("FunctionNew.php");
 
-	//print_r(check_config());
+	//richiamo della funzione per fare il check del file config.txt per la connessione
 	if(check_config()==1){
 
 		$riga[0]="";
@@ -35,6 +35,7 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 
+			//valorizzazione delle variabili dal file config.txt
 			var nomedb=$('#nomedb').val(<?php echo json_encode($riga[0]) ?>);
 			var nomehost=$('#nomehost').val(<?php echo json_encode($riga[1]) ?>);
 			var usr=$('#usr').val(<?php echo json_encode($riga[2]) ?>);
@@ -42,12 +43,6 @@
 			var toolusr=$('#toolusr').val(<?php echo json_encode($riga[4]) ?>);
 			var toolpwd=$('#toolpwd').val(<?php echo json_encode($riga[5]) ?>);
 			var path=$('#root').val(<?php echo json_encode($riga[6]) ?>);
-
-	/*		var nomedb=$('#nomedb').val();
-			var nomehost=$('#nomehost').val();
-			var usr=$('#usr').val();
-			var pwd=$('#pwd').val();*/
-
 
 			$("#conferma").on('click',function(){
 
@@ -59,21 +54,23 @@
 			toolpwd=$('#toolpwd').val();
 			var path=$('#root').val();
 
+			//controllo dei valori necessari
 			if(nomedb=="" || nomehost=="" || toolusr=="" || usr=="" || path==""){
 
 				alert("Devi inserire nome del database, host, Username e path.");
 			}else{
 
+			//richiamo del file per testare la connessione con i valori inseriti  
 				$.ajax({
 				        type: 'POST',
 				        url: 'test_connection.php',
 				        dataType: "HTML",
 				        data: { nomedb: nomedb, nomehost: nomehost, usr: usr, pwd: pwd, toolusr: toolusr,toolpwd: toolpwd},
 				        success: function(result) {
-
-						//alert(result);								
+								
 						var res = parseInt(result, 10)
 
+						//check dei risultati restituiti dalla funzione per il test della connessione
 						if(res===0){
 							alert("I parametri inseriti non sono corretti");
 				
@@ -97,6 +94,7 @@
 
 			});
 
+			//azione per tornare al menù principale
 			$('#annulla').on('click',function(){
 	
 			window.location.href = ('main_menu.php');
@@ -114,86 +112,86 @@
 
 
 	<table id="menutable" class="ui blue large table" style="margin-top:40px">
-			<tr  class="center aligned">
-				<td>
-					<h4>Nome del Database di RadioDJ:</h4>
+		<tr  class="center aligned">
+			<td>
+				<h4>Nome del Database di RadioDJ:</h4>
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+					<input id="nomedb" type="text" name="nomedb">
+				</div>
+			</td>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4>Nome Host RadioDJ (e Tool):</h4>
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+				 	<input id="nomehost" type="text" name="nomehost">
+				</div>	
+			</td>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4>Username RadioDJ:</h4>
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+					<input id="usr" type="text" name="usr">
+				</div>
+			</td>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4>Password RadioDJ:</h4>
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+					<input id="pwd" type="text" name="pwd">
+				</div>
+			</td>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4>Username Tool:</h4>
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+					<input id="toolusr" type="text" name="toolusr">
+				</div>
+			</td>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4>Password Tool:</h4>
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+					<input id="toolpwd" type="text" name="toolpwd">
+				</div>
 				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-						<input id="nomedb" type="text" name="nomedb">
-					</div>
-				</td>
-			</tr>
-			<tr  class="center aligned">
-				<td>
-					<h4>Nome Host RadioDJ (e Tool):</h4>
-				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-					 	<input id="nomehost" type="text" name="nomehost">
-					</div>	
-				</td>
-			</tr>
-			<tr  class="center aligned">
-				<td>
-					<h4>Username RadioDJ:</h4>
-				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-						<input id="usr" type="text" name="usr">
-					</div>
-				</td>
-			</tr>
-			<tr  class="center aligned">
-				<td>
-					<h4>Password RadioDJ:</h4>
-				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-						<input id="pwd" type="text" name="pwd">
-					</div>
-				</td>
-			</tr>
-			<tr  class="center aligned">
-				<td>
-					<h4>Username Tool:</h4>
-				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-						<input id="toolusr" type="text" name="toolusr">
-					</div>
-				</td>
-			</tr>
-			<tr  class="center aligned">
-				<td>
-					<h4>Password Tool:</h4>
-				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-						<input id="toolpwd" type="text" name="toolpwd">
-					</div>
-				</td>
-			</tr>
-			<tr  class="center aligned">
-				<td>
-					<h4>Root Directory:</h4>
-					(per consolidare le categorie)
-				</td>
-				<td>
-					<div class="ui input focus large" style="width:400px">
-						<input id="root" type="text" name="rootdirectory"/>					
-					</div>
-				</td>
-			</tr>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4>Root Directory:</h4>
+				(per consolidare le categorie)
+			</td>
+			<td>
+				<div class="ui input focus large" style="width:400px">
+					<input id="root" type="text" name="rootdirectory"/>					
+				</div>
+			</td>
+		</tr>
 		
-		</table>
+	</table>
 
-		<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-right:30px">
+	<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-right:30px">
   		<i class="window close icon"></i><label>Chiudi</label>
-		</button>
-		<button id="conferma" class=" big right floated ui icon labeled primary button">
+	</button>
+	<button id="conferma" class=" big right floated ui icon labeled primary button">
   		<i class="checkmark icon"></i><label>Aggiungi</label>
-		</button>
+	</button>
 
 
 </body>

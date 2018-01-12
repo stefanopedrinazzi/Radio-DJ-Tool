@@ -8,20 +8,20 @@
   	<script src="js/semantic.min.js"></script>
 
   	<script type="text/javascript">
-	  	/*$(document).ready(function() {
+	  	$(document).ready(function() {
 	   			if (window.location.href.indexOf('reload')==-1) {
 	         		window.location.replace(window.location.href+'?reload');
 	   			 }
 			});
 
 			setTimeout (window.close, 10000);
-		*/
+		
 	</script>
   	
   	</head>
 	<body>
 	
-		<div id="caricamento" class="ui inverted dimmer">
+		<div id="caricamento" class="ui active inverted dimmer">
     		<div class="ui massive text loader">Copia dei file in corso...</div>
   		</div>
 	
@@ -31,7 +31,7 @@
 
 	include("FunctionNew.php");
 	
-	//error_reporting(E_ERROR);
+	error_reporting(E_ERROR);
 
 	$logger = fopen("log_move_track.txt", "a") or die("Unable to open file!");
 
@@ -43,6 +43,6 @@
 
 	fwrite($logger,$info.PHP_EOL);
 
-	//error_reporting(E_ALL);
+	error_reporting(E_ALL);
 
 ?>

@@ -10,9 +10,10 @@
 
 
 	if(substr($root_path, -1)!="\\"){
+	
 		$root_path.="\\";
+	
 	}
-
 
 	error_reporting(E_ERROR);
 	
@@ -40,7 +41,6 @@
 	}
 
 	
-
 	$response=Modifica_tabella_appoggio($root_path,$category,$category_ID);
 
 	$response.=Sposta_file();
@@ -90,7 +90,7 @@
     									Operazioni effettuate
   									</div>
 							</h4>
-    							<textarea rows="4"><?php echo $response ?></textarea>
+    							<textarea rows="40"><?php echo $response ?></textarea>
   						</div>
   					</div>
 					

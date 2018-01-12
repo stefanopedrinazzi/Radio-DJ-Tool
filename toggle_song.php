@@ -102,6 +102,17 @@
 
 	fwrite($logger, gmdate("Y-m-d ".$actual_hour.":i:s",time()).PHP_EOL);
 
+	$hour = date ('H', time())+1;
+		if($hour>23){
+
+			$hour=0;
+
+		}
+
+	$stamp="Ora per l'abilitazione dinamica delle tracce ".$hour;
+
+	fwrite($logger, $stamp.PHP_EOL);
+
 	//echo gmdate("Y-m-d H:i:s",time())."<br>";
 
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
@@ -237,16 +248,6 @@
 
 	*/
 		
-		if($actual_hour>23){
-
-			$actual_hour=0;
-
-			/*if($actual_day>=6){
-				$actual_day=0;
-			}else{
-				$actual_day=$actual_day+1;
-			}*/
-		}
 		
 		//creo l'array per il giorno corrente
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
@@ -263,7 +264,7 @@
 		//echo "<br>Ora per attivazione:".$actual_hour ."<br>";
 
 		
-		$status=$array_day[$actual_hour];
+		$status=$array_day[$hour];
 
 		fwrite($logger,toggle_song($ID_song,$status).PHP_EOL);
 

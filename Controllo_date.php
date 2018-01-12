@@ -3,6 +3,7 @@
 
 	include("FunctionNew.php");
 
+	//connesione al database del tool
 	$connectionap=DBap_connection();
 
 	global $db_nameap;
@@ -19,11 +20,12 @@
 
 	$ExceptionID=$_POST['ExceptionID'];
 
+	//richiamo della funzione per convertire le date di inizio e di fine
 	$data_start=Convert_date($date_start);
 
 	$data_end=Convert_date($date_end);
 
-
+	//richiamo della funzione di controllo per le date
 	$control=Control_date($song_ID,$data_start,$ExceptionID);
 
 	if ($control==0) {

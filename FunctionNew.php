@@ -1,5 +1,9 @@
 <?php
 	 
+	ini_set('memory_limit','512M');
+
+	ini_set('MAX_EXECUTION_TIME', 0);
+	 
 	session_start();
 
 	error_reporting(E_ERROR);
@@ -161,44 +165,35 @@
 						
 						//echo $control->num_rows ."<br>";
 
+						$old=str_replace('\'', "''", $old);
+
+						$newpath=str_replace('\'', "''", $newpath);			
+
 						$write="INSERT INTO moving_list (ID,old_path,new_path) VALUES ('$songID','$old','$newpath')";
 			
-							$new=addcslashes($write, '\\');
+							$new=addcslashes($write,"\\");
 							
-						$connectionap->query($new);
+						if($connectionap->query($new)){};
 
-			    			
-					
-							//print_r($new);
+
 
 					}
 
-					while($controlID=$control->fetch_array()){					
+					while($controlID=$control->fetch_array()){	
 
-					//	if($controlID['ID']==$songID){
+						$old=str_replace('\'', "''", $old);
 
-					//		echo("update <br> ");
-							
-							//$update="UPDATE tabella_appoggio SET  new_path='$newpath'";
-
-							//$new1=addcslashes($update, '\\');
-
-					//		$flag=1;
-
-							//($connectionap->query($new1));
-
-					//		break;							
-					//	}
-					//}
-					//	if($flag!=1){
+						$newpath=str_replace('\'', "''", $newpath);
 
 							$write="INSERT INTO moving_list (ID,old_path,new_path) VALUES ('$songID','$old','$newpath') ON DUPLICATE KEY  UPDATE new_path='$newpath'";
-			
-							$new=addcslashes($write, '\\');
+
+							$new=addcslashes($write,"\\");
 							
 						if($connectionap->query($new)){
+
 			    				//echo "Aggiornamento Database avvenuto con successo. <br>";
 							}
+							break;
 						}		
 					
 				}
@@ -256,7 +251,7 @@
 						//imposto il flag 
 						$flag=1;
 
-						$info.= "è presente nella quelist, verrà spostata successivamente. \n";
+						$info.= "è presente nella quelist, verrà spostata successivamente.\n\n";
 
 						break;
 			
@@ -280,9 +275,38 @@
 			
 				$new_path=$sql_new_path['new_path'];
 
+				//echo $old_path ."<br>". $new_path."<br>";
+
 				$info.= "New path: " .$new_path . "\n";
 
+				/*if (file_exists($old_path)){
+					echo "esiste <br>";
+				}*/
+
+				//$old_path=str_replace('\'', "''", $old_path);
+
+				//$new_path=str_replace('\'', "''", $new_path);
+
+				//$old_path=addslashes($old_path);
+
+				//$new_path=addslashes($new_path);	
+
+
 				if(rename($old_path, $new_path)===TRUE){
+
+					if(file_exists($old_path.".wfrm")===TRUE){
+
+						if(rename($old_path.".wfrm",$new_path.".wfrm")===TRUE){
+
+						
+
+							$info.="Copia CUE-file avvenuta con successo. \n";
+
+						}
+
+					}
+
+					$new_path=str_replace("'", "''", $new_path);
 					
 					$update ="UPDATE songs SET songs.path='$new_path' WHERE songs.ID='$songID'";
 
@@ -304,6 +328,7 @@
 					
 				}
 				else{
+					$info.="Errore nello spostamento del file\n\n";	
 					continue;
 				}	
 					
@@ -528,6 +553,11 @@
 
 		if($modify==0){
 			$insert="INSERT INTO songs_exceptions (ID_song,data_in,data_out,grid) values ('$songID','$data_start','$data_end','$grid')";
+
+			$delete="DELETE FROM songs_exceptions WHERE songs_exceptions.ID='$ExceptionID'";
+
+			$delet=$connectionap->query($delete);
+
 		
 		}else{
 
@@ -663,12 +693,19 @@
 
 		$day=substr($data,-2);
 
-		$mese=explode($day,$data);
+		//$mese=explode($day,$data);
+
+		if(strlen($data)==4){
+
+		$mese=substr($data, 0,2);
+		}else{
+		$mese=substr($data, 0,1);	
+		}
 
 		//$explode=explode('-', $data);
 
 		//$mese=$explode[0];
-		$mese=$mese[0];
+		//$mese=$mese[0];
 
 		switch ($mese) {
 	    		case "1":

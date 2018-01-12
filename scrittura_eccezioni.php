@@ -28,7 +28,7 @@
 
 	$data_end=Convert_date($date_end);
 
-	if($data_start>1200 && $data_end<131){
+	if($data_start>$data_end){
 
 		$data_start1=$data_start;
 
@@ -37,6 +37,8 @@
 		$data_start2=101;
 
 		$data_end2=$data_end;
+
+		$modify=0;
 
 		$exception=Set_exceptions($song_ID,$data_start1,$data_end1,$array_exc,$modify,$ExceptionID);
 	

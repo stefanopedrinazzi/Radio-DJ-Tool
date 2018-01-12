@@ -550,3 +550,21 @@ Old path: F:\Static_Music\A1\Moon Duo - Creepin' - 2017.mp3
 è presente nella quelist, verrà spostata successivamente.
 
 
+2018-01-12 15:58:30
+ID song 1286
+Old path: F:\Static_Music\R1\Peter Doherty - Down for the Outing (2016).mp3
+è presente nella quelist, verrà spostata successivamente.
+
+ID song 2023
+Old path: F:\Static_Music\A1\Moon Duo - Creepin' - 2017.mp3
+New path: F:\Static_Music\A1\Moon Duo - Creepin' - 2017.mp3
+Copia file avvenuta con successo. 
+Eliminazione file avvenuta con successo. 
+
+
+2018-01-12 15:58:31
+ID song 1286
+Old path: F:\Static_Music\R1\Peter Doherty - Down for the Outing (2016).mp3
+è presente nella quelist, verrà spostata successivamente.
+
+

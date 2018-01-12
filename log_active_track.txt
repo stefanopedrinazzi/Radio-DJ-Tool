@@ -322,3 +322,13 @@ ID exception 234 Traccia attiva UPDATE songs SET enabled='1', date_played='2002-
 Ora per l'abilitazione dinamica delle tracce 15
 ID exception 233 Traccia attiva UPDATE songs SET enabled='1', date_played='2017-11-13 07:09:42' WHERE songs.ID='1656'
 ID exception 234 Traccia attiva UPDATE songs SET enabled='1', date_played='2015-03-28 13:05:42' WHERE songs.ID='637'
+ 
+2018-01-12 15:58:00
+Ora per l'abilitazione dinamica delle tracce 16
+ID exception 233 Traccia disattiva UPDATE songs SET enabled='0', date_played='2017-11-15 12:27:34' WHERE songs.ID='1656'
+ID exception 234 Traccia disattiva UPDATE songs SET enabled='0', date_played='2005-07-11 04:58:47' WHERE songs.ID='637'
+ 
+2018-01-12 15:58:00
+Ora per l'abilitazione dinamica delle tracce 16
+ID exception 233 Traccia disattiva UPDATE songs SET enabled='0', date_played='2017-10-31 02:25:29' WHERE songs.ID='1656'
+ID exception 234 Traccia disattiva UPDATE songs SET enabled='0', date_played='2003-04-16 01:26:22' WHERE songs.ID='637'

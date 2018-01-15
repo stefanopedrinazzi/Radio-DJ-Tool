@@ -72,6 +72,39 @@
 						$insert="INSERT INTO events_categories (name) values ('RDJLA-events')";
 
 						$inser=$connectionrd->query($insert);
+
+						for($x=0;$x<7;$x++){
+
+							for($y=0;$y<=23;$y++){
+
+								switch ($x) {
+									case '0':
+										$name="Lun";
+										break;
+									case '1':
+										$name="Mar";
+										break;
+									case '2':
+										$name="Mer";
+										break;
+									case '3':
+										$name="Gio";
+										break;
+									case '4':
+										$name="Ven";
+										break;
+									case '5':
+										$name="Sab";
+										break;
+									case '6':
+										$name="Dom";
+										break;
+								}
+
+								$name.=$y;
+
+							}
+						}
 					}
 		
 	}

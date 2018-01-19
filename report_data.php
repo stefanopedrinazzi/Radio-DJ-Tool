@@ -19,6 +19,7 @@
 		}  
 	}	
 
+	$connectionrd->close();
 
 ?>
 

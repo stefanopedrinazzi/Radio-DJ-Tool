@@ -900,4 +900,214 @@
 
 		return $rand;
 	}
+
+	function get_id_from_rotation(&$rotation_name){
+
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
+		mysqli_select_db($connectionrd,$db_namerd);
+
+		$query="SELECT rotations.ID FROM rotations WHERE rotations.name='$rotation_name'";
+
+		if($name=$connectionrd->query($query)){
+
+			while($rotation=$name->fetch_assoc()){
+
+				$result=$rotation['ID'];
+			}
+		}
+
+		return $result;
+
+		$connectionrd->close();
+	}
+
+	function exception_value_day_hour_subcat(&$day,&$hour,&$cat){
+
+		error_reporting(E_ERROR);
+
+		$connectionap=DBap_connection();
+
+		global $db_nameap;
+
+		mysqli_select_db($connectionap,$db_nameap);
+
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
+		mysqli_select_db($connectionrd,$db_namerd);
+
+		$id_subcat=$cat;
+
+		$actual_week = date ('W', time());
+
+		$actual_year = date ('Y', time());
+
+
+		$date = date_create();
+
+
+		date_isodate_set($date, $actual_year, $actual_week, $day);
+		$now=date_format($date, 'md');
+
+
+		//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
+
+		$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$now' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
+
+		$i=0;
+		$x=0;
+		if($exc_date=$connectionap->query($exception)){
+
+			while($exc=$exc_date->fetch_assoc()){
+
+				$a[$i][$x]=$exc['ID'];
+				$x=1;
+				$a[$i][$x]=$exc['ID_song'];
+				$i++;
+				$x=0;
+			}
+			
+		}
+
+		
+		//Array ID e ID_song di tutte le eccezioni di default
+
+		$default="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE data_in='0'";
+
+		$i=0;
+		$x=0;
+		if($def_date=$connectionap->query($default)){
+
+			while($def=$def_date->fetch_assoc()){
+
+				$b[$i][$x]=$def['ID'];
+				$x=1;
+				$b[$i][$x]=$def['ID_song'];
+				$i++;
+				$x=0;
+			}
+			
+		}
+
+		//Creazione array di $c=$b-$a (default-eccezioni attive) 
+		
+		for($x=0;$x<sizeof($b);$x++){
+
+				$flag=0;
+			if(sizeof($a)==0){
+				$c[]=$b[$x];
+			}else{
+				for($y=0;$y<sizeof($a);$y++){
+
+
+					if($b[$x][1]!=$a[$y][1]){
+						
+						$flag=1;	
+					
+					}else{
+
+						$flag=0;
+						
+						break;
+					}
+
+				}
+				if($flag==1){
+
+					$c[]=$b[$x];
+
+				}
+			}
+			
+		
+		}
+
+		//Compilazione array $c completo di tutte eccezioni di default e le eccezioni attive ora
+		for($x=0;$x<sizeof($a);$x++){
+
+					
+				$c[]=$a[$x];
+
+		}		
+
+		
+		//Creazione array contenente ID song e valore dell'eccezione per ora e giorno passati dalla funzione
+		for($x=0;$x<sizeof($c);$x++){
+
+			$ID_exc=$c[$x][0];
+
+			$ID_song=$c[$x][1];
+
+			$grid="SELECT songs_exceptions.grid FROM songs_exceptions WHERE songs_exceptions.ID='$ID_exc'";
+
+			$Grid=$connectionap->query($grid);
+
+			$result=$Grid->fetch_assoc();
+		
+
+					if($hour==0){
+
+						$y=24*$day;
+					
+					}else{
+
+						$y=24*$day+$hour;
+
+					}
+
+					$array_day[$x][]=$ID_song;
+
+					$array_day[$x][]=$result["grid"][$y];
+
+		}
+
+		
+		//Creazione array contentente ID song della categoria passsata dalla funzione
+		$query="SELECT ID FROM songs WHERE id_subcat='$id_subcat'";
+
+		if($song_subcat=$connectionrd->query($query)){
+
+			while($song=$song_subcat->fetch_assoc()){
+
+				$category[]=$song['ID'];
+
+			}
+		}
+
+		//Creazione Array risultante contentente tracce della categoria passata e valore eccezione per giorno e ora 
+		for($x=0;$x<sizeof($category);$x++){
+
+			for($y=0;$y<sizeof($array_day);$y++){
+
+				if($category[$x]==$array_day[$y][0]){
+
+					$res[]=$array_day[$y][1];
+				}
+
+			}
+		}
+
+		//print_r($res);
+		
+		$disattive=0;
+
+		for($x=0;$x<sizeof($res);$x++){
+
+			if($res[$x]==1){
+
+				$disattive+=1;
+
+			}
+		}
+
+		return $disattive;
+		error_reporting(E_ALL);
+		$connectionrd->close();
+		$connectionap->close();
+
+	}
 ?>	

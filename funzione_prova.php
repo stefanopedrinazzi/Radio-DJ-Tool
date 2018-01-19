@@ -65,11 +65,19 @@
 
 	mysqli_select_db($connectionap,$db_nameap);
 
+	$connectionrd=DBrd_connection();
+
+	global $db_namerd;
+
+	mysqli_select_db($connectionrd,$db_namerd);
+
 	$data=$_POST['data'];
 
-	$var= $_POST['categoria'];
+	$cat= $_POST['categoria'];
 
-	$explode = explode('~', $var);
+	$hour=2;
+
+	$explode = explode('~', $cat);
 
 //	print_r($explode);
 
@@ -106,6 +114,13 @@
 
 	//echo $actual_day ."<br>";
 
+	/*$ID_song_subcat="SELECT songs.ID FROM songs id_subcat='$id_subcat'";
+
+		if($song_subcat=$connectionrd->query($ID_song_subcat)){
+
+		while($song=$song_subcat->fetch_assoc()){
+
+			$IDsong=$song['ID'];*/
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
 	$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$now' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
@@ -125,9 +140,9 @@
 		
 	}
 
-	//echo "a:";
-	//print_r($a);
-	//echo "<br><br><br>";
+	echo "a:";
+	print_r($a);
+	echo "<br><br><br>";
 	
 	//Array ID e ID_song di tutte le eccezioni di default
 
@@ -147,9 +162,9 @@
 		}
 		
 	}
-	//echo "b:";
-	//print_r($b);
-	//echo "<br><br><br><br>";
+	echo "b:";
+	print_r($b);
+	echo "<br><br><br><br>";
 
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
 	
@@ -192,11 +207,10 @@
 
 	}		
 
-	//echo "c:";	
-	//print_r($c);
-	//echo"<br><br><br>";
-
-
+	echo "c:";	
+	print_r($c);
+	echo"<br><br><br>";
+	
 	for($x=0;$x<sizeof($c);$x++){
 
 		$ID_exc=$c[$x][0];
@@ -210,26 +224,25 @@
 		$result=$Grid->fetch_assoc();
 	
 
-		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
+				if($hour==0){
 
-				$array_day[]=$result["grid"][$y];
-		
-		}
-		
-		
-			$matrix[$x][]=$ID_song;
+					$y=24*$actual_day;
+				
+				}else{
 
-		for($z=$x*24;$z<($x*24)+24;$z++){
+					$y=24*$actual_day+$hour;
 
-		
-		$matrix[$x][]=$array_day[$z];
+				}
 
-		
+				$array_day[$x][]=$ID_song;
 
-		}
+				$array_day[$x][]=$result["grid"][$y];
+
 	}
+
+
 	
-	//print_r($matrix);
+	print_r($array_day);
 
 	$connectionrd=DBrd_connection();
 
@@ -237,171 +250,57 @@
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
-	$i=0;
+	
 
-	$query="SELECT * FROM songs WHERE id_subcat='$id_subcat' AND enabled='1'";
+	$query="SELECT ID FROM songs WHERE id_subcat='$id_subcat'";
 
 	if($song_subcat=$connectionrd->query($query)){
 
 		while($song=$song_subcat->fetch_assoc()){
 
 			$category[]=$song['ID'];
-			//$category[$i][]=$song['enabled'];
-
-			//echo $song['ID'].": ".$song['enabled'];
-
-			//echo "<br>";
-
-			$i++;
 
 		}
 	}
+
 	//echo "<br><br><br>";
 	//print_r($category);
 
-	
 
 	for($x=0;$x<sizeof($category);$x++){
 
-		for($y=0;$y<sizeof($matrix);$y++){
+		for($y=0;$y<sizeof($array_day);$y++){
 
-			if($category[$x]==$matrix[$y][0]){
+			if($category[$x]==$array_day[$y][0]){
 
-				$res[]=$matrix[$y];
+				$res[]=$array_day[$y][1];
 			}
 
 		}
 	}
 	//echo "<br><br><br>";
-	//print_r($res);
+	print_r($res);
 
-	$disabled=0;
+	$disattive=0;
 
-	for($y=1;$y<=24;$y++){
+	for($x=0;$x<sizeof($res);$x++){
 
-		for($x=0;$x<sizeof($matrix);$x++){
+		if($res[$x]==1){
 
+			$disattive+=1;
 
-			if ($res[$x][$y]==1){
-
-				$disabled+=1;
-
-			}
 		}
-		$arrayhour[$y-1][0]=$disabled;
-		$arrayhour[$y-1][1]=sizeof($category)-$disabled;
-		$disabled=0;
 	}
-	//echo "<br><br><br><br>";
-	//print_r($arrayhour);
+	echo "<br><br><br>";
+	
+	echo $disattive;
 
-	$stamp="<table><tr>
-				<td></td>
-				<td>00</td>
-				<td>01</td>
-				<td>02</td>
-				<td>03</td>
-				<td>04</td>
-				<td>05</td>
-				<td>06</td>
-				<td>07</td>
-				<td>08</td>
-				<td>09</td>
-				<td>10</td>
-				<td>11</td>
-				<td>12</td>
-				<td>13</td>
-				<td>14</td>
-				<td>15</td>
-				<td>16</td>
-				<td>17</td>
-				<td>18</td>
-				<td>19</td>
-				<td>20</td>
-				<td>21</td>
-				<td>22</td>
-				<td>23</td>
-				</tr>
-				<tr>
-				<td>tracce attive</td>
-				";
-	for($x=0;$x<24;$x++){
+	echo "<br><br><br>";
 
-		$stamp.="<td>".$arrayhour[$x][1]."</td>";
-
-	}
-
-	$stamp.="</tr><tr><td>tracce disattive</td>";
-
-	for($x=0;$x<24;$x++){
-
-		$stamp.="<td>".$arrayhour[$x][0]."</td>";
-
-	}
-	$stamp.="</tr></table>";
 
 	$connectionrd->close();
 	$connectionap->close();
 
 
-	?>
-
-<!DOCTYPE html>
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<title>Informazioni eccezioni per categoria</title>
-
-		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
-		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
-  		<script src="js/semantic.min.js"></script>
-
-  		<script type="text/javascript">
-  			$(document).ready(function(){
-
-  				$("#annulla").on('click',function(){
 	
-					window.location.href = ("report_data.php");
-  				});
-  			});
-
-  		</script>
-	</head>
-	<body>
-		<table class="ui blue table">
-			<tr>
-				<td>
-					<h3><?php if($now==""){
-						echo "Risultati per oggi "; 
-					}else{
-						echo "Risultati per la categoria ".$categoria." , per il giorno ".$data;
-					}
-					?></h3>
-				</td>
-			</tr>
-			<tr>
-			</tr>
-			<tr>
-				<td>
-					<div class="ui form">
-  						<div class="field">
-    						<h4 class="ui header" style="margin-top:10px">
- 		 						<i class="info icon"></i>
-  									<div class="content">
-    									Eccezioni orarie
-  									</div>
-							</h4>
-    							<?php echo $stamp ?>
-    					</div>
-  					</div>
-					
-				</td>	
-			</tr>
-		</table>
-		<div>
-		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px">
-	  		<i class="reply icon"></i><label>Chiudi</label>
-		</button>
-	</div>
-	</body>
-</html>
+	?>

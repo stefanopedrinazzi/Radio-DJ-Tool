@@ -98,6 +98,7 @@
   				$('#eccezioni').prop("disabled",false);
   				$('#validazione').prop("disabled",false);
   				$('#informazioni').prop("disabled",false);
+  				$('#rotazione').prop("disabled",false);
   			}			
 
 	  		$('#validazione').on('click',function(){
@@ -121,6 +122,12 @@
 			$('#informazioni').on('click',function(){
 	
 				window.location.href = ("report_data.php");
+
+			});	
+
+			$('#rotazione').on('click',function(){
+	
+				window.location.href = ("pianifica_rotazioni.php");
 
 			});	
 
@@ -154,6 +161,17 @@
 				<td class="center aligned">
 					<button id="eccezioni" class="fluid big ui blue button" disabled="true">
   					<i class="share icon"></i><label>Eccezioni Traccia</label>
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h3>Tool per la creazione e la modifica della programmazione musicale</h3>
+					permette di definire e modificare la programmazione musicale settimanale pianificando per ogni ora la rotazione da caricare.
+				</td>
+				<td class="center aligned">
+					<button id="rotazione" class="fluid big ui blue button" disabled="true">
+  					<i class="share icon"></i><label>Pianifica Rotazioni</label>
 					</button>
 				</td>
 			</tr>

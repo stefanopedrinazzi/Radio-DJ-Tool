@@ -99,6 +99,7 @@
   				$('#validazione').prop("disabled",false);
   				$('#informazioni').prop("disabled",false);
   				$('#rotazione').prop("disabled",false);
+  				$('#report').prop("disabled",false);
   			}			
 
 	  		$('#validazione').on('click',function(){
@@ -131,6 +132,11 @@
 
 			});	
 
+			$('#report').on('click',function(){
+	
+				window.location.href = ("cruscotto_settimanale.php");
+
+			});	
 
 	  	});
 
@@ -166,6 +172,17 @@
 			</tr>
 			<tr>
 				<td>
+					<h3>Tool per ottenere informazioni sulle eccezioni per categoria</h3>
+					permette di ottenere il numero di eccezioni per categoria dato un giorno.
+				</td>
+				<td class="center aligned">
+					<button id="informazioni" class="fluid big ui blue button" disabled="true">
+  					<i class="share icon"></i><label>Informazioni per Categoria</label>
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<h3>Tool per la creazione e la modifica della programmazione musicale</h3>
 					permette di definire e modificare la programmazione musicale settimanale pianificando per ogni ora la rotazione da caricare.
 				</td>
@@ -177,12 +194,12 @@
 			</tr>
 			<tr>
 				<td>
-					<h3>Tool per ottenere informazioni sulle eccezioni per categoria</h3>
-					permette di ottenere il numero di eccezioni per categoria e giorno.
+					<h3>Tool per visualizzare il report settimanale per categoria</h3>
+					permette di visualizzare il consumo settimanale delle tracce per una determinata categoria.
 				</td>
 				<td class="center aligned">
-					<button id="informazioni" class="fluid big ui blue button" disabled="true">
-  					<i class="share icon"></i><label>Informazioni per Categoria</label>
+					<button id="report" class="fluid big ui blue button" disabled="true">
+  					<i class="share icon"></i><label>Report Settimanale</label>
 					</button>
 				</td>
 			</tr>

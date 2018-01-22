@@ -325,10 +325,13 @@
 				<tr>
 				<td>tracce attive</td>
 				";
+	$active="[";
+	$notactive="[";
+
 	for($x=0;$x<24;$x++){
 
 		$stamp.="<td>".$arrayhour[$x][1]."</td>";
-
+		$active.="".$arrayhour[$x][1].", ";
 	}
 
 	$stamp.="</tr><tr><td>tracce disattive</td>";
@@ -336,13 +339,19 @@
 	for($x=0;$x<24;$x++){
 
 		$stamp.="<td>".$arrayhour[$x][0]."</td>";
-
+		if($x==23){
+		$notactive.="".$arrayhour[$x][0]." ";	
+		}else{
+		$notactive.="".$arrayhour[$x][0].", ";
+	}
 	}
 	$stamp.="</tr></table>";
 
+	$active.="],";
+	$notactive.="],";
+
 	$connectionrd->close();
 	$connectionap->close();
-
 
 	?>
 
@@ -355,6 +364,7 @@
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
   		<script src="js/semantic.min.js"></script>
+  		<script src="js/Chart.js"></script>
 
   		<script type="text/javascript">
   			$(document).ready(function(){
@@ -368,6 +378,7 @@
   		</script>
 	</head>
 	<body>
+		
 		<table class="ui blue table">
 			<tr>
 				<td>
@@ -391,7 +402,63 @@
     									Eccezioni orarie
   									</div>
 							</h4>
-    							<?php echo $stamp ?>
+    							<div id="container" style="width: 75%;margin:0 auto;">
+        							<canvas id="canvas"></canvas>
+    							</div>
+   
+					    <script>
+					    var densityCanvas = document.getElementById("canvas");
+
+					    Chart.defaults.global.defaultFontFamily = "Lato";
+					    Chart.defaults.global.defaultFontSize = 15;
+
+					    var activeData = {
+						  	label: 'attive',
+							data:<?php echo $active ?>
+							backgroundColor: 'rgba(0, 200, 0, 0.6)',
+							borderWidth: 0
+						};
+
+						var notactiveData = {
+							label: 'disattive',
+							data: <?php echo $notactive ?>
+							backgroundColor: 'rgba(200, 0, 0, 0.6)',
+							borderWidth: 0
+							
+						};
+
+						var songData = {
+						  labels: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" ],
+						  datasets: [activeData, notactiveData]
+						};
+
+						var chartOptions = {
+						  scales: {
+						    xAxes: [{
+						      barPercentage: 1,
+						      categoryPercentage: 0.6
+						    }],
+						     yAxes: [{
+            display: true,
+            ticks: {
+                suggestedMin: 0,   
+                callback: function(value, index, values) {
+        			if (Math.floor(value) === value) {
+            			return value;
+        			}
+    			}
+            }
+        }]
+						  }
+						};
+
+						var barChart = new Chart(densityCanvas, {
+						  type: 'bar',
+						  data: songData,
+						  options: chartOptions
+						});
+
+					    </script>
     					</div>
   					</div>
 					

@@ -295,9 +295,6 @@
 	
 	echo $disattive;
 
-	echo "<br><br><br>";
-
-
 	$connectionrd->close();
 	$connectionap->close();
 

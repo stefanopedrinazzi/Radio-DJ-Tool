@@ -331,6 +331,10 @@
 					window.location.href = ("main_menu.php");
   				});
 
+  				$("#report_settimanale").on('click',function(){
+	
+					window.open("cruscotto_settimanale.php");
+  				});
 
   				$('.ui .dropdown').on('change',function(){
 
@@ -408,9 +412,9 @@
 						data: { obj: obj},
 						success: function(){
 
-							alert("Pianificazione salvata.")
+							alert("Pianificazione salvata.");
 
-							location.reload(true);
+							location.reload();
 
 						}
 					});	
@@ -1254,6 +1258,9 @@
 		</button>
 		<button id="salva" class="big right floated ui icon labeled primary button">
   			<i class="checkmark icon"></i><label>Salva</label>
+		</button>
+		<button id="report_settimanale" class="big ui icon labeled button" style="margin-left:10px">
+  			<i class="plus square outline icon icon"></i><label>Report</label>
 		</button>
 		</div>
 	</body>

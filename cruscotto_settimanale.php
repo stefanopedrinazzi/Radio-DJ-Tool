@@ -109,7 +109,7 @@
 	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Cruscotto Settimanale</title>
+		<title>Prospetto Settimanale</title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -170,6 +170,14 @@
 					}
   				
   				var categoria=$('#sottocategoria').val();
+
+  					if(categoria==0){
+			  			$("#consolida").prop("disabled",true);
+						$("#category.folder").removeClass("open");
+					}else{
+						$("#consolida").prop("disabled",false);
+						$("#category.folder").addClass("open");	  			
+				  	}
 
   					if(categoria==0){
   						$('#caricamento').removeClass("active");
@@ -241,18 +249,24 @@
 
 				});
 
+				$('#annulla').on('click',function(){
+	
+					window.location.href = ('main_menu.php');
+
+				});	
+
 
   			});
 
   		</script>
 	</head>
 	<body>
-		<h2 class="ui blue center aligned header" style="margin-top:20px">Cruscotto settimanale</h2>
+		<h2 class="ui blue center aligned header" style="margin-top:20px">Prospetto Settimanale</h2>
 		<table class="ui blue table"></table>
 		<div style="line-height:0;width:70%;margin:0 auto;">
 		
-		<strong style="margin-left:30px">Seleziona la sottocategoria:</strong>
-		
+		<strong style="margin-left:30px">Seleziona la categoria: </strong>
+		<i style="margin-left:30px" id="category" class="large folder outline icon"></i>
 		<select class="ui focus dropdown" id="sottocategoria" name="sottocategoria">
 			<option value="0" selected="selected">Nessuna <?php echo $stamp_category; ?></option>
 		</select>
@@ -261,10 +275,10 @@
 		
 		<div style="line-height:0;width:70%;margin:0 auto;">
 		
-		<strong style="margin-left:30px">N° Chiamate categoria per ora/ N° eccezioni </strong>
-			<a class="ui green circular label"><label></label>1/1</a>
+		<strong style="margin-left:30px">N° chiamate categoria per ora/ N° eccezioni </strong>
+			<a style="margin-left:30px" class="ui green circular label"><label></label>1/1</a>
 		<strong style="margin-left:30px">Esaurite tracce per categoria</strong>
-			<a class="ui red circular label"><label></label>1/1</a>
+			<a style="margin-left:30px" class="ui red circular label"><label></label>1/1</a>
 			<br>
 		</div> 
 		<div id="caricamento" class="ui inverted dimmer">

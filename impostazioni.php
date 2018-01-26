@@ -2,6 +2,8 @@
 	
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
 	//richiamo della funzione per fare il check del file config.txt per la connessione
 	if(check_config()==1){
 
@@ -57,7 +59,7 @@
 			//controllo dei valori necessari
 			if(nomedb=="" || nomehost=="" || toolusr=="" || usr=="" || path==""){
 
-				alert("Devi inserire nome del database, host, Username e path.");
+				alert("<?php echo $translation['alert_login']?>");
 			}else{
 
 			//richiamo del file per testare la connessione con i valori inseriti  
@@ -72,7 +74,7 @@
 
 						//check dei risultati restituiti dalla funzione per il test della connessione
 						if(res===0){
-							alert("I parametri inseriti non sono corretti");
+							alert("<?php echo $translation['alert_login_not_correct']?>");
 				
 						}else{
 
@@ -83,7 +85,7 @@
 						        data: { nomedb: nomedb, nomehost: nomehost,usr: usr,pwd: pwd,toolusr: toolusr,toolpwd: toolpwd, path: path},
 						        success: function(result) {
 					        	
-					            	alert("Operazione andata a buon fine.");
+					            	alert("<?php echo $translation['alert_login_correct']?>");
 					            	window.location.href = ('main_menu.php');
 				        		}
 				    		});
@@ -108,13 +110,13 @@
 </head>
 <body>
 
-	<h3 class="ui center aligned header" style="margin-top:40px">Impostazioni</h3>
+	<h3 class="ui center aligned header" style="margin-top:40px"><?php echo $translation['label_settings']?></h3>
 
 
 	<table id="menutable" class="ui blue large table" style="margin-top:40px">
 		<tr  class="center aligned">
 			<td>
-				<h4>Nome del Database di RadioDJ:</h4>
+				<h4><?php echo $translation['label_database_name_RDJ']?></h4>
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">
@@ -124,7 +126,7 @@
 		</tr>
 		<tr  class="center aligned">
 			<td>
-				<h4>Nome Host RadioDJ (e Tool):</h4>
+				<h4><?php echo $translation['label_host_name']?></h4>
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">
@@ -134,7 +136,7 @@
 		</tr>
 		<tr  class="center aligned">
 			<td>
-				<h4>Username RadioDJ:</h4>
+				<h4><?php echo $translation['label_RDJ_user_name']?></h4>
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">
@@ -144,7 +146,7 @@
 		</tr>
 		<tr  class="center aligned">
 			<td>
-				<h4>Password RadioDJ:</h4>
+				<h4><?php echo $translation['label_RDJ_password']?></h4>
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">
@@ -175,7 +177,7 @@
 		<tr  class="center aligned">
 			<td>
 				<h4>Root Directory:</h4>
-				(per consolidare le categorie)
+				
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">
@@ -187,10 +189,10 @@
 	</table>
 
 	<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-right:30px">
-  		<i class="window close icon"></i><label>Chiudi</label>
+  		<i class="window close icon"></i><label><?php echo $translation['label_close']?></label>
 	</button>
 	<button id="conferma" class=" big right floated ui icon labeled primary button">
-  		<i class="checkmark icon"></i><label>Aggiungi</label>
+  		<i class="checkmark icon"></i><label><?php echo $translation['label_save']?></label>
 	</button>
 
 

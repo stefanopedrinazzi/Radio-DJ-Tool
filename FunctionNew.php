@@ -1,4 +1,6 @@
 <?php
+
+	include("languages/eng.php");
 	 
 	ini_set('memory_limit','512M');
 
@@ -203,7 +205,7 @@
 		$connectionrd->close();
 		$connectionap->close();
 			
-		return "tabella di appoggio aggiornata con successo. \n\n";
+		return $translation['info_support_table'];
 
 	}
 
@@ -251,7 +253,7 @@
 						//imposto il flag 
 						$flag=1;
 
-						$info.= "è presente nella quelist, verrà spostata successivamente.\n\n";
+						$info.= $translation['info_quelist'];
 
 						break;
 			
@@ -275,22 +277,8 @@
 			
 				$new_path=$sql_new_path['new_path'];
 
-				//echo $old_path ."<br>". $new_path."<br>";
 
 				$info.= "New path: " .$new_path . "\n";
-
-				/*if (file_exists($old_path)){
-					echo "esiste <br>";
-				}*/
-
-				//$old_path=str_replace('\'', "''", $old_path);
-
-				//$new_path=str_replace('\'', "''", $new_path);
-
-				//$old_path=addslashes($old_path);
-
-				//$new_path=addslashes($new_path);	
-
 
 				if(rename($old_path, $new_path)===TRUE){
 
@@ -298,9 +286,7 @@
 
 						if(rename($old_path.".wfrm",$new_path.".wfrm")===TRUE){
 
-						
-
-							$info.="Copia CUE-file avvenuta con successo. \n";
+							$info.=$translation['info_cue_file'];
 
 						}
 
@@ -313,7 +299,7 @@
 					$new=addcslashes($update, '\\');
 
 					if($connectionrd->query($new)){
-	    				$info.= "Copia file avvenuta con successo. \n";
+	    				$info.= $translation['info_copy_file'];
 					} else {
 						$info.= "ERROR: Could not able to execute $new. " . mysqli_error($connectionrd) ."<br>";
 					}
@@ -321,14 +307,14 @@
 					$delete ="DELETE FROM moving_list WHERE moving_list.ID='$songID'";
 
 					if($connectionap->query($delete)){
-	    				$info.= "Eliminazione file avvenuta con successo. \n\n";
+	    				$info.= $translation['info_delete_file'];
 					} else {
 						$info.= "ERROR: Could not able to execute $delete. " . mysqli_error($connectionap) ."<br>";
 					}
 					
 				}
 				else{
-					$info.="Errore nello spostamento del file\n\n";	
+					$info.=$translation['info_error_file'];	
 					continue;
 				}	
 					
@@ -484,6 +470,8 @@
 
 	function Convert_date(&$data){
 
+		include("languages/eng.php");
+
 		$date="";
 		
 		$app= "";
@@ -496,40 +484,40 @@
 			$app=$explode[1];
 			
 			switch ($app) {
-	    		case "Gennaio":
+	    		case $translation['label_january']:
 	        		$app="01";
 	        		break;
-	    		case "Febbraio":
+	    		case $translation['label_february']:
 	        		$app="02";
 	        		break;
-	        	case "Marzo":
+	        	case $translation['label_march']:
 	        		$app="03";
 	        		break;
-	        	case "Aprile":
+	        	case $translation['label_april']:
 	        		$app="04";
 	        		break;
-	        	case "Maggio":
+	        	case $translation['label_may']:
 	        		$app="05";
 	        		break;
-	        	case "Giugno":
+	        	case $translation['label_june']:
 	        		$app="06";
 	        		break;
-	        	case "Luglio":
+	        	case $translation['label_july']:
 	        		$app="07";
 	        		break;
-	        	case "Agosto":
+	        	case $translation['label_august']:
 	        		$app="08";
 	        		break;
-	        	case "Settembre":
+	        	case $translation['label_september']:
 	        		$app="09";
 	        		break;
-	        	case "Ottobre":
+	        	case $translation['label_october']:
 	        		$app="10";
 	        		break;
-	        	case "Novembre":
+	        	case $translation['label_november']:
 	        		$app="11";
 	        		break;
-	        	case "Dicembre":
+	        	case $translation['label_december']:
 	        		$app="12";
 	        		break;		
 			}
@@ -658,7 +646,6 @@
 				
 				$end=Convert_date_name($riga['data_out']);
 
-
 				if($start=="Default"){
 					$end="";
 
@@ -691,59 +678,57 @@
 
 	function Convert_date_name(&$data){
 
-		$day=substr($data,-2);
+		include("languages/eng.php");
 
-		//$mese=explode($day,$data);
+		$day=substr($data,-2);
 
 		if(strlen($data)==4){
 
 		$mese=substr($data, 0,2);
+
 		}else{
+
 		$mese=substr($data, 0,1);	
+
 		}
 
-		//$explode=explode('-', $data);
-
-		//$mese=$explode[0];
-		//$mese=$mese[0];
-
 		switch ($mese) {
-	    		case "1":
-	        		$mese="Gennaio";
-	        		break;
-	    		case "2":
-	        		$mese="Febbraio";
-	        		break;
-	        	case "3":
-	        		$mese="Marzo";
-	        		break;
-	        	case "4":
-	        		$mese="Aprile";
-	        		break;
-	        	case "5":
-	        		$mese="Maggio";
-	        		break;
-	        	case "6":
-	        		$mese="Giugno";
-	        		break;
-	        	case "7":
-	        		$mese="Luglio";
-	        		break;
-	        	case "8":
-	        		$mese="Agosto";
-	        		break;
-	        	case "9":
-	        		$mese="Settembre";
-	        		break;
-	        	case "10":
-	        		$mese="Ottobre";
-	        		break;
-	        	case "11":
-	        		$mese="Novembre";
-	        		break;
-	        	case "12":
-	        		$mese="Dicembre";
-	        		break;
+	    				case "1":
+        					$mese = $translation['label_january'];
+        					break;
+					    case "2":
+					        $mese = $translation['label_february'];
+					        break;
+					    case "3":
+					        $mese = $translation['label_march'];
+					        break;
+            			case "4":
+        					$mese = $translation['label_april'];
+        					break;
+					    case "5":
+					        $mese = $translation['label_may'];
+					        break;
+					    case "6":
+					        $mese = $translation['label_june'];
+					        break;
+					   	case "7":
+        					$mese = $translation['label_july'];
+        					break;
+					    case "8":
+					        $mese = $translation['label_august'];
+					        break;
+					    case "9":
+					        $mese = $translation['label_september'];
+					        break;
+					    case "10":
+        					$mese = $translation['label_october'];
+        					break;
+					    case "11":
+					        $mese = $translation['label_november'];
+					        break;
+					    case "12":
+					        $mese = $translation['label_december'];
+					        break;
 	        	default:
 	        		$mese="Default";			
 			}
@@ -791,12 +776,12 @@
 
 		$is_active="";
 
-		if($status==0){
+		if($status===0){
 			$status=1;
-			$is_active.= "Traccia attiva ";
+			$is_active.= $translation['info_active_track'];
 		}else{
 			$status=0;
-			$is_active.= "Traccia disattiva ";
+			$is_active.= $translation['info_noactive_track'];
 		}
 
 		$connectionrd=DBrd_connection();
@@ -902,6 +887,8 @@
 	}
 
 	function get_id_from_rotation(&$rotation_name){
+
+		$result="";
 
 		$connectionrd=DBrd_connection();
 

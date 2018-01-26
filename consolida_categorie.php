@@ -2,6 +2,8 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
 	//connessione al database di RadioDJ
 	$connectionrd=DBrd_connection();
 
@@ -31,7 +33,7 @@
 	<head>
 
 		
-		<title>Consolida Categorie</title>
+		<title><?php echo $translation['title_consolidate_category']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -74,7 +76,7 @@
 	<h3 class="ui header" style="margin-top:10px; margin-left:10px">
  		 <i class="folder outline icon"></i>
   			<div class="content">
-    			Consolida le categorie
+    			<?php echo $translation['title_consolidate_category']?>
   			</div>
 	</h3>
 
@@ -84,12 +86,12 @@
 		<tr class="center aligned">
 
 			<td>
-				<h4>seleziona la categoria da consolidare:</h4>
+				<h4><?php echo $translation['text_select_category'] ." to consolidate:"?></h4>
 			</td>	
 			<td>
 				<i id="category" class="large folder outline icon"></i>
 				<select id="cat" class="big ui selection dropdown" name="categoria">
-					<option value="0" selected="selected">Nessuna</option>
+					<option value="0" selected="selected"><?php echo $translation['label_none']?></option>
 					<?php echo $stamp_category; ?>
 				</select>
 			</td>
@@ -97,11 +99,11 @@
 
 	</table>
 
-		<button id="annulla" class=" big red right floated ui icon labeled button" type="reset" style="margin-top:10px; margin-right:30px">
-  			<i class="window close icon"></i><label>Chiudi</label>
+		<button id="annulla" class=" big right floated ui icon labeled button" type="reset" style="margin-top:10px; margin-right:30px">
+  			<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 		<button id="consolida" class="big right floated ui icon labeled primary button" type="submit" disabled="true" style="margin-top:10px;">
-  			<i class="checkmark icon"></i><label>Consolida</label>
+  			<i class="checkmark icon"></i><label><?php echo $translation['label_consolidate_button']?></label>
 		</button>
 
 		</form>	

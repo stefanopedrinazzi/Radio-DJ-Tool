@@ -2,6 +2,9 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
+	//acquisizione dei dati per la connessione ai database
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -32,7 +35,7 @@
 	$toolusr=str_replace($order, $replace,$toolusr);
 	$toolpwd=str_replace($order, $replace,$toolpwd);
 
-	
+	//test di connessione ai due database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -49,6 +52,7 @@
 
 	}
 
+	//assegnazione delle variabili di sessione per la connessione ai database
 	if($control==1){
 		$_SESSION['db_namerd']=$nomedbrd;
 		$_SESSION['hostnamerd']=$hostname;
@@ -59,52 +63,40 @@
 	
 	}
 
+	//connessione al database di appoggio
 	$connectionap=DBap_connection();
 
 	global $db_nameap;
 
 	mysqli_select_db($connectionap,$db_nameap);
 
+	//assegnazione variabili ricavate tramite POST
 	$data=$_POST['data'];
 
 	$var= $_POST['categoria'];
 
 	$explode = explode('~', $var);
 
-//	print_r($explode);
-
 	$categoria=$explode[1];
 
 	$id_subcat=$explode[0];
 
-	//echo $data."<br>";
-
+	//conversione della data corrente mediante funzione
 	$now=Convert_date($data);
-
-	//echo $now."<br>";
-	//$now=different_convert_date($now);
 
 	if($now==""){
 
 	$actual_day = date ('N', time())-1;
 
 	}else{
-	
-	//echo $now."<br>";
 
 	$mytime= different_convert_date($now).", 00:00:00";
 
-	//echo $mytime."<br>";
-
 	$mytime=strtotime($mytime);
-
-	//echo $mytime."<br>";
 
 	$actual_day = date('N', $mytime)-1;
 
 	}
-
-	//echo $actual_day ."<br>";
 
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
@@ -125,10 +117,6 @@
 		
 	}
 
-	//echo "a:";
-	//print_r($a);
-	//echo "<br><br><br>";
-	
 	//Array ID e ID_song di tutte le eccezioni di default
 
 	$default="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE data_in='0'";
@@ -147,9 +135,6 @@
 		}
 		
 	}
-	//echo "b:";
-	//print_r($b);
-	//echo "<br><br><br><br>";
 
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
 	
@@ -190,13 +175,10 @@
 				
 			$c[]=$a[$x];
 
-	}		
+	}
+	
 
-	//echo "c:";	
-	//print_r($c);
-	//echo"<br><br><br>";
-
-
+	//creazione della matrice contenente ID delle canzoni e le informazioni delle eccezioni attive per la data selezionata
 	for($x=0;$x<sizeof($c);$x++){
 
 		$ID_exc=$c[$x][0];
@@ -209,28 +191,23 @@
 
 		$result=$Grid->fetch_assoc();
 	
-
+		//creazione array contenente i valori delle eccezioni per ogni traccia
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
 
 				$array_day[]=$result["grid"][$y];
 		
 		}
-		
-		
-			$matrix[$x][]=$ID_song;
+
+		$matrix[$x][]=$ID_song;
 
 		for($z=$x*24;$z<($x*24)+24;$z++){
-
 		
 		$matrix[$x][]=$array_day[$z];
-
-		
 
 		}
 	}
 	
-	//print_r($matrix);
-
+	//connessione al database di RadioDJ
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;
@@ -239,6 +216,8 @@
 
 	$i=0;
 
+
+	//creazione array contenente l'ID delle canzoni presente nella categoria selezionata 
 	$query="SELECT * FROM songs WHERE id_subcat='$id_subcat' AND enabled='1'";
 
 	if($song_subcat=$connectionrd->query($query)){
@@ -246,24 +225,18 @@
 		while($song=$song_subcat->fetch_assoc()){
 
 			$category[]=$song['ID'];
-			//$category[$i][]=$song['enabled'];
-
-			//echo $song['ID'].": ".$song['enabled'];
-
-			//echo "<br>";
 
 			$i++;
 
 		}
 	}
-	//echo "<br><br><br>";
-	//print_r($category);
 
 	
-
+	//creazione dell'array confrontanto gli ID della cateogria e gli ID delle eccezioni per la data selezionata
 	for($x=0;$x<sizeof($category);$x++){
 
 		for($y=0;$y<sizeof($matrix);$y++){
+
 
 			if($category[$x]==$matrix[$y][0]){
 
@@ -272,94 +245,65 @@
 
 		}
 	}
-	//echo "<br><br><br>";
-	//print_r($res);
-
+	
+	
+	//creazione array contenente le tracce attive e disattive per ogni ora e giorno delle tracce della categoria
 	$disabled=0;
 
 	for($y=1;$y<=24;$y++){
 
 		for($x=0;$x<sizeof($matrix);$x++){
 
-
-			if ($res[$x][$y]==1){
+			//echo $res[$x][$y]."\n";
+			if ($res[$x][$y]!=0){
 
 				$disabled+=1;
 
 			}
 		}
+		
 		$arrayhour[$y-1][0]=$disabled;
 		$arrayhour[$y-1][1]=sizeof($category)-$disabled;
 		$disabled=0;
 	}
-	//echo "<br><br><br><br>";
-	//print_r($arrayhour);
-
-	$stamp="<table><tr>
-				<td></td>
-				<td>00</td>
-				<td>01</td>
-				<td>02</td>
-				<td>03</td>
-				<td>04</td>
-				<td>05</td>
-				<td>06</td>
-				<td>07</td>
-				<td>08</td>
-				<td>09</td>
-				<td>10</td>
-				<td>11</td>
-				<td>12</td>
-				<td>13</td>
-				<td>14</td>
-				<td>15</td>
-				<td>16</td>
-				<td>17</td>
-				<td>18</td>
-				<td>19</td>
-				<td>20</td>
-				<td>21</td>
-				<td>22</td>
-				<td>23</td>
-				</tr>
-				<tr>
-				<td>tracce attive</td>
-				";
+	
+	
 	$active="[";
 	$notactive="[";
 
+	//creazione variabili da utilizzare nel grafico
 	for($x=0;$x<24;$x++){
 
-		$stamp.="<td>".$arrayhour[$x][1]."</td>";
+		if($x==23){
+		$active.="".$arrayhour[$x][1]." ";	
+		}else{
 		$active.="".$arrayhour[$x][1].", ";
+		}
 	}
 
-	$stamp.="</tr><tr><td>tracce disattive</td>";
 
 	for($x=0;$x<24;$x++){
 
-		$stamp.="<td>".$arrayhour[$x][0]."</td>";
 		if($x==23){
 		$notactive.="".$arrayhour[$x][0]." ";	
 		}else{
 		$notactive.="".$arrayhour[$x][0].", ";
+		}
 	}
-	}
-	$stamp.="</tr></table>";
-
+	
 	$active.="],";
 	$notactive.="],";
 
 	$connectionrd->close();
 	$connectionap->close();
 
-	?>
+?>
+
 
 <!DOCTYPE html>
-	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Informazioni eccezioni per categoria</title>
+		<title><?php echo $translation['label_category_information']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -385,7 +329,7 @@
 					<h3><?php if($now==""){
 						echo "Risultati per oggi "; 
 					}else{
-						echo "Risultati per la categoria ".$categoria." , per il giorno ".$data;
+						echo $translation['info_result_category']." ".$categoria." , ".$translation['info_result_day']." ".$data;
 					}
 					?></h3>
 				</td>
@@ -399,75 +343,74 @@
     						<h4 class="ui header" style="margin-top:10px">
  		 						<i class="info icon"></i>
   									<div class="content">
-    									Eccezioni orarie
+    									<?php echo $translation['label_hour_exception']?>
   									</div>
 							</h4>
     							<div id="container" style="width: 75%;margin:0 auto;">
         							<canvas id="canvas"></canvas>
     							</div>
-   
+   						
 					    <script>
-					    var densityCanvas = document.getElementById("canvas");
+						    var densityCanvas = document.getElementById("canvas");
 
-					    Chart.defaults.global.defaultFontFamily = "Lato";
-					    Chart.defaults.global.defaultFontSize = 15;
+						    Chart.defaults.global.defaultFontFamily = "Lato";
+						    Chart.defaults.global.defaultFontSize = 15;
 
-					    var activeData = {
-						  	label: 'attive',
-							data:<?php echo $active ?>
-							backgroundColor: 'rgba(0, 200, 0, 0.6)',
-							borderWidth: 0
-						};
+						    var activeData = {
+							  	label: <?php echo "\"".$translation['label_active']."\"";?>,
+								data:<?php echo $active; ?>
+								backgroundColor: 'rgba(0, 200, 0, 0.6)',
+								borderWidth: 0
+							};
 
-						var notactiveData = {
-							label: 'disattive',
-							data: <?php echo $notactive ?>
-							backgroundColor: 'rgba(200, 0, 0, 0.6)',
-							borderWidth: 0
-							
-						};
+							var notactiveData = {
+								label: <?php echo "\"".$translation['label_inactive']."\"";?>,
+								data: <?php echo $notactive; ?>
+								backgroundColor: 'rgba(200, 0, 0, 0.6)',
+								borderWidth: 0
+								
+							};
 
-						var songData = {
-						  labels: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" ],
-						  datasets: [activeData, notactiveData]
-						};
+							var songData = {
+							  labels: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" ],
+							  datasets: [activeData, notactiveData]
+							};
 
-						var chartOptions = {
-						  scales: {
-						    xAxes: [{
-						      barPercentage: 1,
-						      categoryPercentage: 0.6
-						    }],
-						     yAxes: [{
-            display: true,
-            ticks: {
-                suggestedMin: 0,   
-                callback: function(value, index, values) {
-        			if (Math.floor(value) === value) {
-            			return value;
-        			}
-    			}
-            }
-        }]
-						  }
-						};
+							var chartOptions = {
+							  scales: {
+							    xAxes: [{
+							      barPercentage: 1,
+							      categoryPercentage: 0.6
+							    }],
+							     yAxes: [{
+		           						display: true,
+		            						ticks: {
+							                suggestedMin: 0,   
+								                callback: function(value, index, values) {
+								        			if (Math.floor(value) === value) {
+								            			return value;
+								        			}
+							    			}
+						            	}
+	        					}]
+							  }
+							};
 
-						var barChart = new Chart(densityCanvas, {
-						  type: 'bar',
-						  data: songData,
-						  options: chartOptions
-						});
+							var barChart = new Chart(densityCanvas, {
+							  type: 'bar',
+							  data: songData,
+							  options: chartOptions
+							});
 
 					    </script>
     					</div>
   					</div>
-					
 				</td>	
 			</tr>
 		</table>
 		<div>
 		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px">
-	  		<i class="reply icon"></i><label>Chiudi</label>
+	  		<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 	</div>
 	</body>

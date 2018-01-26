@@ -2,6 +2,9 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
+	//acquisizione dei dati per la connessione ai database
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -32,7 +35,7 @@
 	$toolusr=str_replace($order, $replace,$toolusr);
 	$toolpwd=str_replace($order, $replace,$toolpwd);
 
-	
+	//richiamo funzioni per testare le connessioni dei due database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -59,14 +62,17 @@
 	
 	}
 
+	//connesione al database di RadioDJ
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
+	//controllo dell'esistenza della categoria di eventi "RDJLA-events"
 	if($control=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
 
+		//se non esiste la categoria viene creata
 		if($control->num_rows == 0){
 
 			$insert="INSERT INTO events_categories (name) values ('RDJLA-events')";
@@ -75,11 +81,11 @@
 		
 		}
 	}
-						
+	
+	//creazione degli eventi (24/7) da utilizzare per la pianificazione 					
 	for($x=1;$x<=7;$x++){
 
 		for($y=0;$y<=23;$y++){
-
 
 			if($y-1==-1){
 
@@ -96,6 +102,7 @@
 					$day="&".$d;
 
 				}
+			
 			}else{
 
 				$h=$y-1;
@@ -105,30 +112,27 @@
 				$day="&".$x;
 			}
 
-
-			
-
 			switch ($x) {
 				case '1':
-					$name="Lun";
+					$name=$translation['label_mon'];
 					break;
 				case '2':
-					$name="Mar";
+					$name=$translation['label_tue'];
 					break;
 				case '3':
-					$name="Mer";
+					$name=$translation['label_wed'];
 					break;
 				case '4':
-					$name="Gio";
+					$name=$translation['label_thu'];
 					break;
 				case '5':
-					$name="Ven";
+					$name=$translation['label_fri'];
 					break;
 				case '6':
-					$name="Sab";
+					$name=$translation['label_sat'];
 					break;
 				case '7':
-					$name="Dom";
+					$name=$translation['label_sun'];
 					break;
 			}
 
@@ -146,6 +150,8 @@
 
 				$time="00:59:00";
 
+
+				//acquisizione ID dell'evento RDJA-events
 				if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
 
 					while($riga = mysqli_fetch_assoc($cat)){
@@ -155,22 +161,25 @@
 					}
 				}
 
-				if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='$name'")){
+				//scrittura degli eventi nel database se non esistenti utilizzando giorno e ora ricavati
+				if($exist=$connectionrd->query("SELECT ID FROM events WHERE day='$day' AND hours='$hours'")){
 
 					if($exist->num_rows == 0){
 
-				$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','AutoDJ Enable!')"; 
+					$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','')"; 
 
 					$event=$connectionrd->query($events);
 
+					}else{
+
+					$update="UPDATE events SET name='$name' WHERE day='$day' AND hours='$hours'";
+					
+					$updat=$connectionrd->query($update);
 					}
 				}
 
 			}
 		}
-	
-		
-	
 
  	//creazione delle select box
 	$stamp_name="";
@@ -197,25 +206,25 @@
 
 			switch ($x) {
 				case '1':
-					$name="Lun";
+					$name=$translation['label_mon'];
 					break;
 				case '2':
-					$name="Mar";
+					$name=$translation['label_tue'];
 					break;
 				case '3':
-					$name="Mer";
+					$name=$translation['label_wed'];
 					break;
 				case '4':
-					$name="Gio";
+					$name=$translation['label_thu'];
 					break;
 				case '5':
-					$name="Ven";
+					$name=$translation['label_fri'];
 					break;
 				case '6':
-					$name="Sab";
+					$name=$translation['label_sat'];
 					break;
 				case '7':
-					$name="Dom";
+					$name=$translation['label_sun'];
 					break;
 			}
 
@@ -229,6 +238,7 @@
 									
 			}
 
+			//acquisizione delle rotazioni presenti nel database
 			$data="SELECT data FROM events WHERE name='$name'";
 
 			if($data_events = mysqli_query($connectionrd,$data)){
@@ -259,7 +269,7 @@
 	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Programmazione Settimanale</title>
+		<title<?php echo $translation['label_plan_rotation']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -284,25 +294,25 @@
 							
 							switch(y){
 								case 1:
-									name="Lun";
+									name='<?php echo $translation['label_mon']?>';
 									break;
 								case 2:
-									name="Mar";
+									name='<?php echo $translation['label_tue']?>';
 									break;
 								case 3:
-									name="Mer";
+									name='<?php echo $translation['label_wed']?>';
 									break;
 								case 4:
-									name="Gio";
+									name='<?php echo $translation['label_thu']?>';
 									break;
 								case 5:
-									name="Ven";
+									name='<?php echo $translation['label_fri']?>';
 									break;
 								case 6:
-									name="Sab";
+									name='<?php echo $translation['label_sat']?>';
 									break;
 								case 7:
-									name="Dom";
+									name='<?php echo $translation['label_sun']?>';
 									break;
 							}
 							
@@ -322,7 +332,7 @@
 						}
 					}
 
-  				var print="";
+  				print="";
 
   				var obj ="";
 
@@ -334,6 +344,11 @@
   				$("#report_settimanale").on('click',function(){
 	
 					window.open("cruscotto_settimanale.php");
+  				});
+
+  				$("#statistica").on('click',function(){
+	
+					window.open("statistica.php");
   				});
 
   				$('.ui .dropdown').on('change',function(){
@@ -352,25 +367,25 @@
 							
 							switch(y){
 								case 1:
-									name="Lun";
+									name='<?php echo $translation['label_mon']?>';
 									break;
 								case 2:
-									name="Mar";
+									name='<?php echo $translation['label_tue']?>';
 									break;
 								case 3:
-									name="Mer";
+									name='<?php echo $translation['label_wed']?>';
 									break;
 								case 4:
-									name="Gio";
+									name='<?php echo $translation['label_thu']?>';
 									break;
 								case 5:
-									name="Ven";
+									name='<?php echo $translation['label_fri']?>';
 									break;
 								case 6:
-									name="Sab";
+									name='<?php echo $translation['label_sat']?>';
 									break;
 								case 7:
-									name="Dom";
+									name='<?php echo $translation['label_sun']?>';
 									break;
 							}
 							
@@ -384,7 +399,7 @@
 									
 							}
 							
-							var print=$('#'+ID).val();
+							print=$('#'+ID).val();
 
 							//console.log(print);
 							if(y==7 && x==23){
@@ -397,7 +412,7 @@
 							
 							}
 							
-							//console.log(myJSON);
+							
 						}	
 					}
 				});
@@ -405,6 +420,7 @@
   				$('#salva').on('click',function(){
 	
 					$('#salva').prop("disabled",true);
+					$('#annulla').prop("disabled",true);
 
 					$.ajax({	
 						type: "POST",
@@ -412,9 +428,10 @@
 						data: { obj: obj},
 						success: function(){
 
-							alert("Pianificazione salvata.");
+							alert("<?php echo $translation['alert_plan_saved']?>");
+							$('#annulla').prop("disabled",false);
 
-							location.reload();
+							location.reload(true);
 
 						}
 					});	
@@ -428,32 +445,32 @@
 	</head>
 	<body>
 	
-		<h2 class="ui blue center aligned header" style="margin-top:20px">Programmazione Settimanale</h2>
-		<table class="ui blue sm- Unscheduled - striped table" style="line-height:0">
+		<h2 class="ui blue center aligned header" style="margin-top:20px"><?php echo $translation['label_plan_rotation']?></h2>
+		<table class="ui blue striped table" style="line-height:0">
 			<thead>
 				<tr>
 					<th>
 					</th>
 					<th>
-						<h3>Lunedì</h3>
+						<h3><?php echo $translation['label_monday']?></h3>
 					</th>
 					<th>
-						<h3>Martedì</h3>
+						<h3><?php echo $translation['label_tuesday']?></h3>
 					</th>
 					<th>
-						<h3>Mercoledì</h3>
+						<h3><?php echo $translation['label_wednesday']?></h3>
 					</th>
 					<th>
-						<h3>Giovedì</h3>
+						<h3><?php echo $translation['label_thursday']?></h3>
 					</th>
 					<th>
-						<h3>Venerdì</h3>
+						<h3><?php echo $translation['label_friday']?></h3>
 					</th>
 					<th>
-						<h3>Sabato</h3>
+						<h3><?php echo $translation['label_saturday']?></h3>
 					</th>
 					<th>
-						<h3>Domenica</h3>
+						<h3><?php echo $translation['label_sunday']?></h3>
 					</th>
 				</tr>
 			</thead>
@@ -463,32 +480,47 @@
 					<strong>00:00 - 00:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?>
+					</select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom00" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_00']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -496,32 +528,46 @@
 					<strong>01:00 - 01:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom01" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_01']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>	
 			<tr>
@@ -529,32 +575,46 @@
 					<strong>02:00 - 02:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom02" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_02']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -562,32 +622,46 @@
 					<strong>03:00 - 03:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom03" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_03']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -595,32 +669,46 @@
 					<strong>04:00 - 04:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom04" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_04']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -628,32 +716,46 @@
 					<strong>05:00 - 05:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom05" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_05']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -661,32 +763,46 @@
 					<strong>06:00 - 06:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom06" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_06']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -694,32 +810,46 @@
 					<strong>07:00 - 07:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom07" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_07']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -727,32 +857,46 @@
 					<strong>08:00 - 08:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom08" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_08']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -760,32 +904,46 @@
 					<strong>09:00 - 09:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom09" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_09']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -793,32 +951,46 @@
 					<strong>10:00 - 10:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom10" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_10']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -826,32 +998,46 @@
 					<strong>11:00 - 11:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom11" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_11']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -859,32 +1045,46 @@
 					<strong>12:00 - 12:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom12" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_12']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -892,32 +1092,46 @@
 					<strong>13:00 - 13:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom13" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_13']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -925,32 +1139,46 @@
 					<strong>14:00 - 14:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom14" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_14']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -958,32 +1186,46 @@
 					<strong>15:00 - 15:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom15" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_15']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -991,32 +1233,46 @@
 					<strong>16:00 - 16:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom16" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_16']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1024,32 +1280,46 @@
 					<strong>17:00 - 17:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom17" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_17']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1057,32 +1327,46 @@
 					<strong>18:00 - 18:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom18" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_18']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1090,32 +1374,46 @@
 					<strong>19:00 - 19:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom19" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_19']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1123,32 +1421,46 @@
 					<strong>20:00 - 20:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom20" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_20']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1156,32 +1468,46 @@
 					<strong>21:00 - 21:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom21" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_21']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1189,32 +1515,46 @@
 					<strong>22:00 - 22:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom22" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_22']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			<tr>
@@ -1222,45 +1562,62 @@
 					<strong>23:00 - 00:59</strong>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Lun23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['mon_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mar23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['tue_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Mer23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['wed_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Gio23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['thu_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Ven23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['fri_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Sab23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sat_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 				<td style="padding:2px">
-					<select class="ui dropdown" id="Dom23" name="giorno_ora" style="padding:0; height:22px; width:120px">
-						<option value="0" selected="selected">- Unscheduled -</option> <?php echo $stamp_name; ?> </select>
+					<select class="ui dropdown" id="<?php echo $translation['sun_23']?>" name="giorno_ora" style="padding:0; height:22px; width:120px">
+						<option value="0" selected="selected">- Unscheduled -</option>
+						<option value="1">User option</option>
+						<?php echo $stamp_name; ?> </select>
 				</td>
 			</tr>
 			</tbody>
 		</table>
 		<div>
 		<button id="annulla" class=" big right floated ui icon labeled negative button" style="margin-right:30px">
-	  		<i class="window close icon"></i><label>Chiudi</label>
+	  		<i class="window close icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 		<button id="salva" class="big right floated ui icon labeled primary button">
-  			<i class="checkmark icon"></i><label>Salva</label>
+  			<i class="checkmark icon"></i><label><?php echo $translation['label_save']?></label>
 		</button>
 		<button id="report_settimanale" class="big ui icon labeled button" style="margin-left:10px">
-  			<i class="plus square outline icon icon"></i><label>Report</label>
+  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_weekly_report']?></label>
+		</button>
+		<button id="statistica" class="big ui icon labeled button" style="margin-left:10px;;margin-top:10px">
+  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_statistics']?></label>
 		</button>
 		</div>
 	</body>

@@ -2,6 +2,8 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;
@@ -10,7 +12,7 @@
 
 	$stamp_category = "";
 
-	$category_query="SELECT category.name, category.ID FROM category";
+	$category_query="SELECT category.name, category.ID FROM category ORDER BY category.name";
 
 	if($category=$connectionrd->query($category_query)){
 
@@ -95,10 +97,10 @@
 		            json.data=json.data.map(function(song){
 		            	if(song.Eccezioni!==0){
 						
-							song.Azione='<button class="mini ui icon labeled primary button" name="get_song" value='+song.Azione+'><i class="setting icon"></i>Modifica</button>';
+							song.Azione='<button class="mini ui icon labeled primary button" name="get_song" value='+song.Azione+'><i class="setting icon"></i><?php echo $translation['label_edit']?></button>';
 						}else{
 
-							song.Azione='<button class="mini ui icon labeled green button" name="get_song" value='+song.Azione+'><i class="icon plus"></i>Aggiungi</button>';
+							song.Azione='<button class="mini ui icon labeled green button" name="get_song" value='+song.Azione+'><i class="icon plus"></i><?php echo $translation['label_add']?></button>';
 						}
 						return song;
 		            })
@@ -124,14 +126,12 @@
 	  				],
 	  				searching:false,
 	  				language: {
-	            		"lengthMenu": "<p style=\"margin-left:10px\"> Elementi per pagina: _MENU_</p>",
-	            		"zeroRecords": "Nessuna traccia",
-	            		"info": "<p style=\"margin-left:10px\"> elementi da _START_ a _END_ di _TOTAL_ elementi totali.</p>",
+	            		"lengthMenu": "<p style=\"margin-left:10px\"> <?php echo $translation['label_element_page']?></p>",
+	            		"zeroRecords": "<?php echo $translation['label_no_records']?>",
+	            		"info": "<p style=\"margin-left:10px\"> <?php echo $translation['info_element_page']?></p>",
 	            		"oPaginate": {
-	      					"sFirst":      "Prima",
-	        				"sLast":       "Ultima",
-	        				"sNext":       "Prossima",
-	        				"sPrevious":   "Precedente"
+	        				"sNext":       "<?php echo $translation['label_next_page']?>",
+	        				"sPrevious":   "<?php echo $translation['label_previous_page']?>"
 	    				},
    			 		}	
 
@@ -273,7 +273,7 @@
 
 		<tr class="center aligned" style="height:70px">
 			<td>
-				<i id="cat" class="large folder outline icon"></i>Categoria:
+				<i id="cat" class="large folder outline icon"></i><?php echo $translation['label_category'].":"?>
 
 				<select class="ui selection dropdown" id="category" name="categoria"   style="width:200px">
 					<option value ="0" selected="selected">All</option>
@@ -284,7 +284,7 @@
 			</div>
 			</td>
 			<td>
-				<i id="sub" class="large folder outline icon"></i>Sottocategoria:
+				<i id="sub" class="large folder outline icon"></i><?php echo $translation['label_subcategory'].":"?>
 
 				<select class="ui selection dropdown" id="subcategory" name="sottocategoria"  style="width:200px">
 					<option value="0" selected="selected">All</option>
@@ -292,7 +292,7 @@
 
 			</td>
 			<td>
-				<i id="gen" class="large folder outline icon"></i>Genere:
+				<i id="gen" class="large folder outline icon"></i><?php echo $translation['label_genre'].":"?>
 
 
 				<select class="ui selection dropdown" id="genre" name="sottocategoria"  style="width:200px">
@@ -304,7 +304,7 @@
 		</tr>
 		<tr class="center aligned">
 
-			<td><i class="large search icon"></i>Ricerca:</td>
+			<td><i class="large search icon"></i><?php echo $translation['label_search'].":"?></td>
 			<td colspan="2">
 				<div class="ui input focus">
   				<input id="search" style="width:600px"; type="text">
@@ -317,24 +317,24 @@
 
   	
   	<div id="caricamento" class="ui inverted dimmer">
-    		<div class="ui massive text loader">Caricamento...</div>
+    		<div class="ui massive text loader"><?php echo $translation['label_loading']?></div>
   	</div>
-	<table id="tablesong"  class="ui striped blue large table">
+	<table id="tablesong"  class="ui striped blue table" style="width:100%">
 			
 		<thead>
 	        
 			<tr>
-				<th>
-					<i class="music icon"></i>Titolo	
+				<th style="width:35%">
+					<i class="music icon"></i><?php echo $translation['label_title']?>	
+				</th>
+				<th style="width:35%">
+					<i class="user icon"></i><?php echo $translation['label_artist']?>
 				</th>
 				<th>
-					<i class="user icon"></i>Artista
+					<i class="hashtag icon"></i><?php echo $translation['label_exception']?>
 				</th>
 				<th>
-					<i class="hashtag icon"></i>Eccezioni
-				</th>
-				<th>
-					<i class="setting icon"></i>Azione
+					<i class="setting icon"></i><?php echo $translation['label_action']?>
 				</th>
 
 			</tr>
@@ -349,8 +349,8 @@
 	
 	</form>
 
-		<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
-  		<i class="window close icon"></i><label>Chiudi</label>
+		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-top:10px; margin-right:30px">
+  		<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 
 	

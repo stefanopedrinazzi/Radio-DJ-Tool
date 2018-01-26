@@ -1,5 +1,6 @@
 <?php
 
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -24,7 +25,7 @@
 
 		$category_ID=$explode[0];
 
-		$subcategory_query=("SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid='$category_ID'");
+		$subcategory_query=("SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid='$category_ID' ORDER BY subcategory.name");
 
 		$stamp_subcategory = "<option value=\"0\" selected=\"selected\">All</option>";
 		

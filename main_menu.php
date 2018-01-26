@@ -2,7 +2,9 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
 
+	//acquisizione dei dati per la connessione ai database
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -36,7 +38,7 @@
 	$toolpwd=str_replace($order, $replace,$toolpwd);
 	$path=str_replace($order, $replace,$path);
 
-
+	//richiamo funzioni per testare le connessioni dei due database 
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -72,6 +74,7 @@
 	  	
 	  	$(document).ready(function(){
 
+	  		//controllo delle connessione e assegnazione delle variabili di sessione
 	  		var control=<?php if (check_config()==1){
   							
   								echo 0;
@@ -94,6 +97,7 @@
 	  						}
   						?>;
 
+  			//abilitazione dei pulsanti se le connessioni ai database sono valide
   			if(control===1){
   				$('#eccezioni').prop("disabled",false);
   				$('#validazione').prop("disabled",false);
@@ -102,6 +106,7 @@
   				$('#report').prop("disabled",false);
   			}			
 
+  			//eventi legati al click dei pulsanti con reindirizzamento ai link per ogni funzionalità
 	  		$('#validazione').on('click',function(){
 	
 				window.location.href = ("consolida_categorie.php");
@@ -150,67 +155,67 @@
 		<table id="menutable" class="ui blue large table" style="margin-top:50px">
 			<tr>
 				<td>
-					<h3>Tool per consolidare le categorie</h3>
-					permette di aggiornare il path salvato nel database e spostare le tracce audio nella cartella indicata dal nuovo path. 
+					<h3><?php echo$translation['title_consolidate_categories']?></h3>
+					<?php echo $translation['text_consolidate_categories']?>
 				</td>
 				<td class="center aligned" style="width:40%">
 					<button id="validazione" class="fluid big ui blue button" disabled="true">
-  					<i class="share icon"></i><label>Consolida Categorie</label>
+  					<i class="share icon"></i><label><?php echo $translation['label_consolidate_categories']?></label>
 					</button>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h3>Tool per la creazione e la modifica delle eccezioni</h3>
-					permette di definire e modificare delle eccezioni orarie,settimanali e mensili per ogni traccia audio.
+					<h3><?php echo $translation['title_songs_exceptions']?></h3>
+					<?php echo $translation['text_songs_exceptions']?>
 				</td>
 				<td class="center aligned">
 					<button id="eccezioni" class="fluid big ui blue button" disabled="true">
-  					<i class="share icon"></i><label>Eccezioni Traccia</label>
+  					<i class="share icon"></i><label><?php echo $translation['label_songs_exceptions']?></label>
 					</button>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h3>Tool per ottenere informazioni sulle eccezioni per categoria</h3>
-					permette di ottenere il numero di eccezioni per categoria dato un giorno.
+					<h3><?php echo $translation['title_category_information']?></h3>
+					<?php echo $translation['text_category_information']?>
 				</td>
 				<td class="center aligned">
 					<button id="informazioni" class="fluid big ui blue button" disabled="true">
-  					<i class="share icon"></i><label>Informazioni per Categoria</label>
+  					<i class="share icon"></i><label><?php echo $translation['label_category_information']?></label>
 					</button>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h3>Tool per la creazione e la modifica della programmazione musicale</h3>
-					permette di definire e modificare la programmazione musicale settimanale pianificando per ogni ora la rotazione da caricare.
+					<h3><?php echo $translation['title_plan_rotation']?></h3>
+					<?php echo $translation['text_plan_rotation']?>
 				</td>
 				<td class="center aligned">
 					<button id="rotazione" class="fluid big ui blue button" disabled="true">
-  					<i class="share icon"></i><label>Pianifica Rotazioni</label>
+  					<i class="share icon"></i><label><?php echo $translation['label_plan_rotation']?></label>
 					</button>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h3>Tool per visualizzare il report settimanale per categoria</h3>
-					permette di visualizzare il consumo settimanale delle tracce per una determinata categoria.
+					<h3><?php echo $translation['title_weekly_report']?></h3>
+					<?php echo $translation['text_weekly_report'];?>
 				</td>
 				<td class="center aligned">
 					<button id="report" class="fluid big ui blue button" disabled="true">
-  					<i class="share icon"></i><label>Report Settimanale</label>
+  					<i class="share icon"></i><label><?php echo $translation['label_weekly_report']?></label>
 					</button>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h3>Impostazioni</h3>
-					Inserisci le impostazioni di base per la configurazione del database e del path per le directory.
+					<h3><?php echo $translation['label_settings'];?></h3>
+					<?php echo $translation['text_settings'];?>
 				</td>
 				<td class="center aligned">
 					<button id="impostazioni" class="fluid big ui button">
-  					<i class="setting icon"></i><label>Impostazioni</label>
+  					<i class="setting icon"></i><label><?php echo $translation['label_settings'];?></label>
 					</button>
 				</td>	
 			</tr>

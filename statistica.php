@@ -1,4 +1,6 @@
 <?php
+	
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -65,12 +67,12 @@
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
-	
-	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1";
+	$count=0;
+
+	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1 ORDER BY subcategory.name";
 
 	if($category = mysqli_query($connectionrd,$query)){
 
-		$count=0;
 	
 		while($riga = mysqli_fetch_assoc($category)){
 
@@ -158,10 +160,28 @@
 
 									
 				}
+
+			
 					}  
 					
 				
 			}
+
+		$call_total="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub'";
+
+				if($call_tot=$connectionrd->query($call_total)){
+
+					while($call=$call_tot->fetch_assoc()){
+
+						$var=$call['TOTAL'];
+
+							//echo $var;
+
+						$total[$count][]=$var;
+					}
+
+									
+				}
 
 							
 		$count++;					
@@ -170,11 +190,13 @@
 
 		 
 	}
-	//print_r($total);
+	
 
 	$stamp_table="<tbody><tr>";
 
 	for($x=0;$x<sizeof($total);$x++){
+
+		$hhpsett=0;
 
 		$chiamate_tot=0;
 
@@ -183,8 +205,7 @@
 			$stamp_table.="<td>".$total[$x][0]."</td>";
 
 			$stamp_table.="<td>".$total[$x][1]."</td>";
-
-			
+	
 
 		for($y=2;$y<sizeof($total[$x]);$y++){
 
@@ -194,6 +215,11 @@
 
 			$app=$total[$x][$y]*$total[$x][$y+1];
 
+			if($total[$x][$y+1]!=0){
+			
+			$hhpsett+=$total[$x][$y];
+			
+			}
 			$chiamate_tot+=$app;
 
 			$y++;
@@ -207,16 +233,30 @@
 
 			if($chiamate_tot==0){
 				
-				$esposizione=0;
+				$pxss=0;
 			}else{
 
-			$esposizione=($chiamate_tot)/$total[$x][1];
+			$pxss=($chiamate_tot)/$total[$x][1];
 
 			}
 
 			$stamp_table.="<td>".$chiamate_tot."</td>";
 
-			$stamp_table.="<td>".round($esposizione,1)."</td>";
+			$stamp_table.="<td>".round($pxss,1)."</td>";
+
+			$pxgg=$pxss/7;
+
+			$stamp_table.="<td>".round($pxgg,1)."</td>";
+
+			$stamp_table.="<td>".$hhpsett."</td>";
+
+			$hhpg=$hhpsett/7;
+
+			$stamp_table.="<td>".round($hhpg,1)."</td>";
+
+			$separazione=$hhpg/$pxgg;
+
+			$stamp_table.="<td>".round($separazione,1)."</td>";
 
 		$stamp_table.="</tr>";
 
@@ -235,27 +275,56 @@
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
   		<script src="js/semantic.min.js"></script>
 
+  		<script type="text/javascript">
+  			$(document).ready(function(){
+
+  				$('#annulla').on('click',function(){
+	
+					window.location.href = ('main_menu.php');
+
+				});		
+
+  			});
+  		</script>
+
   	</head>
 	<body>
-		<table class="ui blue sm- Unscheduled - striped table" style="line-height:0">
+		<table class="ui blue center aligned striped table" style="line-height:0">
 			<thead>
 				<tr>
 					<th>
 						<h3>Categorie</h3>
 					</th>
 					<th>
-						<h3>N° canzoni per cateogoria</h3>
+						<h3># Canzoni</h3>
 					</th>
 					<th>
-						<h3>N° chiamate per categoria</h3>
+						<h3># Chiamate</h3>
 					</th>
 					<th>
-						<h3>Separazione</h3>
+						<h4>Riproduzioni<br>settimana</h4>
+					</th>
+					<th>
+						<h4>Riproduzioni<br>giorno</h4>
+					</th>
+					<th>
+						<h4>Ore programmate<br>(settimana)</h4>
+					</th>
+					<th>
+						<h4>Ore programmate<br>(media giorno)</h4>
+					</th>
+					<th>
+						<h4>Separazione<br>(media ore)</h4>
 					</th>
 					
 				</tr>
 			</thead>
 			<?php echo $stamp_table ?>
 		</table>
+		<div>
+		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px">
+	  		<i class="reply icon"></i><label>Chiudi</label>
+		</button>
+		</div>
 	</body>
 </html>

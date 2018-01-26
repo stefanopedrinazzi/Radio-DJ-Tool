@@ -1,5 +1,6 @@
 <?php
 
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -24,25 +25,25 @@
 
 			switch ($x) {
 				case '1':
-					$name="Lun";
+					$name=$translation['label_mon'];
 					break;
 				case '2':
-					$name="Mar";
+					$name=$translation['label_tue'];
 					break;
 				case '3':
-					$name="Mer";
+					$name=$translation['label_wed'];
 					break;
 				case '4':
-					$name="Gio";
+					$name=$translation['label_thu'];
 					break;
 				case '5':
-					$name="Ven";
+					$name=$translation['label_fri'];
 					break;
 				case '6':
-					$name="Sab";
+					$name=$translation['label_sat'];
 					break;
 				case '7':
-					$name="Dom";
+					$name=$translation['label_sun'];
 					break;
 			}
 
@@ -57,6 +58,7 @@
 									
 			}
 
+
 			$array[]=$stamp[$name];
 				
 		}
@@ -65,7 +67,7 @@
 	}
 
 	
-	//print_r($array);
+	print_r($array);
 
 	$index=0;
 
@@ -79,25 +81,25 @@
 
 			switch ($x) {
 				case '1':
-					$name="Lun";
+					$name=$translation['label_mon'];
 					break;
 				case '2':
-					$name="Mar";
+					$name=$translation['label_tue'];
 					break;
 				case '3':
-					$name="Mer";
+					$name=$translation['label_wed'];
 					break;
 				case '4':
-					$name="Gio";
+					$name=$translation['label_thu'];
 					break;
 				case '5':
-					$name="Ven";
+					$name=$translation['label_fri'];
 					break;
 				case '6':
-					$name="Sab";
+					$name=$translation['label_sat'];
 					break;
 				case '7':
-					$name="Dom";
+					$name=$translation['label_sun'];
 					break;
 			}
 
@@ -119,16 +121,22 @@
 				//echo $update."\n";
 			
 			}else{
+
+				if($array[$index]==="1"){
+
+
+
+				}else{
 			
 				$rot_ID=get_id_from_rotation($array[$index]);
 
-				echo $rot_ID."\n";
+				//echo $rot_ID."\n";
 
 			$update="UPDATE events SET events.data='Clear Playlist!
 Load Rotation|$rot_ID|$array[$index]' WHERE events.name='$name'";
 
 				//echo $update."\n";
-			
+				}
 			}
 
 			$connectionrd->query($update);

@@ -1,6 +1,6 @@
 <?php 
 	
-	//session_start();
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 

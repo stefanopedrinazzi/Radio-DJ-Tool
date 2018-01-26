@@ -28,6 +28,8 @@
 </html>
 <?php
 
+	include("languages/eng.php");
+
 	include("FunctionNew.php");
 
 	$riga=check_config();

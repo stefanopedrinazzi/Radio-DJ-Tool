@@ -2,6 +2,7 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
 	//recupero category
 	$var = $_POST['categoria'];
 
@@ -55,7 +56,7 @@
 	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Validazione</title>
+		<title><?php echo $translation['title_validation']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -75,7 +76,7 @@
 		<table class="ui blue table">
 			<tr>
 				<td>
-					<h3><?php echo "Validazione ".$category. " avvenuta con successo";?></h3>
+					<h3><?php echo $translation['label_validation_ok'];?></h3>
 				</td>
 			</tr>
 			<tr>
@@ -87,7 +88,7 @@
     						<h4 class="ui header" style="margin-top:10px">
  		 						<i class="info icon"></i>
   									<div class="content">
-    									Operazioni effettuate
+    									<?php echo $translation['label_operation']?>
   									</div>
 							</h4>
     							<textarea rows="40"><?php echo $response ?></textarea>
@@ -99,7 +100,7 @@
 		</table>
 		<div>
 		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px">
-	  		<i class="reply icon"></i><label>Chiudi</label>
+	  		<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 	</div>
 	</body>

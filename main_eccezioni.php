@@ -1,8 +1,15 @@
-<?php	include("FunctionNew.php"); ?>
+<?php	
+
+include("FunctionNew.php");
+
+include("languages/eng.php");
+
+?>
 <!DOCTYPE html>
 <html>
 	
-	<title>Eccezioni</title>
+	<head>
+	<title><?php echo $translation['label_exception']?></title>
 	
 	<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="js/calendar.min.js"></script>
@@ -80,31 +87,31 @@
 	}
 
 	function change_tab(){
-			if( $('.ui .item.active').attr('data-tab') == 'lun' ) {
+			if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_mon']?>' ) {
    				day=0;
    				valida_ore(day);
 			}	
-   			if( $('.ui .item.active').attr('data-tab') == 'mar' ) {
+   			if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_tue']?>' ) {
    				day=1;
    				valida_ore(day);
      		}
-     		if( $('.ui .item.active').attr('data-tab') == 'mer' ) {
+     		if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_wed']?>' ) {
    				day=2;
    				valida_ore(day);
      		}
-     		if( $('.ui .item.active').attr('data-tab') == 'gio' ) {
+     		if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_thu']?>' ) {
    				day=3;
    				valida_ore(day);
      		}
-     		if( $('.ui .item.active').attr('data-tab') == 'ven' ) {
+     		if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_fri']?>' ) {
    				day=4;
    				valida_ore(day);
      		}
-     		if( $('.ui .item.active').attr('data-tab') == 'sab' ) {
+     		if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_sat']?>' ) {
    				day=5;
    				valida_ore(day);
      		}
-     		if( $('.ui .item.active').attr('data-tab') == 'dom' ) {
+     		if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_sun']?>' ) {
    				day=6;
    				valida_ore(day);
      		}
@@ -142,7 +149,7 @@
 
 		$("#datecal").show();
 		$("#attivadata").show();
-		$("#salva").find("label").text("Aggiungi");
+		$("#salva").find("label").text("<?php echo $translation['label_add']?>");
 		$("#elimina").hide();
 		$("#infromazioni").hide();
 
@@ -162,7 +169,7 @@
 
 		if (ExceptionID==0) {
 			$("#datecal").show();
-			$("#salva").find("label").text("Aggiungi");
+			$("#salva").find("label").text("<?php echo $translation['label_add']?>");
 			$("#elimina").hide();
 			$("#attivadata").show();
 			$('.checkbox').find('.active_date').prop("checked",false);
@@ -170,7 +177,7 @@
 			
 
 		} else {
-			$("#salva").find("label").text("Modifica");
+			$("#salva").find("label").text("<?php echo $translation['label_save']?>");
 			$("#elimina").show();
 		}
 
@@ -265,9 +272,7 @@
 
    	//richiamo della funzione per validare le ore al cambio di tab
 
-   			change_tab();
-
-    //alert(eccezione[0] + "\n" +eccezione[1] + "\n" +eccezione[2] + "\n" +eccezione[3] + "\n" +eccezione[4] + "\n" +eccezione[5] + "\n" +eccezione[6]);
+   	change_tab();
 
    	});		
 
@@ -334,9 +339,28 @@
   			 monthFirst: false,
 
   			text: {
-     				days: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
-     			 	months: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-      
+     				days: [ '<?php echo $translation['label_sun']?>',
+     						'<?php echo $translation['label_mon']?>',
+							'<?php echo $translation['label_tue']?>',
+							'<?php echo $translation['label_wed']?>',
+							'<?php echo $translation['label_thu']?>',
+							'<?php echo $translation['label_fri']?>',
+							'<?php echo $translation['label_sat']?>'
+						],
+
+     			 	months: ['<?php echo $translation['label_january']?>',
+							'<?php echo $translation['label_february']?>',
+							'<?php echo $translation['label_march']?>',
+							'<?php echo $translation['label_april']?>',
+							'<?php echo $translation['label_may']?>',
+							'<?php echo $translation['label_june']?>',
+							'<?php echo $translation['label_july']?>',
+							'<?php echo $translation['label_august']?>',
+							'<?php echo $translation['label_september']?>',
+							'<?php echo $translation['label_october']?>',
+							'<?php echo $translation['label_november']?>',
+							'<?php echo $translation['label_december']?>'
+      					]
     		},
   			type: 'date',
   			
@@ -351,40 +375,40 @@
             		
             		switch(month) {
     					case 0:
-        					month = "Gennaio";
+        					month = '<?php echo $translation['label_january']?>';
         					break;
 					    case 1:
-					        month = "Febbraio";
+					        month = '<?php echo $translation['label_february']?>';
 					        break;
 					    case 2:
-					        month = "Marzo";
+					        month = '<?php echo $translation['label_march']?>';
 					        break;
             			case 3:
-        					month = "Aprile";
+        					month = '<?php echo $translation['label_april']?>';
         					break;
 					    case 4:
-					        month = "Maggio";
+					        month = '<?php echo $translation['label_may']?>';
 					        break;
 					    case 5:
-					        month = "Giugno";
+					        month = '<?php echo $translation['label_june']?>';
 					        break;
 					   	case 6:
-        					month = "Luglio";
+        					month = '<?php echo $translation['label_july']?>';
         					break;
 					    case 7:
-					        month = "Agosto";
+					        month = '<?php echo $translation['label_august']?>';
 					        break;
 					    case 8:
-					        month = "Settembre";
+					        month = '<?php echo $translation['label_september']?>';
 					        break;
 					    case 9:
-        					month = "Ottobre";
+        					month = '<?php echo $translation['label_october']?>';
         					break;
 					    case 10:
-					        month = "Novembre";
+					        month = '<?php echo $translation['label_november']?>';
 					        break;
 					    case 11:
-					        month = "Dicembre";
+					        month = '<?php echo $translation['label_december']?>';
 					        break;
 					    
 					}
@@ -408,9 +432,28 @@
 			monthFirst: false,
 
 			text: {
-     				days: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
-     			 	months: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-      
+     				days: [ '<?php echo $translation['label_sun']?>',
+     						'<?php echo $translation['label_mon']?>',
+							'<?php echo $translation['label_tue']?>',
+							'<?php echo $translation['label_wed']?>',
+							'<?php echo $translation['label_thu']?>',
+							'<?php echo $translation['label_fri']?>',
+							'<?php echo $translation['label_sat']?>'
+						],
+
+     			 	months: ['<?php echo $translation['label_january']?>',
+							'<?php echo $translation['label_february']?>',
+							'<?php echo $translation['label_march']?>',
+							'<?php echo $translation['label_april']?>',
+							'<?php echo $translation['label_may']?>',
+							'<?php echo $translation['label_june']?>',
+							'<?php echo $translation['label_july']?>',
+							'<?php echo $translation['label_august']?>',
+							'<?php echo $translation['label_september']?>',
+							'<?php echo $translation['label_october']?>',
+							'<?php echo $translation['label_november']?>',
+							'<?php echo $translation['label_december']?>'
+      					]
     		},
   			type: 'date',
 
@@ -425,40 +468,40 @@
             		
             		switch(month) {
     					case 0:
-        					month = "Gennaio";
+        					month = '<?php echo $translation['label_january']?>';
         					break;
 					    case 1:
-					        month = "Febbraio";
+					        month = '<?php echo $translation['label_february']?>';
 					        break;
 					    case 2:
-					        month = "Marzo";
+					        month = '<?php echo $translation['label_march']?>';
 					        break;
             			case 3:
-        					month = "Aprile";
+        					month = '<?php echo $translation['label_april']?>';
         					break;
 					    case 4:
-					        month = "Maggio";
+					        month = '<?php echo $translation['label_may']?>';
 					        break;
 					    case 5:
-					        month = "Giugno";
+					        month = '<?php echo $translation['label_june']?>';
 					        break;
 					   	case 6:
-        					month = "Luglio";
+        					month = '<?php echo $translation['label_july']?>';
         					break;
 					    case 7:
-					        month = "Agosto";
+					        month = '<?php echo $translation['label_august']?>';
 					        break;
 					    case 8:
-					        month = "Settembre";
+					        month = '<?php echo $translation['label_september']?>';
 					        break;
 					    case 9:
-        					month = "Ottobre";
+        					month = '<?php echo $translation['label_october']?>';
         					break;
 					    case 10:
-					        month = "Novembre";
+					        month = '<?php echo $translation['label_november']?>';
 					        break;
 					    case 11:
-					        month = "Dicembre";
+					        month = '<?php echo $translation['label_december']?>';
 					        break;
 					    
 					}
@@ -494,7 +537,7 @@
 		if((date_end=="" || date_start=="") && $('.checkbox').find('.active_date').is(":checked")){
 			$('.checkbox').find('.active_date').attr("checked",false);
 	       	$('.checkbox').find('.active_date').prop("checked",false);
-			alert("Devi inserire entrambe le date");
+			alert("<?php echo $translation['alert_enter_date']?>");
 		}
 
 		for (y=0;y<=giorno;y++) {
@@ -520,7 +563,7 @@
 		
 		
 		if(flag==1){
-			alert("Devi inserire almeno un eccezione oraria");	
+			alert("<?php echo $translation['alert_enter_hour']?>");	
 		}
 
 		$.ajax({	
@@ -539,10 +582,10 @@
 				success: function(result){
 					
 					if(modify==0){
-						alert("Eccezione aggiunta con successo.");
+						alert("<?php echo $translation['alert_exception_add']?>");
 						location.reload(true);
 					}else{
-						alert("Eccezione modificata con successo.");
+						alert("<?php echo $translation['alert_exception_changed']?>");
 						location.reload(true);	
 					}		
 
@@ -551,7 +594,7 @@
 			});
 
 			}else{
-				alert("E' già presente un eccezione per questo intervallo.");
+				alert("<?php echo $translation['alert_already_set']?>");
 			}
 
 			}
@@ -568,7 +611,7 @@
 
 	$("#elimina").on('click',function(){
 
-	var annulla = window.confirm("Sei sicuro di eliminare questa eccezione?");
+	var annulla = window.confirm("<?php echo $translation['alert_delete_confirm']?>");
      
     if (annulla) {
         $.ajax({	
@@ -580,10 +623,10 @@
 					var res = parseInt(result, 10)
 
 					if(res===1){
-						alert("Eccezione eliminata con successo.");
+						alert("<?php echo $translation['alert_delete_exception']?>");
 						location.reload(true);
 					}else{
-						alert("Non puoi eliminare il default prima delle altre eccezioni.");
+						alert("<?php echo $translation['alert_delete_default']?>");
 					}
 				}
 
@@ -599,10 +642,8 @@
 
 
 	</script>
-	<head>
+	
 		<meta charset="UTF-8">
-
-		<title>Radio DJ</title>
 	
 	</head>
 	
@@ -611,7 +652,7 @@
 	<h3 class="ui header" style="margin-top:10px;margin-left:10px">
  		 <i class="unordered list icon"></i>
   			<div class="content">
-    			Traccia Audio
+    			<?php echo $translation['label_audio_track']?>
   			</div>
 	</h3>
 
@@ -638,30 +679,30 @@
 		</tr>
 		<tr id="infromazioni">
 			<td colspan="4">
-				<h4>Per inserire un eccezione con data bisogna prima inserirne una di default.</h4>
+				<h4><?php echo $translation['info_exception_insert']?></h4>
 			</td>
 		</tr>
 		<tr>
 		<td class="center aligned two wide">
-		<i class="ordered list large icon select_exc"></i><label class="select_exc">Eccezioni</label>
+		<i class="ordered list large icon select_exc"></i><label class="select_exc"><?php echo $translation['label_exception']?></label>
 		</td>	
 		<td>
 		<div class="ui input focus select_exc">
   		<select class="ui selection dropdown" id="exception" name="exception"  style="width:400px;height:45px">
-  			<option value="0" selected="selected">Aggiungi...</option>
+  			<option value="0" selected="selected"><?php echo $translation['label_add']."..."?></option>
 		</div>
 		</td>
 		
 		<td class="center aligned">
 			<div id="attivadata" class="ui checkbox">
-	  			<input class="active_date" type="checkbox" name="active_date"><label>Attiva data</label>
+	  			<input class="active_date" type="checkbox" name="active_date"><label><?php echo $translation['label_data_active']?></label>
 	  		</div>
 	  	</td>
 		<td>
 			<div id="datecal" class="ui form">
 		    	<div class="two fields">
 		    		<div class="field">
-		        	<label>Data inizio</label>
+		        	<label><?php echo $translation['label_data_start']?></label>
 		        		<div class="ui calendar" id="rangestart">
 			          		<div class="ui input left icon">
 			            		<i class="calendar icon"></i>
@@ -670,7 +711,7 @@
 		        		</div>
 		      		</div>
 		    		<div class="field">
-		        	<label>Data fine</label>
+		        	<label><?php echo $translation['label_data_end']?></label>
 		        		<div class="ui calendar" id="rangeend">
 		          			<div class="ui input left icon">
 		            			<i class="calendar icon"></i>
@@ -686,16 +727,16 @@
   	</tr>
   	</table>
 
-  	<h5 style="margin-left:10px"> * Se selezionato la traccia è disabilitata per tale orario.</h5>
+  	<h5 style="margin-left:10px"><?php echo $translation['info_exception_check']?></h5>
   
 	<div class="ui top attached tabular menu">
-  			<a class="item active" data-tab="lun">Lunedì</a>
-  			<a class="item" data-tab="mar">Martedì</a>
-  			<a class="item" data-tab="mer">Mercoledì</a>
-  			<a class="item" data-tab="gio">Giovedì</a>
-  			<a class="item" data-tab="ven">Venerdì</a>
-  			<a class="item" data-tab="sab">Sabato</a>
-  			<a class="item" data-tab="dom">Domenica</a>
+  			<a class="item active" data-tab="<?php echo $translation['label_mon']?>"><?php echo $translation['label_monday']?></a>
+  			<a class="item" data-tab="<?php echo $translation['label_tue']?>"><?php echo $translation['label_tuesday']?></a>
+  			<a class="item" data-tab="<?php echo $translation['label_wed']?>"><?php echo $translation['label_wednesday']?></a>
+  			<a class="item" data-tab="<?php echo $translation['label_thu']?>"><?php echo $translation['label_thursday']?></a>
+  			<a class="item" data-tab="<?php echo $translation['label_fri']?>"><?php echo $translation['label_friday']?></a>
+  			<a class="item" data-tab="<?php echo $translation['label_sat']?>"><?php echo $translation['label_saturday']?></a>
+  			<a class="item" data-tab="<?php echo $translation['label_sun']?>"><?php echo $translation['label_sunday']?></a>
   	</div>
 	
 
@@ -836,8 +877,8 @@
 			</tr>
   			<tr class="center aligned">
   				<td colspan="12">
- 				<div class="small ui check button"><label>Seleziona tutto</label></div>
-  				<div class="small ui uncheck button"><label>Deseleziona tutto</label></div>
+ 				<div class="small ui check button"><label><?php echo $translation['label_check_all']?></label></div>
+  				<div class="small ui uncheck button"><label><?php echo $translation['label_uncheck_all']?></label></div>
   				</td>		
   			</tr>	
 		</table>
@@ -846,13 +887,13 @@
 	<div class="confirm" style="margin-top:40px">
 		
 		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px">
-  		<i class="reply icon"></i><label>Chiudi</label>
+  		<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 		<button id="elimina" class=" big right floated ui icon labeled negative button">
-  		<i class="delete calendar icon"></i><label>Elimina</label>
+  		<i class="delete calendar icon"></i><label><?php echo $translation['label_delete']?></label>
 		</button>
 		<button id="salva" class=" big right floated ui icon labeled primary button">
-  		<i class="add to calendar icon"></i><label>Aggiungi</label>
+  		<i class="add to calendar icon"></i><label><?php echo $translation['label_add']?></label>
 		</button>
 
 

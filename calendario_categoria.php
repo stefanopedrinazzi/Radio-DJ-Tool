@@ -1,5 +1,6 @@
 <?php
 
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -82,8 +83,6 @@
 
 						$var=$num_rot['TOTAL'];
 
-							//echo $var;
-
 						$total[]=$var;
 					}
 
@@ -103,25 +102,25 @@
 
 			switch ($x) {
 				case '1':
-					$name="Lun";
+					$name=$translation['label_mon'];
 					break;
 				case '2':
-					$name="Mar";
+					$name=$translation['label_tue'];
 					break;
 				case '3':
-					$name="Mer";
+					$name=$translation['label_wed'];
 					break;
 				case '4':
-					$name="Gio";
+					$name=$translation['label_thu'];
 					break;
 				case '5':
-					$name="Ven";
+					$name=$translation['label_fri'];
 					break;
 				case '6':
-					$name="Sab";
+					$name=$translation['label_sat'];
 					break;
 				case '7':
-					$name="Dom";
+					$name=$translation['label_sun'];
 					break;
 			}
 
@@ -158,12 +157,12 @@
 		}
 	}
 
+	$result=array();
 	error_reporting(E_ALL);
 
 	for($x=0;$x<sizeof($rotation_array);$x++){
 
 		for($y=1;$y<sizeof($total);$y++){
-
 
 			if($rotation_array[$x]==$total[$y]){
 
@@ -179,7 +178,10 @@
 		}
 	}
 
+	if(sizeof($result)==0){
 
+		$result[]=0;
+	}
 
 	$i=0;
 
@@ -192,25 +194,25 @@
 
 			switch ($x) {
 				case '1':
-					$name="Lun";
+					$name=$translation['label_mon'];
 					break;
 				case '2':
-					$name="Mar";
+					$name=$translation['label_tue'];
 					break;
 				case '3':
-					$name="Mer";
+					$name=$translation['label_wed'];
 					break;
 				case '4':
-					$name="Gio";
+					$name=$translation['label_thu'];
 					break;
 				case '5':
-					$name="Ven";
+					$name=$translation['label_fri'];
 					break;
 				case '6':
-					$name="Sab";
+					$name=$translation['label_sat'];
 					break;
 				case '7':
-					$name="Dom";
+					$name=$translation['label_sun'];
 					break;
 			}
 
@@ -236,8 +238,7 @@
 		$day=$x-1;
 
 		$hour=$y-1;
-		//echo $day." - ".$hour." - ".$category_ID;
-		//echo "\n";
+		
 		$n_exception=exception_value_day_hour_subcat($day,$hour,$category_ID);
 		
 		$ult_result[]="".$n_exception."";

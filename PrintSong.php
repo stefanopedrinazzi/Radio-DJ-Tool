@@ -2,6 +2,8 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
 	$connectionrd=DBrd_connection();
 	$connectionap=DBap_connection();
 

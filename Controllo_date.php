@@ -1,5 +1,6 @@
 <?php
 
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -27,6 +28,8 @@
 
 	//richiamo della funzione di controllo per le date
 	$control=Control_date($song_ID,$data_start,$ExceptionID);
+
+	echo $control;
 
 	if ($control==0) {
 		$control=Control_date($song_ID,$data_end,$ExceptionID);		

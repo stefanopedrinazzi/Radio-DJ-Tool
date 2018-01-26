@@ -2,11 +2,13 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
 	$connectionrd=DBrd_connection();
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
-	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1";
+	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1 ORDER BY subcategory.name";
 
 	$stamp_category = "";
 
@@ -29,7 +31,7 @@
 	<head>
 
 		
-		<title>Informazioni eccezioni per categoria</title>
+		<title><?php echo $translation['label_category_information']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/calendar.min.js"></script>
@@ -53,8 +55,28 @@
   			monthFirst: false,
 
   			text: {
-     				days: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
-     			 	months: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+     				days: [ '<?php echo $translation['label_sun']?>',
+     						'<?php echo $translation['label_mon']?>',
+							'<?php echo $translation['label_tue']?>',
+							'<?php echo $translation['label_wed']?>',
+							'<?php echo $translation['label_thu']?>',
+							'<?php echo $translation['label_fri']?>',
+							'<?php echo $translation['label_sat']?>'
+						],
+
+     			 	months: ['<?php echo $translation['label_january']?>',
+							'<?php echo $translation['label_february']?>',
+							'<?php echo $translation['label_march']?>',
+							'<?php echo $translation['label_april']?>',
+							'<?php echo $translation['label_may']?>',
+							'<?php echo $translation['label_june']?>',
+							'<?php echo $translation['label_july']?>',
+							'<?php echo $translation['label_august']?>',
+							'<?php echo $translation['label_september']?>',
+							'<?php echo $translation['label_october']?>',
+							'<?php echo $translation['label_november']?>',
+							'<?php echo $translation['label_december']?>'
+      					]
       
     		},
   			type: 'date',
@@ -70,40 +92,40 @@
             		
             		switch(month) {
     					case 0:
-        					month = "Gennaio";
+        					month = '<?php echo $translation['label_january']?>';
         					break;
 					    case 1:
-					        month = "Febbraio";
+					        month = '<?php echo $translation['label_february']?>';
 					        break;
 					    case 2:
-					        month = "Marzo";
+					        month = '<?php echo $translation['label_march']?>';
 					        break;
             			case 3:
-        					month = "Aprile";
+        					month = '<?php echo $translation['label_april']?>';
         					break;
 					    case 4:
-					        month = "Maggio";
+					        month = '<?php echo $translation['label_may']?>';
 					        break;
 					    case 5:
-					        month = "Giugno";
+					        month = '<?php echo $translation['label_june']?>';
 					        break;
 					   	case 6:
-        					month = "Luglio";
+        					month = '<?php echo $translation['label_july']?>';
         					break;
 					    case 7:
-					        month = "Agosto";
+					        month = '<?php echo $translation['label_august']?>';
 					        break;
 					    case 8:
-					        month = "Settembre";
+					        month = '<?php echo $translation['label_september']?>';
 					        break;
 					    case 9:
-        					month = "Ottobre";
+        					month = '<?php echo $translation['label_october']?>';
         					break;
 					    case 10:
-					        month = "Novembre";
+					        month = '<?php echo $translation['label_november']?>';
 					        break;
 					    case 11:
-					        month = "Dicembre";
+					        month = '<?php echo $translation['label_december']?>';
 					        break;
 					    
 					}
@@ -143,7 +165,7 @@
 	<h3 class="ui header" style="margin-top:10px; margin-left:10px">
  		 <i class="folder outline icon"></i>
   			<div class="content">
-    			Informazioni eccezioni per categoria
+    			<?php echo $translation['label_category_information']?>
   			</div>
 	</h3>
 
@@ -151,7 +173,7 @@
 
 		<tr class="center aligned">
 			<td>
-				<h4>Seleziona il giorno:</h4>
+				<h4><?php echo $translation['label_select_day']?></h4>
 			</td>
 			<td>
 				<div class="ui calendar" id="dateinput">
@@ -166,12 +188,12 @@
 		<tr class="center aligned">
 
 			<td>
-				<h4>Seleziona la categoria:</h4>
+				<h4><?php echo $translation['text_select_category'].":"?></h4>
 			</td>	
 			<td>
 				<i id="category" class="large folder outline icon"></i>
 				<select id="cat" class="big ui selection dropdown" name="categoria">
-					<option value="0" selected="selected">Nessuna</option>
+					<option value="0" selected="selected"><?php echo $translation['label_none']?></option>
 					<?php echo $stamp_category; ?>
 				</select>
 			</td>
@@ -179,11 +201,11 @@
 
 	</table>
 
-		<button id="annulla" class=" big red right floated ui icon labeled button" type="reset" onclick="window.location.href='main_menu.php'" style="margin-top:10px;margin-right: 30px">
-  			<i class="window close icon"></i><label>Chiudi</label>
+		<button id="annulla" class=" big right floated ui icon labeled button" type="reset" onclick="window.location.href='main_menu.php'" style="margin-top:10px;margin-right: 30px">
+  			<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 		<button id="consolida" class="big right floated ui icon labeled primary button" type="submit" disabled="true" style="margin-top:10px">
-  			<i class="checkmark icon"></i><label>Continua</label>
+  			<i class="checkmark icon"></i><label><?php echo $translation['label_continue']?></label>
 		</button>
 
 	</form>

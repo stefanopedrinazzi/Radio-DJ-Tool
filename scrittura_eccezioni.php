@@ -1,5 +1,6 @@
 <?php
 
+	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -24,6 +25,7 @@
 
 	$array_exc=Convert_exception($eccezione);
 
+	print_r($array_exc);
 	$data_start=Convert_date($date_start);
 
 	$data_end=Convert_date($date_end);

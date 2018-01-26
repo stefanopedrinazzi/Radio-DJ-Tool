@@ -2,6 +2,8 @@
 
 	include("FunctionNew.php");
 
+	include("languages/eng.php");
+
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -53,7 +55,7 @@
 		$_SESSION['db_namerd']=$nomedbrd;
 		$_SESSION['hostnamerd']=$hostname;
 		$_SESSION['usernamerd']=$usr;
-		$_SESSION['passwordrd']=$pwd;
+		$_SESSION['passwordrd']=$pwdl;
 		$_SESSION['usernameap']=$toolusr;
 		$_SESSION['passwordap']=$toolpwd;
 	
@@ -61,13 +63,13 @@
 
 	$connectionrd=DBrd_connection();
 
-	global $db_namerd;
+	global $db_nlamerd;
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
 
 	//acquisizione del nome e ID delle sottocategorie
-	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1";
+	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1 ORDER BY subcategory.name";
 
 	$stamp_category = "";
 
@@ -105,11 +107,11 @@
 
 	?>
 
+
 <!DOCTYPE html>
-	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Prospetto Settimanale</title>
+		<title><?php echo $translation['title_weekly_statement']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -130,25 +132,25 @@
 							
 							switch(y){
 								case 1:
-									name="Lun";
+									name='<?php echo $translation['label_mon']?>';
 									break;
 								case 2:
-									name="Mar";
+									name='<?php echo $translation['label_tue']?>';
 									break;
 								case 3:
-									name="Mer";
+									name='<?php echo $translation['label_wed']?>';
 									break;
 								case 4:
-									name="Gio";
+									name='<?php echo $translation['label_thu']?>';
 									break;
 								case 5:
-									name="Ven";
+									name='<?php echo $translation['label_fri']?>';
 									break;
 								case 6:
-									name="Sab";
+									name='<?php echo $translation['label_sat']?>';
 									break;
 								case 7:
-									name="Dom";
+									name='<?php echo $translation['label_sun']?>';
 									break;
 							}
 							
@@ -175,7 +177,7 @@
 			  			$("#consolida").prop("disabled",true);
 						$("#category.folder").removeClass("open");
 					}else{
-						$("#consolida").prop("disabled",false);
+						$("#consolida").prop("disabledl",false);
 						$("#category.folder").addClass("open");	  			
 				  	}
 
@@ -190,13 +192,14 @@
 						data: { categoria: categoria},
 						success: function(result){
 							var obj=JSON.parse(result);
-							console.log(obj);
-
+							
 							var y=1;
+
+							var count=0;
 
 							var number_tracks=obj[0];
 
-							var max=number_tracks;
+							number_tracks=parseInt(number_tracks);
 
 							var previous=0;
 
@@ -206,22 +209,28 @@
 
 								var control=obj[y+1];
 
+							control=parseInt(control);
+
 								var exc=obj[y+2];
+
+								exc=parseInt(exc);
 
 								if(control!=0){
 
-									number_tracks-=control;
+									count+=control;
 
-									//if(previous!=exc){
+									//number_tracks-=control;
+
+									if(previous!=exc){
 
 										diff=previous-exc;
 
 										number_tracks=number_tracks+diff;
-									//	}
+										}
 
 
 									
-									if(number_tracks>0){
+									if(count<number_tracks){
 										$('#'+obj[y]+'l').text(obj[y+1]+"/"+obj[y+2]);
 										$('#'+obj[y]).removeClass("grey");
 										$('#'+obj[y]).addClass("green");
@@ -229,8 +238,10 @@
 										$('#'+obj[y]+'l').text(obj[y+1]+"/"+obj[y+2]);
 										$('#'+obj[y]).removeClass("grey");
 										$('#'+obj[y]).addClass("red");
-										number_tracks=max-exc;
+										count=count-number_tracks;
+										
 									}
+								
 								}
 								
 								previous=exc;
@@ -255,34 +266,45 @@
 
 				});	
 
+				$('#pianifica_rotazione').on('click',function(){
+	
+					window.open('pianifica_rotazioni.php');
+
+				});
+
+				$('#statistica').on('click',function(){
+	
+					window.open('statistica.php');
+
+				});
 
   			});
 
   		</script>
 	</head>
 	<body>
-		<h2 class="ui blue center aligned header" style="margin-top:20px">Prospetto Settimanale</h2>
+		<h2 class="ui blue center aligned header" style="margin-top:20px"><?php echo $translation['title_weekly_statement']?></h2>
 		<table class="ui blue table"></table>
 		<div style="line-height:0;width:70%;margin:0 auto;">
 		
-		<strong style="margin-left:30px">Seleziona la categoria: </strong>
+		<strong style="margin-left:30px"><?php echo $translation['text_select_category'].":"?> </strong>
 		<i style="margin-left:30px" id="category" class="large folder outline icon"></i>
-		<select class="ui focus dropdown" id="sottocategoria" name="sottocategoria">
-			<option value="0" selected="selected">Nessuna <?php echo $stamp_category; ?></option>
+		<select class="uli focus dropdown" id="sottocategoria" name="sottocategoria">
+			<option value="0" selected="selected"><?php echo $translation['label_none'];  echo $stamp_category; ?></option>
 		</select>
 		
 		</div>
 		
 		<div style="line-height:0;width:70%;margin:0 auto;">
 		
-		<strong style="margin-left:30px">N° chiamate categoria per ora/ N° eccezioni </strong>
-			<a style="margin-left:30px" class="ui green circular label"><label></label>1/1</a>
-		<strong style="margin-left:30px">Esaurite tracce per categoria</strong>
-			<a style="margin-left:30px" class="ui red circular label"><label></label>1/1</a>
+		<strong style="margin-left:30px"><?php echo $translation['label_ilnfo_green']?></strong>
+			<a style="margin-left:5px" class="ui green circular label"><label></label>1/1</a>
+		<strong style="margin-left:60px"><?php echo $translation['label_info_red']?></strong>
+			<a style="margin-left:5px" class="ui red circular label"><label></label>1/1</a>
 			<br>
 		</div> 
 		<div id="caricamento" class="ui inverted dimmer">
-    		<div class="ui massive text loader">Caricamento...</div>
+    		<div class="ui massive text loader"><?php echo $translation['label_loading']?></div>
   		</div>
 		<table class="ui table" style="line-height:0;width:70%;margin:0 auto;">
 			<thead>
@@ -290,25 +312,25 @@
 					<th>
 					</th>
 					<th class="ui center aligned">
-						<h3>Lunedì</h3>
+						<h3><?php echo $translation['label_monday']?></h3>
+					</th>
+					<th class="ui center aligned"l>
+						<h3><?php echo $translation['label_tuesday']?></h3>
 					</th>
 					<th class="ui center aligned">
-						<h3>Martedì</h3>
+						<h3><?php echo $translation['label_wednesday']?></h3>
 					</th>
 					<th class="ui center aligned">
-						<h3>Mercoledì</h3>
+						<h3><?php echo $translation['label_thursday']?></h3>
+					</thl>
+					<th class="ui center aligned">
+						<h3><?php echo $translation['label_friday']?></h3>
+					</th>
+					<th class="ui center aligned"l>
+						<h3><?php echo $translation['label_saturday']?></h3>
 					</th>
 					<th class="ui center aligned">
-						<h3>Giovedì</h3>
-					</th>
-					<th class="ui center aligned">
-						<h3>Venerdì</h3>
-					</th>
-					<th class="ui center aligned">
-						<h3>Sabato</h3>
-					</th>
-					<th class="ui center aligned">
-						<h3>Domenica</h3>
+						<h3><?php echo $translation['label_sunday']?></h3>
 					</th>
 				</tr>
 			</thead>
@@ -317,25 +339,25 @@
 					<strong>00:00 - 00:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun00" ><label id="Lun00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_00']?>" ><label id="<?php echo $translation['mon_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar00" ><label id="Mar00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_00']?>" ><label id="<?php echo $translation['tue_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer00" ><label id="Mer00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_00']?>" ><label id="<?php echo $translation['wed_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio00" ><label id="Gio00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_00']?>" ><label id="<?php echo $translation['thu_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven00" ><label id="Ven00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_00']?>" ><label id="<?php echo $translation['fri_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab00" ><label id="Sab00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_00']?>" ><label id="<?php echo $translation['sat_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom00" ><label id="Dom00l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_00']?>" ><label id="<?php echo $translation['sun_00l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -343,25 +365,25 @@
 					<strong>01:00 - 01:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun01" ><label id="Lun01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_01']?>"><label id="<?php echo $translation['mon_01l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar01" ><label id="Mar01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_01']?>"><label id="<?php echo $translation['tue_01l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer01" ><label id="Mer01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_01']?>"><label id="<?php echo $translation['wed_01l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio01" ><label id="Gio01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_01']?>"><label id="<?php echo $translation['thu_01l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven01" ><label id="Ven01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_01']?>"><label id="<?php echo $translation['fri_01l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab01" ><label id="Sab01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_01']?>"><label id="<?php echo $translation['sat_01l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom01" ><label id="Dom01l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_01']?>"><label id="<?php echo $translation['sun_01l']?>"></label></a>
 				</td>
 			</tr>	
 			<tr>
@@ -369,25 +391,25 @@
 					<strong>02:00 - 02:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun02" ><label id="Lun02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_02']?>"><label id="<?php echo $translation['mon_02l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar02" ><label id="Mar02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_02']?>"><label id="<?php echo $translation['tue_02l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer02" ><label id="Mer02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_02']?>"><label id="<?php echo $translation['wed_02l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio02" ><label id="Gio02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_02']?>"><label id="<?php echo $translation['thu_02l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven02" ><label id="Ven02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_02']?>"><label id="<?php echo $translation['fri_02l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab02" ><label id="Sab02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_02']?>"><label id="<?php echo $translation['sat_02l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom02" ><label id="Dom02l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_02']?>"><label id="<?php echo $translation['sun_02l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -395,25 +417,25 @@
 					<strong>03:00 - 03:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun03" ><label id="Lun03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_03']?>"><label id="<?php echo $translation['mon_03l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar03" ><label id="Mar03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_03']?>"><label id="<?php echo $translation['tue_03l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer03" ><label id="Mer03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_03']?>"><label id="<?php echo $translation['wed_03l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio03" ><label id="Gio03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_03']?>"><label id="<?php echo $translation['thu_03l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven03" ><label id="Ven03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_03']?>"><label id="<?php echo $translation['fri_03l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab03" ><label id="Sab03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_03']?>"><label id="<?php echo $translation['sat_03l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom03" ><label id="Dom03l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_03']?>"><label id="<?php echo $translation['sun_03l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -421,25 +443,25 @@
 					<strong>04:00 - 04:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun04" ><label id="Lun04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_04']?>"><label id="<?php echo $translation['mon_04l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar04" ><label id="Mar04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_04']?>"><label id="<?php echo $translation['tue_04l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer04" ><label id="Mer04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_04']?>"><label id="<?php echo $translation['wed_04l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio04" ><label id="Gio04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_04']?>"><label id="<?php echo $translation['thu_04l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven04" ><label id="Ven04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_04']?>"><label id="<?php echo $translation['fri_04l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab04" ><label id="Sab04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_04']?>"><label id="<?php echo $translation['sat_04l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom04" ><label id="Dom04l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_04']?>"><label id="<?php echo $translation['sun_04l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -447,25 +469,25 @@
 					<strong>05:00 - 05:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun05" ><label id="Lun05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_05']?>"><label id="<?php echo $translation['mon_05l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar05" ><label id="Mar05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_05']?>"><label id="<?php echo $translation['tue_05l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer05" ><label id="Mer05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_05']?>"><label id="<?php echo $translation['wed_05l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio05" ><label id="Gio05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_05']?>"><label id="<?php echo $translation['thu_05l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven05" ><label id="Ven05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_05']?>"><label id="<?php echo $translation['fri_05l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab05" ><label id="Sab05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_05']?>"><label id="<?php echo $translation['sat_05l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom05" ><label id="Dom05l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_05']?>"><label id="<?php echo $translation['sun_05l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -473,25 +495,25 @@
 					<strong>06:00 - 06:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun06" ><label id="Lun06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_06']?>"><label id="<?php echo $translation['mon_06l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar06" ><label id="Mar06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_06']?>"><label id="<?php echo $translation['tue_06l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer06" ><label id="Mer06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_06']?>"><label id="<?php echo $translation['wed_06l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio06" ><label id="Gio06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_06']?>"><label id="<?php echo $translation['thu_06l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven06" ><label id="Ven06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_06']?>"><label id="<?php echo $translation['fri_06l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab06" ><label id="Sab06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_06']?>"><label id="<?php echo $translation['sat_06l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom06" ><label id="Dom06l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_06']?>"><label id="<?php echo $translation['sun_06l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -499,25 +521,25 @@
 					<strong>07:00 - 07:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun07" ><label id="Lun07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_07']?>"><label id="<?php echo $translation['mon_07l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar07" ><label id="Mar07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_07']?>"><label id="<?php echo $translation['tue_07l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer07" ><label id="Mer07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_07']?>"><label id="<?php echo $translation['wed_07l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio07" ><label id="Gio07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_07']?>"><label id="<?php echo $translation['thu_07l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven07" ><label id="Ven07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_07']?>"><label id="<?php echo $translation['fri_07l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab07" ><label id="Sab07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_07']?>"><label id="<?php echo $translation['sat_07l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom07" ><label id="Dom07l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_07']?>"><label id="<?php echo $translation['sun_07l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -525,25 +547,25 @@
 					<strong>08:00 - 08:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun08" ><label id="Lun08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_08']?>"><label id="<?php echo $translation['mon_08l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar08" ><label id="Mar08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_08']?>"><label id="<?php echo $translation['tue_08l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer08" ><label id="Mer08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_08']?>"><label id="<?php echo $translation['wed_08l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio08" ><label id="Gio08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_08']?>"><label id="<?php echo $translation['thu_08l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven08" ><label id="Ven08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_08']?>"><label id="<?php echo $translation['fri_08l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab08" ><label id="Sab08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_08']?>"><label id="<?php echo $translation['sat_08l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom08" ><label id="Dom08l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_08']?>"><label id="<?php echo $translation['sun_08l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -551,25 +573,25 @@
 					<strong>09:00 - 09:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun09" ><label id="Lun09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_09']?>"><label id="<?php echo $translation['mon_09l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar09" ><label id="Mar09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_09']?>"><label id="<?php echo $translation['tue_09l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer09" ><label id="Mer09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_09']?>"><label id="<?php echo $translation['wed_09l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio09" ><label id="Gio09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_09']?>"><label id="<?php echo $translation['thu_09l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven09" ><label id="Ven09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_09']?>"><label id="<?php echo $translation['fri_09l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab09" ><label id="Sab09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_09']?>"><label id="<?php echo $translation['sat_09l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom09" ><label id="Dom09l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_09']?>"><label id="<?php echo $translation['sun_09l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -577,25 +599,25 @@
 					<strong>10:00 - 10:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun10" ><label id="Lun10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_10']?>"><label id="<?php echo $translation['mon_10l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar10" ><label id="Mar10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_10']?>"><label id="<?php echo $translation['tue_10l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer10" ><label id="Mer10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_10']?>"><label id="<?php echo $translation['wed_10l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio10" ><label id="Gio10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_10']?>"><label id="<?php echo $translation['thu_10l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven10" ><label id="Ven10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_10']?>"><label id="<?php echo $translation['fri_10l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab10" ><label id="Sab10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_10']?>"><label id="<?php echo $translation['sat_10l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom10" ><label id="Dom10l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_10']?>"><label id="<?php echo $translation['sun_10l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -603,25 +625,25 @@
 					<strong>11:00 - 11:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun11" ><label id="Lun11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_11']?>"><label id="<?php echo $translation['mon_11l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar11" ><label id="Mar11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_11']?>"><label id="<?php echo $translation['tue_11l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer11" ><label id="Mer11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_11']?>"><label id="<?php echo $translation['wed_11l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio11" ><label id="Gio11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_11']?>"><label id="<?php echo $translation['thu_11l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven11" ><label id="Ven11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_11']?>"><label id="<?php echo $translation['fri_11l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab11" ><label id="Sab11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_11']?>"><label id="<?php echo $translation['sat_11l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom11" ><label id="Dom11l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_11']?>"><label id="<?php echo $translation['sun_11l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -629,25 +651,25 @@
 					<strong>12:00 - 12:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun12" ><label id="Lun12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_12']?>"><label id="<?php echo $translation['mon_12l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar12" ><label id="Mar12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_12']?>"><label id="<?php echo $translation['tue_12l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer12" ><label id="Mer12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_12']?>"><label id="<?php echo $translation['wed_12l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio12" ><label id="Gio12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_12']?>"><label id="<?php echo $translation['thu_12l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven12" ><label id="Ven12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_12']?>"><label id="<?php echo $translation['fri_12l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab12" ><label id="Sab12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_12']?>"><label id="<?php echo $translation['sat_12l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom12" ><label id="Dom12l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_12']?>"><label id="<?php echo $translation['sun_12l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -655,25 +677,25 @@
 					<strong>13:00 - 13:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun13" ><label id="Lun13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_13']?>"><label id="<?php echo $translation['mon_13l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar13" ><label id="Mar13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_13']?>"><label id="<?php echo $translation['tue_13l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer13" ><label id="Mer13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_13']?>"><label id="<?php echo $translation['wed_13l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio13" ><label id="Gio13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_13']?>"><label id="<?php echo $translation['thu_13l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven13" ><label id="Ven13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_13']?>"><label id="<?php echo $translation['fri_13l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab13" ><label id="Sab13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_13']?>"><label id="<?php echo $translation['sat_13l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom13" ><label id="Dom13l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_13']?>"><label id="<?php echo $translation['sun_13l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -681,25 +703,25 @@
 					<strong>14:00 - 14:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun14" ><label id="Lun14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_14']?>"><label id="<?php echo $translation['mon_14l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar14" ><label id="Mar14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_14']?>"><label id="<?php echo $translation['tue_14l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer14" ><label id="Mer14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_14']?>"><label id="<?php echo $translation['wed_14l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio14" ><label id="Gio14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_14']?>"><label id="<?php echo $translation['thu_14l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven14" ><label id="Ven14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_14']?>"><label id="<?php echo $translation['fri_14l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab14" ><label id="Sab14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_14']?>"><label id="<?php echo $translation['sat_14l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom14" ><label id="Dom14l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_14']?>"><label id="<?php echo $translation['sun_14l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -707,25 +729,25 @@
 					<strong>15:00 - 15:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun15" ><label id="Lun15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_15']?>"><label id="<?php echo $translation['mon_15l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar15" ><label id="Mar15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_15']?>"><label id="<?php echo $translation['tue_15l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer15" ><label id="Mer15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_15']?>"><label id="<?php echo $translation['wed_15l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio15" ><label id="Gio15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_15']?>"><label id="<?php echo $translation['thu_15l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven15" ><label id="Ven15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_15']?>"><label id="<?php echo $translation['fri_15l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab15" ><label id="Sab15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_15']?>"><label id="<?php echo $translation['sat_15l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom15" ><label id="Dom15l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_15']?>"><label id="<?php echo $translation['sun_15l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -733,25 +755,25 @@
 					<strong>16:00 - 16:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun16" ><label id="Lun16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_16']?>"><label id="<?php echo $translation['mon_16l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar16" ><label id="Mar16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_16']?>"><label id="<?php echo $translation['tue_16l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer16" ><label id="Mer16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_16']?>"><label id="<?php echo $translation['wed_16l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio16" ><label id="Gio16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_16']?>"><label id="<?php echo $translation['thu_16l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven16" ><label id="Ven16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_16']?>"><label id="<?php echo $translation['fri_16l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab16" ><label id="Sab16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_16']?>"><label id="<?php echo $translation['sat_16l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom16" ><label id="Dom16l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_16']?>"><label id="<?php echo $translation['sun_16l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -759,25 +781,25 @@
 					<strong>17:00 - 17:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun17" ><label id="Lun17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_17']?>"><label id="<?php echo $translation['mon_17l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar17" ><label id="Mar17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_17']?>"><label id="<?php echo $translation['tue_17l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer17" ><label id="Mer17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_17']?>"><label id="<?php echo $translation['wed_17l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio17" ><label id="Gio17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_17']?>"><label id="<?php echo $translation['thu_17l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven17" ><label id="Ven17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_17']?>"><label id="<?php echo $translation['fri_17l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab17" ><label id="Sab17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_17']?>"><label id="<?php echo $translation['sat_17l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom17" ><label id="Dom17l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_17']?>"><label id="<?php echo $translation['sun_17l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -785,25 +807,25 @@
 					<strong>18:00 - 18:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun18" ><label id="Lun18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_18']?>"><label id="<?php echo $translation['mon_18l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar18" ><label id="Mar18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_18']?>"><label id="<?php echo $translation['tue_18l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer18" ><label id="Mer18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_18']?>"><label id="<?php echo $translation['wed_18l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio18" ><label id="Gio18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_18']?>"><label id="<?php echo $translation['thu_18l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven18" ><label id="Ven18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_18']?>"><label id="<?php echo $translation['fri_18l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab18" ><label id="Sab18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_18']?>"><label id="<?php echo $translation['sat_18l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom18" ><label id="Dom18l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_18']?>"><label id="<?php echo $translation['sun_18l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -811,25 +833,25 @@
 					<strong>19:00 - 19:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun19" ><label id="Lun19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_19']?>"><label id="<?php echo $translation['mon_19l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar19" ><label id="Mar19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_19']?>"><label id="<?php echo $translation['tue_19l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer19" ><label id="Mer19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_19']?>"><label id="<?php echo $translation['wed_19l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio19" ><label id="Gio19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_19']?>"><label id="<?php echo $translation['thu_19l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven19" ><label id="Ven19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_19']?>"><label id="<?php echo $translation['fri_19l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab19" ><label id="Sab19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_19']?>"><label id="<?php echo $translation['sat_19l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom19" ><label id="Dom19l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_19']?>"><label id="<?php echo $translation['sun_19l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -837,25 +859,25 @@
 					<strong>20:00 - 20:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun20" ><label id="Lun20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_20']?>"><label id="<?php echo $translation['mon_20l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar20" ><label id="Mar20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_20']?>"><label id="<?php echo $translation['tue_20l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer20" ><label id="Mer20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_20']?>"><label id="<?php echo $translation['wed_20l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio20" ><label id="Gio20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_20']?>"><label id="<?php echo $translation['thu_20l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven20" ><label id="Ven20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_20']?>"><label id="<?php echo $translation['fri_20l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab20" ><label id="Sab20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_20']?>"><label id="<?php echo $translation['sat_20l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom20" ><label id="Dom20l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_20']?>"><label id="<?php echo $translation['sun_20l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -863,25 +885,25 @@
 					<strong>21:00 - 21:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun21" ><label id="Lun21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_21']?>"><label id="<?php echo $translation['mon_21l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar21" ><label id="Mar21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_21']?>"><label id="<?php echo $translation['tue_21l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer21" ><label id="Mer21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_21']?>"><label id="<?php echo $translation['wed_21l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio21" ><label id="Gio21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_21']?>"><label id="<?php echo $translation['thu_21l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven21" ><label id="Ven21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_21']?>"><label id="<?php echo $translation['fri_21l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab21" ><label id="Sab21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_21']?>"><label id="<?php echo $translation['sat_21l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom21" ><label id="Dom21l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_21']?>"><label id="<?php echo $translation['sun_21l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -889,25 +911,25 @@
 					<strong>22:00 - 22:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun22" ><label id="Lun22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_22']?>"><label id="<?php echo $translation['mon_22l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar22" ><label id="Mar22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_22']?>"><label id="<?php echo $translation['tue_22l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer22" ><label id="Mer22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_22']?>"><label id="<?php echo $translation['wed_22l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio22" ><label id="Gio22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_22']?>"><label id="<?php echo $translation['thu_22l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven22" ><label id="Ven22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_22']?>"><label id="<?php echo $translation['fri_22l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab22" ><label id="Sab22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_22']?>"><label id="<?php echo $translation['sat_22l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom22" ><label id="Dom22l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_22']?>"><label id="<?php echo $translation['sun_22l']?>"></label></a>
 				</td>
 			</tr>
 			<tr>
@@ -915,31 +937,37 @@
 					<strong>23:00 - 00:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Lun23" ><label id="Lun23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_23']?>"><label id="<?php echo $translation['mon_23l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mar23" ><label id="Mar23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['tue_23']?>"><label id="<?php echo $translation['tue_23l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Mer23" ><label id="Mer23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['wed_23']?>"><label id="<?php echo $translation['wed_23l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Gio23" ><label id="Gio23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['thu_23']?>"><label id="<?php echo $translation['thu_23l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Ven23" ><label id="Ven23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['fri_23']?>"><label id="<?php echo $translation['fri_23l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Sab23" ><label id="Sab23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sat_23']?>"><label id="<?php echo $translation['sat_23l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="Dom23" ><label id="Dom23l"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['sun_23']?>"><label id="<?php echo $translation['sun_23l']?>"></label></a>
 				</td>
 			</tr>
 		</table>
 		<div>
 		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px;margin-top:10px">
-	  		<i class="reply icon"></i><label>Chiudi</label>
+	  		<i class="reply icon"></i><label><?php echo $translation['label_close'] ?></label>
+		</button>
+		<button id="pianifica_rotazione" class="big ui icon labeled button" style="margin-left:10px;;margin-top:10px">
+  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_plan_rotation']?></label>
+		</button>
+		<button id="statistica" class="big ui icon labeled button" style="margin-left:10px;;margin-top:10px">
+  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_statistics']?></label>
 		</button>
 		</div>
 	</body>

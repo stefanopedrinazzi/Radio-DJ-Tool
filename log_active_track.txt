@@ -332,3 +332,195 @@ ID exception 234 Traccia disattiva UPDATE songs SET enabled='0', date_played='20
 Ora per l'abilitazione dinamica delle tracce 16
 ID exception 233 Traccia disattiva UPDATE songs SET enabled='0', date_played='2017-10-31 02:25:29' WHERE songs.ID='1656'
 ID exception 234 Traccia disattiva UPDATE songs SET enabled='0', date_played='2003-04-16 01:26:22' WHERE songs.ID='637'
+ 
+2018-01-29 11:54:22
+Ora per l'abilitazione dinamica delle tracce 12
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 06:04:13' WHERE songs.ID='507'
+ID exception 262 UPDATE songs SET enabled='0', date_played='2018-01-26 15:44:20' WHERE songs.ID='672'
+ID exception 260 UPDATE songs SET enabled='0', date_played='2018-01-26 12:12:34' WHERE songs.ID='784'
+ID exception 261 UPDATE songs SET enabled='0', date_played='2018-01-26 12:14:26' WHERE songs.ID='781'
+ 
+2018-01-29 11:54:22
+Ora per l'abilitazione dinamica delle tracce 12
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 04:13:34' WHERE songs.ID='507'
+ID exception 262 UPDATE songs SET enabled='0', date_played='2018-01-26 16:25:38' WHERE songs.ID='672'
+ID exception 260 UPDATE songs SET enabled='0', date_played='2018-01-26 16:54:34' WHERE songs.ID='784'
+ID exception 261 UPDATE songs SET enabled='0', date_played='2018-01-26 03:39:34' WHERE songs.ID='781'
+ 
+2018-01-29 11:57:00
+Ora per l'abilitazione dinamica delle tracce 12
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 10:56:00' WHERE songs.ID='507'
+ID exception 262 UPDATE songs SET enabled='0', date_played='2018-01-26 08:40:04' WHERE songs.ID='672'
+ID exception 260 UPDATE songs SET enabled='0', date_played='2018-01-26 07:47:48' WHERE songs.ID='784'
+ID exception 261 UPDATE songs SET enabled='0', date_played='2018-01-26 11:39:46' WHERE songs.ID='781'
+ 
+2018-01-29 11:57:01
+Ora per l'abilitazione dinamica delle tracce 12
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 08:21:50' WHERE songs.ID='507'
+ID exception 262 UPDATE songs SET enabled='0', date_played='2018-01-26 04:03:17' WHERE songs.ID='672'
+ID exception 260 UPDATE songs SET enabled='0', date_played='2018-01-26 12:50:46' WHERE songs.ID='784'
+ID exception 261 UPDATE songs SET enabled='0', date_played='2018-01-26 17:13:30' WHERE songs.ID='781'
+ 
+2018-01-29 12:57:00
+Ora per l'abilitazione dinamica delle tracce 13
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 16:59:16' WHERE songs.ID='507'
+ 
+2018-01-29 12:57:00
+Ora per l'abilitazione dinamica delle tracce 13
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 04:21:46' WHERE songs.ID='507'
+ 
+2018-01-29 12:57:03
+Ora per l'abilitazione dinamica delle tracce 13
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 07:43:25' WHERE songs.ID='507'
+ 
+2018-01-29 13:57:01
+Ora per l'abilitazione dinamica delle tracce 14
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 17:56:36' WHERE songs.ID='507'
+ 
+2018-01-29 13:57:01
+Ora per l'abilitazione dinamica delle tracce 14
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 11:26:54' WHERE songs.ID='507'
+ 
+2018-01-29 14:57:00
+Ora per l'abilitazione dinamica delle tracce 15
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 16:39:37' WHERE songs.ID='507'
+ 
+2018-01-29 14:57:01
+Ora per l'abilitazione dinamica delle tracce 15
+ID exception 252 UPDATE songs SET enabled='0', date_played='2018-01-26 14:10:03' WHERE songs.ID='507'
+ 
+2018-01-29 15:57:00
+Ora per l'abilitazione dinamica delle tracce 16
+ID exception 265 UPDATE songs SET enabled='0', date_played='2018-01-26 11:27:26' WHERE songs.ID='507'
+ 
+2018-01-29 15:57:00
+Ora per l'abilitazione dinamica delle tracce 16
+ID exception 265 UPDATE songs SET enabled='0', date_played='2018-01-26 09:11:44' WHERE songs.ID='507'
+ 
+2018-01-29 16:57:00
+Ora per l'abilitazione dinamica delle tracce 17
+ID exception 267 UPDATE songs SET enabled='0', date_played='2018-01-26 15:22:38' WHERE songs.ID='507'
+ 
+2018-01-29 16:57:00
+Ora per l'abilitazione dinamica delle tracce 17
+ID exception 267 UPDATE songs SET enabled='0', date_played='2018-01-26 06:39:59' WHERE songs.ID='507'
+ 
+2018-01-29 17:57:00
+Ora per l'abilitazione dinamica delle tracce 18
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-26 12:50:08' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-26 03:32:35' WHERE songs.ID='781'
+ 
+2018-01-29 17:57:00
+Ora per l'abilitazione dinamica delle tracce 18
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-29 02:01:56' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 17:46:07' WHERE songs.ID='781'
+ 
+2018-01-29 18:57:00
+Ora per l'abilitazione dinamica delle tracce 19
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-28 16:38:38' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 10:31:32' WHERE songs.ID='781'
+ 
+2018-01-29 18:57:00
+Ora per l'abilitazione dinamica delle tracce 19
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-28 15:52:06' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 18:02:31' WHERE songs.ID='781'
+ 
+2018-01-29 19:02:36
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-26 10:58:14' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 10:53:25' WHERE songs.ID='781'
+ 
+2018-01-29 19:02:36
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-28 17:31:28' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 17:05:00' WHERE songs.ID='781'
+ 
+2018-01-29 19:05:01
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-27 20:53:54' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 08:44:46' WHERE songs.ID='781'
+ 
+2018-01-29 19:05:02
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-28 08:00:31' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-26 21:39:25' WHERE songs.ID='781'
+ 
+2018-01-29 19:05:21
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-29 15:12:10' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 22:46:54' WHERE songs.ID='781'
+ 
+2018-01-29 19:05:21
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-27 19:55:45' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 07:50:08' WHERE songs.ID='781'
+ 
+2018-01-29 19:05:29
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-29 17:58:35' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 08:05:42' WHERE songs.ID='781'
+ 
+2018-01-29 19:06:20
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-28 20:21:18' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 14:38:59' WHERE songs.ID='781'
+ 
+2018-01-29 19:06:32
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-27 08:52:56' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-29 01:17:57' WHERE songs.ID='781'
+ 
+2018-01-29 19:06:58
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-27 10:44:13' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 06:44:52' WHERE songs.ID='781'
+ 
+2018-01-29 19:06:59
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-27 06:07:07' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 23:01:40' WHERE songs.ID='781'
+ 
+2018-01-29 19:07:04
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-26 23:03:02' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='1', date_played='2018-01-29 10:51:31' WHERE songs.ID='781'
+ 
+2018-01-29 19:07:07
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-28 08:54:11' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='1', date_played='2018-01-28 18:51:19' WHERE songs.ID='781'
+ 
+2018-01-29 19:07:12
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-26 16:59:09' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 21:09:01' WHERE songs.ID='781'
+ 
+2018-01-29 19:07:31
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='0', date_played='2018-01-28 08:36:11' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 10:02:32' WHERE songs.ID='781'
+ 
+2018-01-29 19:09:57
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-26 14:28:17' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-29 11:50:31' WHERE songs.ID='781'
+ 
+2018-01-29 19:10:39
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-28 18:05:42' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 05:44:11' WHERE songs.ID='781'
+ 
+2018-01-29 19:11:07
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-27 06:22:26' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 12:39:10' WHERE songs.ID='781'
+ 
+2018-01-29 19:11:41
+Ora per l'abilitazione dinamica delle tracce 20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-27 17:46:00' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-27 00:50:08' WHERE songs.ID='781'
+ 
+2018-01-29 19:16:45
+Time to enable audio tracks  20
+ID exception 266 UPDATE songs SET enabled='1', date_played='2018-01-26 13:50:22' WHERE songs.ID='507'
+ID exception 268 UPDATE songs SET enabled='0', date_played='2018-01-28 22:53:20' WHERE songs.ID='781'

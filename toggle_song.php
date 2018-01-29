@@ -46,6 +46,8 @@
 
 	$toolpwd=$riga[5];
 
+	$language=$riga[7];
+
 	$nomedbap='rdj_library_assistant';
 	
 	$control=0;
@@ -61,6 +63,9 @@
 	$pwd=str_replace($order, $replace,$pwd);
 	$toolusr=str_replace($order, $replace,$toolusr);
 	$toolpwd=str_replace($order, $replace,$toolpwd);
+	$language=str_replace($order, $replace,$language);
+
+	include("languages/".$language);
 
 	
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
@@ -111,11 +116,10 @@
 
 		}
 
-	$stamp="Ora per l'abilitazione dinamica delle tracce ".$hour;
+	$stamp=$translation['info_toggle'].": ".$hour;
 
 	fwrite($logger, $stamp.PHP_EOL);
 
-	//echo gmdate("Y-m-d H:i:s",time())."<br>";
 
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
@@ -135,9 +139,7 @@
 		}
 		
 	}
-	//echo "a:";
-	//print_r($a);
-	//echo "<br><br><br>";
+
 	
 	//Array ID e ID_song di tutte le eccezioni di default
 
@@ -157,9 +159,6 @@
 		}
 		
 	}
-	//echo "b:";
-	//print_r($b);
-	//echo "<br><br><br><br>";
 
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
 	
@@ -202,10 +201,6 @@
 
 	}		
 
-	//echo "c:";	
-	//print_r($c);
-	//echo"<br><br><br>";
-
 
 	//query per ricavare la grid settimanale di ogni traccia
 	for($x=0;$x<sizeof($c);$x++){
@@ -220,37 +215,12 @@
 
 		$result=$Grid->fetch_assoc();
 
-		//print_r($result);
 		
 		fwrite($logger, "ID exception ".$ID_exc." ");		
 
 		$actual_day = date ('N', time())-1;
 
-		//echo "Giorno della settimana ".$actual_day."<br>";
 
-
-		
-
-		//$day = date ('m-d',time());
-/*
-		$day = time();
-		$dayplushour = time() + 3600;
-
-
-
-
-		$today  = strftime("%Y-%m-%d, %H:%M:%S", $day);
-		$dayplushour_f=strftime("%Y-%m-%d, %H:%M:%S", $dayplushour);
-
-		echo "today ".$day ."<br>";
-		echo "dayplushour ".$dayplushour ."<br>";
-
-		echo "today_f ".$today ."<br>";
-		echo "today+1_f ".$dayplushour_f ."<br>";
-
-	*/
-		
-		
 		//creo l'array per il giorno corrente
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
 
@@ -258,15 +228,10 @@
 
 		}
 
-		//print_r($array_day);
-		
-
-		//echo "<br>actual day ".$actual_day;
-
-		//echo "<br>Ora per attivazione:".$actual_hour ."<br>";
-
-		
+		print_r($array_day);
+	
 		$status=$array_day[$hour];
+
 
 		fwrite($logger,toggle_song($ID_song,$status).PHP_EOL);
 

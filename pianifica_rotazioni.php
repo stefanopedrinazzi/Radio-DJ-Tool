@@ -199,6 +199,7 @@
 	
 		while($name = mysqli_fetch_assoc($rotation_name)){
 
+
     		$stamp_name.= "<option value=\"".$name['name']."\">" . $name['name'] ."</option>" ;
 
 		}  
@@ -256,14 +257,21 @@
 
 					$array=explode("|", $events['data']);
 
-					if($array[2]==""){
+						if($events['data']=="Clear Playlist!"){
 
-						$rotation_array[]="0";
-					}else{
+						$rotation_array[]=0;
 
-						$rotation_array[]=$array[2];
-					}
+						}else{
+							if($array[0]=="Clear Playlist!
+Load Rotation"){
+								
+								$rotation_array[]=$array[2];
+							}else{
 
+								$rotation_array[]=1;
+
+							}
+						}
 				}
 			}
 
@@ -453,8 +461,14 @@
   		</script>
 	</head>
 	<body>
+
+		<h3 class="ui header" style="margin-top:10px; margin-left:10px">
+ 		 <i class="calendar icon"></i>
+  			<div class="content">
+    			<?php echo $translation['label_plan_rotation']?>
+  			</div>
+		</h3>
 	
-		<h2 class="ui blue center aligned header" style="margin-top:20px"><?php echo $translation['label_plan_rotation']?></h2>
 		<table class="ui blue striped table" style="line-height:0">
 			<thead>
 				<tr>

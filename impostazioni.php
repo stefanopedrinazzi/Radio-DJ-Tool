@@ -23,6 +23,26 @@
 
 	}
 
+	$stamp_languages="";
+
+	$dir="languages/";
+
+	$files = scandir($dir);
+
+	for($i=0;$i<sizeof($files);$i++){
+
+		if($files[$i]=="." || $files[$i]==".."){
+
+			continue;
+
+		}else{
+
+			$text=substr($files[$i], 0 , -4);
+
+			$stamp_languages .= "<option value=\"".$files[$i]."\">".$text."</option>" ;
+		}
+	}
+	
 ?>
 
 <!DOCTYPE html>
@@ -49,41 +69,9 @@
 			var toolpwd=$('#toolpwd').val(<?php echo json_encode($riga[5]) ?>);
 			var path=$('#root').val(<?php echo json_encode($riga[6]) ?>);
 
-			var fileExtentionRange = '.php';
-			var MAX_SIZE = 30; // MB
+			var language=<?php echo "\"".$language."\""; ?>;
 
-			$(document).on('change', '.btn-file :file', function() {
-			    var input = $(this);
-
-			    if (navigator.appVersion.indexOf("MSIE") != -1) { // IE
-			        var label = input.val();
-
-			        input.trigger('fileselect', [ 1, label, 0 ]);
-			    } else {
-			        var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-			        var numFiles = input.get(0).files ? input.get(0).files.length : 1;
-			        var size = input.get(0).files[0].size;
-
-			        input.trigger('fileselect', [ numFiles, label, size ]);
-			    }
-			});
-
-			$('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
-			    $('#attachmentName').attr('name', 'attachmentName'); // allow upload.
-
-			    var postfix = label.substr(label.lastIndexOf('.'));
-			    if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
-			        if (size > 1024 * 1024 * MAX_SIZE ) {
-			            
-			            $('#attachmentName').removeAttr('name'); // cancel upload file.
-			        } else {
-			            $('#_attachmentName').val(label);
-			        }
-			    } else {
-
-			        $('#attachmentName').removeAttr('name'); // cancel upload file.
-			    }
-			});
+			$('#files option[value="'+language+'"]').prop("selected", true);
 
 			$("#conferma").on('click',function(){
 
@@ -94,7 +82,7 @@
 			toolusr=$('#toolusr').val();
 			toolpwd=$('#toolpwd').val();
 			path=$('#root').val();
-			language=$('#attachmentName').val().replace(/\\/g, '/').replace(/.*\//, '');
+			language=$('#files').val();
 
 			//controllo dei valori necessari
 			if(nomedb=="" || nomehost=="" || toolusr=="" || usr=="" || path==""){
@@ -163,10 +151,14 @@
     		<div class="ui massive text loader"><?php echo $translation['label_loading']?></div>
   	</div>
 
-	<h3 class="ui center aligned header" style="margin-top:40px"><?php echo $translation['label_settings']?></h3>
+	<h3 class="ui header" style="margin-top:10px; margin-left:10px">
+ 		 <i class="setting icon"></i>
+  			<div class="content">
+    			<?php echo $translation['label_settings']?>
+  			</div>
+	</h3>
 
-
-	<table id="menutable" class="ui blue large table" style="margin-top:40px">
+	<table id="menutable" class="ui blue large table" style="margin-top:10px">
 		<tr  class="center aligned">
 			<td>
 				<h4><?php echo $translation['label_database_name_RDJ']?></h4>
@@ -243,15 +235,11 @@
 				<h4><?php echo $translation['label_language']?></h4>
 			</td>
 			<td>
-				<div class="field">
-    				<div class="ui action focus input" style="width:400px">
-				        <input type="text" id="_attachmentName">
-				        	<label for="attachmentName" class="ui icon button btn-file">
-             					<i class="file outline icon"></i>
-             						<input type="file" id="attachmentName" name="attachmentName" style="display: none">
-       					 	</label>
-    				</div>
-				</div> 
+				<div>
+					<select id="files" class="big ui selection dropdown" name="files" style="width:400px;height:45px;">
+						<?php echo $stamp_languages; ?>
+					</select>
+				</div>
 			</td>
 		</tr>
 		

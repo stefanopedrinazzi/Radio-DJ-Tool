@@ -228,6 +228,28 @@ $translation['title_plan_rotation']="Plan rotation tool";
 
 $translation['title_weekly_report']="Weekly report tool";
 
+$translation['label_songs']="Songs";
+
+$translation['label_call']="Calls";
+
+$translation['label_w_reproductions']="Week <br> reproductions";
+
+$translation['label_d_reproductions']="Day <br> reproductions";
+
+$translation['label_d_average']="daily average";
+
+$translation['label_week']="week";
+
+$translation['label_scheduled_hour']="scheduled hours";
+
+$translation['label_h_average']="average hours";
+
+$translation['label_separation']="separation";
+
+$translation['label_enabled']="Enabled";
+
+$translation['info_toggle']="Time to enable audio tracks ";
+
 $translation['mon_00']="Mon00";
 
 $translation['tue_00']="Tue00";

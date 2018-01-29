@@ -2,7 +2,16 @@
 
 	include("FunctionNew.php");
 
-	include("languages/eng.php");
+	$riga=check_config();
+
+	$language=$riga[7];
+
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+
+	$language=str_replace($order, $replace,$language);
+
+	include("languages/".$language);
 
 	$connectionrd=DBrd_connection();
 
@@ -95,6 +104,16 @@
 		        .on('xhr.dt', function ( e, settings, json, xhr ) {
 		        	
 		            json.data=json.data.map(function(song){
+
+		            	if(song.Abilitata==1){
+						
+							song.Abilitata='<a class="ui mini green empty circular label" style="margin-top:7px;"></a>';
+						
+						}else{
+
+							song.Abilitata='<a class="ui mini red empty circular label" style="margin-top:7px;"></a>';
+						}
+
 		            	if(song.Eccezioni!==0){
 						
 							song.Azione='<button class="mini ui icon labeled primary button" name="get_song" value='+song.Azione+'><i class="setting icon"></i><?php echo $translation['label_edit']?></button>';
@@ -121,6 +140,7 @@
 	  				},columns:[
 	  					{ data: "Titolo" },
 	  					{ data: "Artista" },
+	  					{ data: "Abilitata" },
 	  					{ data: "Eccezioni" },
 	  					{ data: "Azione" }
 	  				],
@@ -324,13 +344,16 @@
 		<thead>
 	        
 			<tr>
-				<th style="width:35%">
+				<th style="width:30%">
 					<i class="music icon"></i><?php echo $translation['label_title']?>	
 				</th>
-				<th style="width:35%">
+				<th style="width:30%">
 					<i class="user icon"></i><?php echo $translation['label_artist']?>
 				</th>
-				<th>
+				<th style="width:15%">
+					<?php echo $translation['label_enabled']?>
+				</th>
+				<th style="width:10%">
 					<i class="hashtag icon"></i><?php echo $translation['label_exception']?>
 				</th>
 				<th>

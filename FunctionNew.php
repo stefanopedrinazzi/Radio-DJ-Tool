@@ -128,8 +128,6 @@
 
 		$query="SELECT songs.path,songs.ID FROM songs JOIN subcategory ON subcategory.ID=songs.id_subcat WHERE subcategory.ID='$categoryID'";
 
-		//echo $query;
-		//echo "<br>	";
 
 		//acquisizione path dalla tabella song radio dj
 		if($oldpath= $connectionrd->query($query)){
@@ -469,7 +467,7 @@
 
 	function Convert_date(&$data){
 
-		include("languages/".$language);
+		include("languages/".$_SESSION['language']);
 
 		$date="";
 		
@@ -484,31 +482,31 @@
 			
 			switch ($app) {
 	    		case $translation['label_january']:
-	        		$app="01";
+	        		$app="1";
 	        		break;
 	    		case $translation['label_february']:
-	        		$app="02";
+	        		$app="2";
 	        		break;
 	        	case $translation['label_march']:
-	        		$app="03";
+	        		$app="3";
 	        		break;
 	        	case $translation['label_april']:
-	        		$app="04";
+	        		$app="4";
 	        		break;
 	        	case $translation['label_may']:
-	        		$app="05";
+	        		$app="5";
 	        		break;
 	        	case $translation['label_june']:
-	        		$app="06";
+	        		$app="6";
 	        		break;
 	        	case $translation['label_july']:
-	        		$app="07";
+	        		$app="7";
 	        		break;
 	        	case $translation['label_august']:
-	        		$app="08";
+	        		$app="8";
 	        		break;
 	        	case $translation['label_september']:
-	        		$app="09";
+	        		$app="9";
 	        		break;
 	        	case $translation['label_october']:
 	        		$app="10";
@@ -522,7 +520,7 @@
 			}
 		
 
-		$date=$app.$date_day;
+		$date=$app."".$date_day;
 		}
 		return ($date);
 
@@ -565,11 +563,17 @@
 
 		global $db_nameap;
 
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
 		$ID_default="";
 
 		$active_delete=0;
 
 		mysqli_select_db($connectionap,$db_nameap);
+
+		mysqli_select_db($connectionrd,$db_namerd);
 
 		$query="SELECT songs_exceptions.ID FROM songs_exceptions WHERE songs_exceptions.data_in='0' AND songs_exceptions.ID_song='$songID'";
 
@@ -602,12 +606,19 @@
 			echo 0;
 
 		}else{
+
+			$enabled="UPDATE songs SET enabled='1' WHERE songs.ID='$songID'";
+
+
+			$active=$connectionrd->query($enabled);
 		
 			$delete="DELETE FROM songs_exceptions WHERE songs_exceptions.ID_song='$songID' AND songs_exceptions.ID='$ExceptionID'";
 
 			$delet=$connectionap->query($delete);
 
 			$connectionap->close();
+
+			$connectionrd->close();
 
 			echo 1;
 		}
@@ -677,7 +688,7 @@
 
 	function Convert_date_name(&$data){
 
-		include("languages/".$language);
+		include("languages/".$_SESSION['language']);
 
 		$day=substr($data,-2);
 
@@ -775,7 +786,7 @@
 
 		$is_active="";
 
-		if($status===0){
+		if($status==0){
 			$status=1;
 			$is_active.= $translation['info_active_track'];
 		}else{
@@ -815,10 +826,12 @@
 			$data.="0".$data;
 		}
 		
+			
 		if($data!=0){
 			$day=substr($data,-2);
 			$mese=substr($data, -4,-2);
 
+		
 				$data_convert=$year."-".$mese."-".$day;
 				
 

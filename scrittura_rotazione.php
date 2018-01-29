@@ -67,7 +67,7 @@
 	}
 
 	
-	print_r($array);
+	//print_r($array);
 
 	$index=0;
 
@@ -114,17 +114,30 @@
 			}
 
 
-			if($array[$index]==="0"){
+			if($array[$index]=="0"){
 			
 				$update="UPDATE events SET events.data='Clear Playlist!' WHERE events.name='$name'";
 
-				//echo $update."\n";
 			
 			}else{
 
-				if($array[$index]==="1"){
+				if($array[$index]=="1"){
 
+					$value="SELECT events.data FROM events WHERE events.name='$name'";
 
+					$data=$connectionap->query($value);
+
+					$result=$data->fetch_assoc();
+
+						if($result['data']==""){
+
+							$update="UPDATE events SET events.data='' WHERE events.name='$name'";
+						
+						}else{
+
+							$update="UPDATE events SET events.data='$result['data']' WHERE events.name='$name'";
+
+						}
 
 				}else{
 			

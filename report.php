@@ -92,26 +92,30 @@
 	//conversione della data corrente mediante funzione
 	$now=Convert_date($data);
 
+	$date_for_query=$now;
+
 	if($now==""){
 
-	$actual_day = date ('N', time())-1;
+	$actual_day = date ('N', time()-1);
 
 	}else{
 
-	$mytime= different_convert_date($now).", 00:00:00";
+	$mytime=different_convert_date($now).", 00:00:00";
 
 	$mytime=strtotime($mytime);
 
 	$actual_day = date('N', $mytime)-1;
 
 	}
-
+	
+	
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
-	$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$now' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
+	$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$date_for_query' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
 
 	$i=0;
 	$x=0;
+	
 	if($exc_date=$connectionap->query($exception)){
 
 		while($exc=$exc_date->fetch_assoc()){
@@ -185,7 +189,6 @@
 
 	}
 	
-
 	//creazione della matrice contenente ID delle canzoni e le informazioni delle eccezioni attive per la data selezionata
 	for($x=0;$x<sizeof($c);$x++){
 
@@ -224,9 +227,8 @@
 
 	$i=0;
 
-
 	//creazione array contenente l'ID delle canzoni presente nella categoria selezionata 
-	$query="SELECT * FROM songs WHERE id_subcat='$id_subcat' AND enabled='1'";
+	$query="SELECT * FROM songs WHERE id_subcat='$id_subcat'";
 
 	if($song_subcat=$connectionrd->query($query)){
 
@@ -239,12 +241,10 @@
 		}
 	}
 
-	
 	//creazione dell'array confrontanto gli ID della cateogria e gli ID delle eccezioni per la data selezionata
 	for($x=0;$x<sizeof($category);$x++){
 
 		for($y=0;$y<sizeof($matrix);$y++){
-
 
 			if($category[$x]==$matrix[$y][0]){
 
@@ -254,7 +254,7 @@
 		}
 	}
 	
-	
+
 	//creazione array contenente le tracce attive e disattive per ogni ora e giorno delle tracce della categoria
 	$disabled=0;
 
@@ -262,8 +262,7 @@
 
 		for($x=0;$x<sizeof($matrix);$x++){
 
-			//echo $res[$x][$y]."\n";
-			if ($res[$x][$y]!=0){
+			if ($res[$x][$y]==1){
 
 				$disabled+=1;
 
@@ -271,6 +270,7 @@
 		}
 		
 		$arrayhour[$y-1][0]=$disabled;
+
 		$arrayhour[$y-1][1]=sizeof($category)-$disabled;
 		$disabled=0;
 	}
@@ -334,7 +334,7 @@
 		<table class="ui blue table">
 			<tr>
 				<td>
-					<h3><?php if($now==""){
+					<h3><i class="bar chart icon"></i><?php if($now==""){
 						echo "Risultati per oggi "; 
 					}else{
 						echo $translation['info_result_category']." ".$categoria." , ".$translation['info_result_day']." ".$data;

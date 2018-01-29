@@ -2,20 +2,7 @@
 
 	include("FunctionNew.php");
 
-	if(check_config()==1){
-
-		$riga[0]="";
-		$riga[1]="";
-		$riga[2]="";
-		$riga[3]="";
-		$riga[4]="";
-		$riga[5]="";
-		$riga[6]="";
-		$riga[7]="";
-	}else{
-
-		$riga=check_config();
-	}
+	$riga=check_config();
 
 	$language=$riga[7];
 
@@ -181,6 +168,7 @@
 
 	$result=array();
 	error_reporting(E_ALL);
+
 
 	for($x=0;$x<sizeof($rotation_array);$x++){
 

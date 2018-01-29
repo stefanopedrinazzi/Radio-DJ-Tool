@@ -92,7 +92,7 @@
 			$total[$count][]=$stamp_category;
 
 
-			$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub'";
+			$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub' AND enabled='1'";
 
 			if($number = mysqli_query($connectionrd,$num)){
 	
@@ -278,7 +278,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Informazioni eccezioni per categoria</title>
+		<title><?php echo $translation['label_statistics']?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
@@ -298,32 +298,40 @@
 
   	</head>
 	<body>
+
+		<h3 class="ui header" style="margin-top:10px; margin-left:10px">
+ 		 <i class="bar chart icon"></i>
+  			<div class="content">
+    			<?php echo $translation['label_statistics']?>
+  			</div>
+		</h3>
+
 		<table class="ui blue center aligned striped table" style="line-height:0">
 			<thead>
 				<tr>
 					<th>
-						<h3>Categorie</h3>
+						<h3><?php echo $translation['label_category']?></h3>
 					</th>
 					<th>
-						<h3># Canzoni</h3>
+						<h3><?php echo "#".$translation['label_songs']?></h3>
 					</th>
 					<th>
-						<h3># Chiamate</h3>
+						<h3><?php echo "#".$translation['label_call']?></h3>
 					</th>
 					<th>
-						<h4>Riproduzioni<br>settimana</h4>
+						<h4><?php echo $translation['label_w_reproductions']?></h4>
 					</th>
 					<th>
-						<h4>Riproduzioni<br>giorno</h4>
+						<h4><?php echo $translation['label_d_reproductions']?></h4>
 					</th>
 					<th>
-						<h4>Ore programmate<br>(settimana)</h4>
+						<h4><?php echo $translation['label_scheduled_hour']."<br>(".$translation['label_week'].")"?></h4>
 					</th>
 					<th>
-						<h4>Ore programmate<br>(media giorno)</h4>
+						<h4><?php echo $translation['label_scheduled_hour']."<br>(".$translation['label_d_average'].")"?></h4>
 					</th>
 					<th>
-						<h4>Separazione<br>(media ore)</h4>
+						<h4><?php echo $translation['label_separation']."<br>(".$translation['label_h_average'].")"?></h4>
 					</th>
 					
 				</tr>
@@ -332,7 +340,7 @@
 		</table>
 		<div>
 		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px">
-	  		<i class="reply icon"></i><label>Chiudi</label>
+	  		<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 		</div>
 	</body>

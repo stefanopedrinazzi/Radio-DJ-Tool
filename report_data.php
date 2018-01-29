@@ -2,7 +2,16 @@
 
 	include("FunctionNew.php");
 
-	include("languages/eng.php");
+	$riga=check_config();
+
+	$language=$riga[7];
+
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+
+	$language=str_replace($order, $replace,$language);
+
+	include("languages/".$language);
 
 	$connectionrd=DBrd_connection();
 

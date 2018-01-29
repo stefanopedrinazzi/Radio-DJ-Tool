@@ -290,7 +290,14 @@
   		</script>
 	</head>
 	<body>
-		<h2 class="ui blue center aligned header" style="margin-top:20px"><?php echo $translation['title_weekly_statement']?></h2>
+
+		<h3 class="ui header" style="margin-top:10px; margin-left:10px">
+ 		 <i class="calendar icon"></i>
+  			<div class="content">
+    			<?php echo $translation['title_weekly_statement']?>
+  			</div>
+		</h3>
+
 		<table class="ui blue table"></table>
 		<div style="line-height:0;width:70%;margin:0 auto;">
 		

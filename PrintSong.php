@@ -58,32 +58,32 @@
 
 		if($category_ID=="0" && $ID_genre=="0" && $ID_subcat=="0"){
 
-		$song="SELECT songs.ID, songs.artist, songs.title FROM songs ";
+		$song="SELECT songs.ID, songs.artist, songs.title, songs.enabled FROM songs ";
 
 		$count="SELECT COUNT(*) AS total FROM songs";
 
 		}elseif ($ID_subcat=="0" && $ID_genre=="0"){
 		
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID' ";
+			$song="SELECT songs.ID, songs.artist, songs.title, songs.enabled FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID' ";
 			
 			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON category.ID=subcategory.parentid JOIN songs ON songs.id_subcat=subcategory.ID WHERE category.ID='$category_ID'";
 
 		}elseif($ID_subcat=="0" && $ID_genre!="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ";
+			$song="SELECT songs.ID, songs.artist, songs.title, songs.enabled FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ";
 
 			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND category.ID='$category_ID' ";
 		
 		}elseif($ID_subcat!="0" && $ID_genre=="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ";
+			$song="SELECT songs.ID, songs.artist, songs.title, songs.enabled FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ";
 
 			$count="SELECT COUNT(*) AS total FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
 
 		
 		}elseif($ID_subcat!="0" && $ID_genre!="0"){
 			
-			$song="SELECT songs.ID,songs.artist, songs.title FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ";
+			$song="SELECT songs.ID, songs.artist, songs.title, songs.enabled FROM category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID' ";
 
 			$count="SELECT COUNT(*) AS total FROM  category JOIN subcategory ON subcategory.parentid=category.ID JOIN songs ON songs.id_subcat=subcategory.ID WHERE songs.id_genre='$ID_genre' AND songs.id_subcat='$ID_subcat' AND category.ID='$category_ID'";
 		
@@ -143,7 +143,7 @@
 			error_reporting(E_ALL);
 				
 
-				array_push($elenco_songs['data'], array('Titolo' => $riga['title'], 'Artista' => $riga['artist'], 'Eccezioni' => $number, 'Azione'=>$riga['ID']));
+				array_push($elenco_songs['data'], array('Titolo' => $riga['title'], 'Artista' => $riga['artist'], 'Abilitata' => $riga['enabled'], 'Eccezioni' => $number, 'Azione'=>$riga['ID']));
 
 			}
 

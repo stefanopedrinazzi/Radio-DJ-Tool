@@ -1,7 +1,5 @@
 <?php
 
-	include("languages/eng.php");
-
 	include("FunctionNew.php");
 
 	//connesione al database del tool

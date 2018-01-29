@@ -1,8 +1,30 @@
 <?php
 
-	include("languages/eng.php");
-
 	include("FunctionNew.php");
+
+	if(check_config()==1){
+
+		$riga[0]="";
+		$riga[1]="";
+		$riga[2]="";
+		$riga[3]="";
+		$riga[4]="";
+		$riga[5]="";
+		$riga[6]="";
+		$riga[7]="";
+	}else{
+
+		$riga=check_config();
+	}
+
+	$language=$riga[7];
+
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+
+	$language=str_replace($order, $replace,$language);
+
+	include("languages/".$language);
 
 	$var = $_POST['categoria'];
 

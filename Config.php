@@ -1,6 +1,4 @@
 <?php 
-	
-	include("languages/eng.php");
 
 	include("FunctionNew.php");
 
@@ -17,6 +15,21 @@
 	$passwordap=$_POST['toolpwd'];
 
 	$path=$_POST['path'];
+
+	$language=$_POST['language'];
+
+	if($language==""){
+
+		$riga=check_config();
+
+		$language=$riga[7];
+
+		$order= array("\r\n", "\n", "\r");
+		$replace = '';
+
+		$language=str_replace($order, $replace,$language);
+		
+	}
 	
 	//$_SESSION['rootdirectory']=$_POST['rootdirectory'];
 
@@ -29,6 +42,7 @@
 		fwrite($config, $usernameap.PHP_EOL);
 		fwrite($config, $passwordap.PHP_EOL);
 		fwrite($config, $path.PHP_EOL);
+		fwrite($config, $language.PHP_EOL);
 
 
 		fclose($config);

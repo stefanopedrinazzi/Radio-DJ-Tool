@@ -19,6 +19,10 @@
 
 	$toolpwd=$riga[5];
 
+	$path=$riga[6];
+
+	$language=$riga[7];
+
 	$nomedbap='rdj_library_assistant';
 	
 	$control=0;
@@ -34,7 +38,10 @@
 	$pwd=str_replace($order, $replace,$pwd);
 	$toolusr=str_replace($order, $replace,$toolusr);
 	$toolpwd=str_replace($order, $replace,$toolpwd);
+	$path=str_replace($order, $replace,$path);
+	$language=str_replace($order, $replace,$language);
 
+	include("languages/".$language);
 	//richiamo funzioni per testare le connessioni dei due database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
@@ -59,6 +66,8 @@
 		$_SESSION['passwordrd']=$pwd;
 		$_SESSION['usernameap']=$toolusr;
 		$_SESSION['passwordap']=$toolpwd;
+		$_SESSION['path']=$path;
+		$_SESSION['language']=$language;
 	
 	}
 

@@ -1,6 +1,4 @@
 <?php
-
-	include("languages/eng.php");
 	 
 	ini_set('memory_limit','512M');
 
@@ -18,6 +16,7 @@
 	$usernameap=$_SESSION['usernameap'];
 	$passwordap=$_SESSION['passwordap'];
 	$path=$_SESSION['path'];
+	$language=$_SESSION['language'];
 	$db_nameap="rdj_library_assistant";
 	
 	error_reporting(E_ALL);
@@ -470,7 +469,7 @@
 
 	function Convert_date(&$data){
 
-		include("languages/eng.php");
+		include("languages/".$language);
 
 		$date="";
 		
@@ -678,7 +677,7 @@
 
 	function Convert_date_name(&$data){
 
-		include("languages/eng.php");
+		include("languages/".$language);
 
 		$day=substr($data,-2);
 

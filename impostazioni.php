@@ -2,23 +2,26 @@
 	
 	include("FunctionNew.php");
 
-	include("languages/eng.php");
-
 	//richiamo della funzione per fare il check del file config.txt per la connessione
-	if(check_config()==1){
+	$riga=check_config();
+	
 
-		$riga[0]="";
-		$riga[1]="";
-		$riga[2]="";
-		$riga[3]="";
-		$riga[4]="";
-		$riga[5]="";
-		$riga[6]="";
+	$language=$riga[7];
+
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+
+	$language=str_replace($order, $replace,$language);
+
+	if($language==""){
+
+		include("languages/eng.php");
+
 	}else{
 
-		$riga=check_config();
-	}
+		include("languages/".$language);
 
+	}
 
 ?>
 
@@ -46,6 +49,42 @@
 			var toolpwd=$('#toolpwd').val(<?php echo json_encode($riga[5]) ?>);
 			var path=$('#root').val(<?php echo json_encode($riga[6]) ?>);
 
+			var fileExtentionRange = '.php';
+			var MAX_SIZE = 30; // MB
+
+			$(document).on('change', '.btn-file :file', function() {
+			    var input = $(this);
+
+			    if (navigator.appVersion.indexOf("MSIE") != -1) { // IE
+			        var label = input.val();
+
+			        input.trigger('fileselect', [ 1, label, 0 ]);
+			    } else {
+			        var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			        var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+			        var size = input.get(0).files[0].size;
+
+			        input.trigger('fileselect', [ numFiles, label, size ]);
+			    }
+			});
+
+			$('.btn-file :file').on('fileselect', function(event, numFiles, label, size) {
+			    $('#attachmentName').attr('name', 'attachmentName'); // allow upload.
+
+			    var postfix = label.substr(label.lastIndexOf('.'));
+			    if (fileExtentionRange.indexOf(postfix.toLowerCase()) > -1) {
+			        if (size > 1024 * 1024 * MAX_SIZE ) {
+			            
+			            $('#attachmentName').removeAttr('name'); // cancel upload file.
+			        } else {
+			            $('#_attachmentName').val(label);
+			        }
+			    } else {
+
+			        $('#attachmentName').removeAttr('name'); // cancel upload file.
+			    }
+			});
+
 			$("#conferma").on('click',function(){
 
 			nomedb=$('#nomedb').val();
@@ -54,7 +93,8 @@
 			pwd=$('#pwd').val();
 			toolusr=$('#toolusr').val();
 			toolpwd=$('#toolpwd').val();
-			var path=$('#root').val();
+			path=$('#root').val();
+			language=$('#attachmentName').val().replace(/\\/g, '/').replace(/.*\//, '');
 
 			//controllo dei valori necessari
 			if(nomedb=="" || nomehost=="" || toolusr=="" || usr=="" || path==""){
@@ -62,6 +102,7 @@
 				alert("<?php echo $translation['alert_login']?>");
 			}else{
 
+				$('#caricamento').addClass("active");
 			//richiamo del file per testare la connessione con i valori inseriti  
 				$.ajax({
 				        type: 'POST',
@@ -69,7 +110,9 @@
 				        dataType: "HTML",
 				        data: { nomedb: nomedb, nomehost: nomehost, usr: usr, pwd: pwd, toolusr: toolusr,toolpwd: toolpwd},
 				        success: function(result) {
-								
+							
+						$('#caricamento').removeClass("active");
+
 						var res = parseInt(result, 10)
 
 						//check dei risultati restituiti dalla funzione per il test della connessione
@@ -82,7 +125,7 @@
 						        type: 'POST',
 						        url: 'Config.php',
 						        dataType: "HTML",
-						        data: { nomedb: nomedb, nomehost: nomehost,usr: usr,pwd: pwd,toolusr: toolusr,toolpwd: toolpwd, path: path},
+						        data: { nomedb: nomedb, nomehost: nomehost,usr: usr,pwd: pwd,toolusr: toolusr,toolpwd: toolpwd, path: path, language:language},
 						        success: function(result) {
 					        	
 					            	alert("<?php echo $translation['alert_login_correct']?>");
@@ -107,8 +150,18 @@
 
 	</script>
 
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+});
+</script>
+
 </head>
 <body>
+
+	<div id="caricamento" class="ui inverted dimmer">
+    		<div class="ui massive text loader"><?php echo $translation['label_loading']?></div>
+  	</div>
 
 	<h3 class="ui center aligned header" style="margin-top:40px"><?php echo $translation['label_settings']?></h3>
 
@@ -183,6 +236,22 @@
 				<div class="ui input focus large" style="width:400px">
 					<input id="root" type="text" name="rootdirectory"/>					
 				</div>
+			</td>
+		</tr>
+		<tr  class="center aligned">
+			<td>
+				<h4><?php echo $translation['label_language']?></h4>
+			</td>
+			<td>
+				<div class="field">
+    				<div class="ui action focus input" style="width:400px">
+				        <input type="text" id="_attachmentName">
+				        	<label for="attachmentName" class="ui icon button btn-file">
+             					<i class="file outline icon"></i>
+             						<input type="file" id="attachmentName" name="attachmentName" style="display: none">
+       					 	</label>
+    				</div>
+				</div> 
 			</td>
 		</tr>
 		

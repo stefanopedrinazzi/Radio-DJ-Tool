@@ -1,7 +1,5 @@
 <?php
 
-	include("languages/eng.php");
-
 	include("FunctionNew.php");
 
 		$connectionrd=DBrd_connection();

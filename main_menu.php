@@ -2,8 +2,6 @@
 
 	include("FunctionNew.php");
 
-	include("languages/eng.php");
-
 	//acquisizione dei dati per la connessione ai database
 	$riga=check_config();
 
@@ -21,6 +19,8 @@
 
 	$path=$riga[6];
 
+	$language=$riga[7];
+
 	$nomedbap='rdj_library_assistant';
 	
 	$control=0;
@@ -37,6 +37,18 @@
 	$toolusr=str_replace($order, $replace,$toolusr);
 	$toolpwd=str_replace($order, $replace,$toolpwd);
 	$path=str_replace($order, $replace,$path);
+	$language=str_replace($order, $replace,$language);
+
+	if($language==""){
+
+		include("languages/eng.php");
+
+	}else{
+
+		include("languages/".$language);
+
+	}
+	
 
 	//richiamo funzioni per testare le connessioni dei due database 
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
@@ -90,6 +102,7 @@
 	  								$_SESSION['usernameap']=$toolusr;
 	  								$_SESSION['passwordap']=$toolpwd;
 	  								$_SESSION['path']=$path;
+	  								$_SESSION['language']=$language;
 
 	  								}else{
 	  									echo 0;	

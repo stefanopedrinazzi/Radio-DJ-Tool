@@ -1,6 +1,4 @@
 <?php
-	
-	include("languages/eng.php");
 
 	include("FunctionNew.php");
 

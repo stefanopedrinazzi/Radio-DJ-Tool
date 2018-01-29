@@ -132,6 +132,8 @@ $translation['label_validation_ok']="Validation successful";
 
 $translation['label_settings']="Settings";
 
+$translation['label_language']="Language:";
+
 $translation['label_database_name_RDJ']="Database name radioDJ:";
 
 $translation['label_host_name']="RadioDJ Host Name (and Tool):";

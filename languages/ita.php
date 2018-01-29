@@ -132,6 +132,8 @@ $translation['label_validation_ok']="Validazione avvenuta con successo";
 
 $translation['label_settings']="Impostazioni";
 
+$translation['label_language']="Lingua:";
+
 $translation['label_database_name_RDJ']="Nome database radioDJ:";
 
 $translation['label_host_name']="Host name radioDJ(and Tool):";
@@ -204,17 +206,17 @@ $translation['label_songs_exceptions']="Eccezioni Traccia";
 
 $translation['label_consolidate_categories']="Consolida categorie";
 
-$translation['text_settings']="settings for database configuration and directory path.";
+$translation['text_settings']="impostazioni per la configurazione del database, il percorso della directory e la lingua.";
 
-$translation['text_weekly_report']="displays the weekly consumption of tracks for a specific category.";
+$translation['text_weekly_report']="permette di visualizzare il consumo settimanale di tracce per una categoria specifica.";
 
-$translation['text_plan_rotation']="define and modify the weekly music programming by scheduling the rotation to be loaded for each hour.";
+$translation['text_plan_rotation']="permette di definire e modificare la programmazione musicale settimanale programmando la rotazione da caricare per ogni ora.";
 
-$translation['text_category_information']="get the number of category exceptions given a day.";
+$translation['text_category_information']="permette di il numero di eccezioni di categoria dato un giorno.";
 
-$translation['text_songs_exceptions']="define and modify the hour, weekly and monthly exceptions for audio tracks.";
+$translation['text_songs_exceptions']="permette di definire e modificare l'ora, le eccezioni settimanali e mensili per le tracce audio.";
 
-$translation['text_consolidate_categories']="updates the path saved in the database and moves the audio tracks to the folder indicated by the new path.";
+$translation['text_consolidate_categories']="permette di aggiornare il percorso nel database e sposta le tracce audio nella cartella indicata dal nuovo percorso.";
 
 $translation['title_consolidate_categories']="Tool per la consolidazione delle categorie";
 
@@ -222,9 +224,9 @@ $translation['title_songs_exceptions']="Tool per definire le eccezioni per le tr
 
 $translation['title_category_information']="Category information Tool per avere informazioni riguardanti";
 
-$translation['title_plan_rotation']="Plan rotation tool";
+$translation['title_plan_rotation']="Tool per la pianificazione della rotazione";
 
-$translation['title_weekly_report']="Weekly report tool";
+$translation['title_weekly_report']="Tool per il report settimanale";
 
 $translation['mon_00']="Lun00";
 

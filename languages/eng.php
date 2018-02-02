@@ -118,7 +118,7 @@ $translation['label_num_cat']="No. songs in category:";
 
 $translation['label_info_green']="No. of calls per hour / No. of exceptions:";
 
-$translation['label_info_red']="Finished tracks by category:";
+$translation['label_info_red']="If red, finished tracks (No. of calls per hour/No. of exceptions):";
 
 $translation['label_consolidate_button']="Consolidate";
 

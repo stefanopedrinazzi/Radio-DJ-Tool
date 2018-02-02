@@ -129,8 +129,7 @@
 		        })
 		            
 		        .dataTable( {
-		        	ordering: false,
-
+		        	//ordering: false,
 		      		serverSide: true,
 		            ajax: {
 	    				url: 'PrintSong.php',
@@ -144,6 +143,10 @@
 	  					{ data: "Eccezioni" },
 	  					{ data: "Azione" }
 	  				],
+	  				columnDefs: [
+    					{ orderable: false, targets: 3 },
+    					{ orderable: false, targets: 4 },
+  					],
 	  				searching:false,
 	  				language: {
 	            		"lengthMenu": "<p style=\"margin-left:10px\"> <?php echo $translation['label_element_page']?></p>",
@@ -265,7 +268,7 @@
   		//pulsante per il ritorno al main menu
   		$('#annulla').on('click',function(){
 	
-		window.location.href = ('main_menu.php');
+		window.location.href = ('index.php');
 
 		});		
   	

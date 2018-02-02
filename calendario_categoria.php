@@ -21,6 +21,8 @@
 
 	$category_ID=$explode[0];
 
+	$rotation_array=array();
+
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;

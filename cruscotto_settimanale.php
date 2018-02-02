@@ -68,6 +68,8 @@
 	
 	}
 
+	write_events();
+
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;
@@ -267,7 +269,7 @@
 
 				$('#annulla').on('click',function(){
 	
-					window.location.href = ('main_menu.php');
+					window.location.href = ('index.php');
 
 				});	
 

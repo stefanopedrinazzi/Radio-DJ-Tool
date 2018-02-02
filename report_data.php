@@ -210,7 +210,7 @@
 
 	</table>
 
-		<button id="annulla" class=" big right floated ui icon labeled button" type="reset" onclick="window.location.href='main_menu.php'" style="margin-top:10px;margin-right: 30px">
+		<button id="annulla" class=" big right floated ui icon labeled button" type="reset" onclick="window.location.href='index.php'" style="margin-top:10px;margin-right: 30px">
   			<i class="reply icon"></i><label><?php echo $translation['label_close']?></label>
 		</button>
 		<button id="consolida" class="big right floated ui icon labeled primary button" type="submit" disabled="true" style="margin-top:10px">

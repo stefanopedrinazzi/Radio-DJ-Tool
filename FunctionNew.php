@@ -1103,4 +1103,130 @@
 		$connectionap->close();
 
 	}
+
+	function write_events(){
+
+	include("languages/".$_SESSION['language']);
+		
+	//connesione al database di RadioDJ
+	$connectionrd=DBrd_connection();
+
+	global $db_namerd;
+
+	mysqli_select_db($connectionrd,$db_namerd);
+
+	//controllo dell'esistenza della categoria di eventi "RDJLA-events"
+	if($control=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
+
+		//se non esiste la categoria viene creata
+		if($control->num_rows == 0){
+
+			$insert="INSERT INTO events_categories (name) values ('RDJLA-events')";
+
+			$inser=$connectionrd->query($insert);
+		
+		}
+	}
+	
+	//creazione degli eventi (24/7) da utilizzare per la pianificazione 					
+	for($x=1;$x<=7;$x++){
+
+		for($y=0;$y<=23;$y++){
+
+			if($y-1==-1){
+
+				$hours="&23";
+			
+				if($x-1==0){
+
+					$day="&7";
+
+				}else{
+
+					$d=$x-1;
+
+					$day="&".$d;
+
+				}
+			
+			}else{
+
+				$h=$y-1;
+
+				$hours="&".$h;
+
+				$day="&".$x;
+			}
+
+			switch ($x) {
+				case '1':
+					$name=$translation['label_mon'];
+					break;
+				case '2':
+					$name=$translation['label_tue'];
+					break;
+				case '3':
+					$name=$translation['label_wed'];
+					break;
+				case '4':
+					$name=$translation['label_thu'];
+					break;
+				case '5':
+					$name=$translation['label_fri'];
+					break;
+				case '6':
+					$name=$translation['label_sat'];
+					break;
+				case '7':
+					$name=$translation['label_sun'];
+					break;
+			}
+
+			if($y<10){
+								
+				$name.="0".$y;
+								
+			}else{
+
+				$name.=$y;
+								
+			}
+
+			$type=2;
+
+			$time="00:59:00";
+
+
+			//acquisizione ID dell'evento RDJA-events
+			if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
+
+				while($riga = mysqli_fetch_assoc($cat)){
+
+					$catID=$riga['ID'];
+
+				}
+			}
+
+			//scrittura degli eventi nel database se non esistenti utilizzando giorno e ora ricavati
+			if($exist=$connectionrd->query("SELECT ID FROM events WHERE day='$day' AND hours='$hours'")){
+
+				if($exist->num_rows == 0){
+
+				$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','Clear Playlist!
+')"; 
+
+				$event=$connectionrd->query($events);
+
+				}else{
+
+				$update="UPDATE events SET name='$name' WHERE day='$day' AND hours='$hours'";
+					
+				$updat=$connectionrd->query($update);
+			
+				}
+			}
+
+		}
+	}
+	}
 ?>	

@@ -117,7 +117,7 @@
 						        success: function(result) {
 					        	
 					            	alert("<?php echo $translation['alert_login_correct']?>");
-					            	window.location.href = ('main_menu.php');
+					            	window.location.href = ('index.php');
 				        		}
 				    		});
 						}
@@ -130,7 +130,7 @@
 			//azione per tornare al menù principale
 			$('#annulla').on('click',function(){
 	
-			window.location.href = ('main_menu.php');
+			window.location.href = ('index.php');
 
 			});		
 	

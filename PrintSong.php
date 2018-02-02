@@ -32,6 +32,8 @@
 
 		$old = $_POST['old'];
 
+		$order=$_POST['order'];
+
 		$explode = explode('~', $ID_cat);
 
 		$category_ID=$explode[0];
@@ -48,6 +50,27 @@
 		$limit=" LIMIT ".$length . " OFFSET " . $start;
 
 		$array=Number_exception();
+
+		$column=$order[0]['column'];
+
+		$dir=$order[0]['dir'];
+
+		switch ($column) {
+			case '0':
+				$ord="ORDER BY songs.title ".$dir;
+				break;
+			case '1':
+				$ord="ORDER BY songs.artist ".$dir;
+				break;
+			case '2':
+				$ord="ORDER BY songs.enabled ".$dir;
+				break;
+			
+			default:
+				$ord="ORDER BY songs.title ";
+				break;
+		}
+
 
 		if($old!="0"){
 
@@ -114,7 +137,7 @@
 
 		}
 
-		$song=$song."ORDER BY songs.title ".$limit;
+		$song=$song.$ord.$limit;
 
 		}
 

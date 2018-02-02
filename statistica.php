@@ -289,7 +289,7 @@
 
   				$('#annulla').on('click',function(){
 	
-					window.location.href = ('main_menu.php');
+					window.location.href = ('index.php');
 
 				});		
 

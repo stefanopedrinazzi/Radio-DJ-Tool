@@ -21,7 +21,7 @@
 	<body>
 	
 		<div id="caricamento" class="ui active inverted dimmer">
-    		<div class="ui massive text loader">Abilitazione delle tracce in corso...</div>
+    		<div class="ui massive text loader">Loading...</div>
   		</div>
 	
 	</body>
@@ -227,7 +227,6 @@
 
 		}
 
-		print_r($array_day);
 	
 		$status=$array_day[$hour];
 

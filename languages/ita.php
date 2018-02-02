@@ -114,6 +114,8 @@ $translation['info_noactive_track']="Traccia audio disattivata ";
 
 $translation['label_none']="Nessuna";
 
+$translation['label_num_cat']="N° canzoni per category:";
+
 $translation['label_info_green']="N° di chiamate per ora / N° eccezioni:";
 
 $translation['label_info_red']="Tracce esaurite per questa categoria:";

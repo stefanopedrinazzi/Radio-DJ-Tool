@@ -201,7 +201,7 @@
 		</tr>
 		<tr  class="center aligned">
 			<td>
-				<h4>Username Tool:</h4>
+				<h4>Tool DB user name:</h4>
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">
@@ -211,7 +211,7 @@
 		</tr>
 		<tr  class="center aligned">
 			<td>
-				<h4>Password Tool:</h4>
+				<h4>Tool DB  Password:</h4>
 			</td>
 			<td>
 				<div class="ui input focus large" style="width:400px">

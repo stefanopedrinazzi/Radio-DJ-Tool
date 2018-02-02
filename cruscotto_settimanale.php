@@ -90,7 +90,7 @@
 
 
     		//Numero di canzoni per sottocategoria
-    		$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub'";
+    		/*$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub'";
 
 			if($number = mysqli_query($connectionrd,$num)){
 	
@@ -98,14 +98,10 @@
 
 					$num_song=$number_song['NUM'];
 
-					//echo $num_song ."\n";				
-
-					$total[$count][]=$num_song;
-
 				}
 
 			}
-
+			*/
 		}  
 	}	
 
@@ -208,6 +204,8 @@
 
 							number_tracks=parseInt(number_tracks);
 
+							$('#num_song').text(number_tracks);
+
 							var previous=0;
 
 							var diff;
@@ -306,7 +304,9 @@
 		<select class="uli focus dropdown" id="sottocategoria" name="sottocategoria">
 			<option value="0" selected="selected"><?php echo $translation['label_none'];  echo $stamp_category; ?></option>
 		</select>
-		
+		<strong style="margin-left:30px"><?php echo $translation['label_num_cat']?> </strong>
+			<strong id="num_song" style="margin-left:30px"></strong>
+			
 		</div>
 		
 		<div style="line-height:0;width:70%;margin:0 auto;">

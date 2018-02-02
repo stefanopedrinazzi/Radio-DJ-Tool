@@ -22,7 +22,7 @@
 	<body>
 	
 		<div id="caricamento" class="ui active inverted dimmer">
-    		<div class="ui massive text loader">Copia dei file in corso...</div>
+    		<div class="ui massive text loader">Loading...</div>
   		</div>
 	
 	</body>

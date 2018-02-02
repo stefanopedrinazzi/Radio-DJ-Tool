@@ -114,7 +114,9 @@ $translation['info_noactive_track']="Audio track turned off ";
 
 $translation['label_none']="None";
 
-$translation['label_info_green']="Number of calls per hour / No. of exceptions:";
+$translation['label_num_cat']="No. songs in category:";
+
+$translation['label_info_green']="No. of calls per hour / No. of exceptions:";
 
 $translation['label_info_red']="Finished tracks by category:";
 

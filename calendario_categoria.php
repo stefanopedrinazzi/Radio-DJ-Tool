@@ -35,9 +35,7 @@
 		
 			while($number_song = mysqli_fetch_assoc($number)){
 
-				$num_song=$number_song['NUM'];
-
-						//echo $num_song ."\n";				
+				$num_song=$number_song['NUM'];			
 
 				$total[]=$num_song;
 

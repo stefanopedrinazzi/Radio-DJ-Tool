@@ -19,7 +19,7 @@
 	mysqli_select_db($connectionrd,$db_namerd);
 
 	//acquisizione del nome e ID delle sottocategorie
-	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1";
+	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1 ORDER BY subcategory.name";
 
 	$stamp_category = "";
 

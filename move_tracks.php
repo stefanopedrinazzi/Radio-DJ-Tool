@@ -30,6 +30,69 @@
 <?php
 
 	include("FunctionNew.php");
+
+	$riga=check_config();
+
+	$nomedbrd=$riga[0];
+
+	$hostname=$riga[1];
+
+	$usr=$riga[2];
+
+	$pwd=$riga[3];
+
+	$toolusr=$riga[4];
+
+	$toolpwd=$riga[5];
+
+	$language=$riga[7];
+
+	$nomedbap='rdj_library_assistant';
+	
+	$control=0;
+	
+	$logger = fopen("log_active_track.txt", "a") or die("Unable to open file!");
+	
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+	
+	$nomedbrd=str_replace($order, $replace,$nomedbrd);
+	$hostname=str_replace($order, $replace,$hostname);
+	$usr=str_replace($order, $replace,$usr);
+	$pwd=str_replace($order, $replace,$pwd);
+	$toolusr=str_replace($order, $replace,$toolusr);
+	$toolpwd=str_replace($order, $replace,$toolpwd);
+	$language=str_replace($order, $replace,$language);
+
+	include("languages/".$language);
+
+	
+	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
+
+		$control=0;
+
+	}else{
+
+		if(!test_db_connection($nomedbap,$hostname,$toolusr,$toolpwd)){
+
+			$control=0;
+		}else{
+
+			$control=1;
+		}
+
+	}
+
+	if($control==1){
+		$_SESSION['db_namerd']=$nomedbrd;
+		$_SESSION['hostnamerd']=$hostname;
+		$_SESSION['usernamerd']=$usr;
+		$_SESSION['passwordrd']=$pwd;
+		$_SESSION['usernameap']=$toolusr;
+		$_SESSION['passwordap']=$toolpwd;
+	
+	}
+
 	
 	error_reporting(E_ERROR);
 

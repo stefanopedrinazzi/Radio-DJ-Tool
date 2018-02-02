@@ -10,6 +10,12 @@
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
+	$connectionap=DBap_connection();
+
+	global $db_nameap;
+
+	mysqli_select_db($connectionap,$db_nameap);
+
 	$obj= $_POST['obj'];
 
 	$stamp=(json_decode($obj,true));
@@ -113,6 +119,7 @@
 									
 			}
 
+			$update="";
 
 			if($array[$index]=="0"){
 			
@@ -123,21 +130,6 @@
 
 				if($array[$index]=="1"){
 
-					$value="SELECT events.data FROM events WHERE events.name='$name'";
-
-					$data=$connectionap->query($value);
-
-					$result=$data->fetch_assoc();
-
-						if($result['data']==""){
-
-							$update="UPDATE events SET events.data='' WHERE events.name='$name'";
-						
-						}else{
-
-							$update="UPDATE events SET events.data='$result['data']' WHERE events.name='$name'";
-
-						}
 
 				}else{
 			
@@ -152,6 +144,7 @@ Load Rotation|$rot_ID|$array[$index]' WHERE events.name='$name'";
 				}
 			}
 
+			//echo $update."\n";
 			$connectionrd->query($update);
 
 		$index++;

@@ -1,6 +1,6 @@
 <?php 
 
-//translation file ENG
+//translation file ITA
 
 $translation['label_january']="Gennaio";
 
@@ -72,21 +72,21 @@ $translation['label_data_start']="Data inizio";
 
 $translation['label_data_active']="Attiva data";
 
-$translation['alert_delete_exception']="Eccezione eliminata con successo.";
+$translation['alert_delete_exception']="Eccezione eliminata con successo";
 
-$translation['alert_delete_default']="Non puoi eliminare il default prima delle altre eccezioni.";
+$translation['alert_delete_default']="Non puoi eliminare il default prima delle altre eccezioni";
 
 $translation['alert_delete_confirm']="Sei sicuro di eliminare questa eccezione?";
 
-$translation['alert_already_set']="Eccezione già presente per questo intervallo.";
+$translation['alert_already_set']="Eccezione già presente per questo intervallo";
 
-$translation['alert_exception_add']="Eccezione aggiunta con successo.";
+$translation['alert_exception_add']="Eccezione aggiunta";
 
-$translation['alert_exception_changed']="Eccezione modificata con successo.";
+$translation['alert_exception_changed']="Eccezione modificata";
 
-$translation['alert_enter_hour']="Devi inserire almeno un eccezione oraria.";
+$translation['alert_enter_hour']="Devi inserire almeno un eccezione oraria";
 
-$translation['alert_enter_date']="Devi inserire entrambe le date.";
+$translation['alert_enter_date']="Devi inserire entrambe le date";
 
 $translation['label_delete']="Cancella";
 
@@ -96,19 +96,19 @@ $translation['label_continue']="Continua";
 
 $translation['label_statistics']="Statistiche";
 
-$translation['info_active_track']="traccia audio attivata ";
+$translation['info_active_track']="Traccia audio attivata ";
 
-$translation['info_support_table']="Tabella di appoggio aggiornata con successo. \n\n";
+$translation['info_support_table']="Tabella di appoggio aggiornata \n\n";
 
-$translation['info_quelist']="Traccia audio presente nella quelist, verrà eliminata successivamente.\n\n";
+$translation['info_quelist']="Traccia audio presente nella quelist, verrà eliminata successivamente\n\n";
 
-$translation['info_cue_file']="Copia CUE-file avvenuta con successo.\n";
+$translation['info_cue_file']="Copia CUE-file avvenuta\n";
 
-$translation['info_copy_file']="Copia file avvenuta con successo.\n";
+$translation['info_copy_file']="Copia file avvenuta\n";
 
-$translation['info_delete_file']="Eliminazione file avvenuta con successo.\n";
+$translation['info_delete_file']="Eliminazione file avvenuta\n";
 
-$translation['info_error_file']="Errore nello spostamento del file.\n\n";
+$translation['info_error_file']="Errore nello spostamento del file\n\n";
 
 $translation['info_noactive_track']="Traccia audio disattivata ";
 
@@ -116,7 +116,7 @@ $translation['label_none']="Nessuna";
 
 $translation['label_info_green']="N° di chiamate per ora / N° eccezioni:";
 
-$translation['label_info_red']="tracce esaurite per questa categoria:";
+$translation['label_info_red']="Tracce esaurite per questa categoria:";
 
 $translation['label_consolidate_button']="Consolida";
 
@@ -142,11 +142,11 @@ $translation['label_RDJ_user_name']="Username radioDJ:";
 
 $translation['label_RDJ_password']="Password radioDJ:";
 
-$translation['alert_login']="Devi inserire i nomi dei database, host, Username e path.";
+$translation['alert_login']="Devi inserire i nomi dei database, host, Username e path";
 
-$translation['alert_login_not_correct']="I parametri inseriti non sono corretti.";
+$translation['alert_login_not_correct']="I parametri inseriti non sono corretti";
 
-$translation['alert_login_correct']="I parametri inseriti sono corretti.";
+$translation['alert_login_correct']="I parametri inseriti sono corretti";
 
 $translation['title_weekly_statement']="Report settimanale";
 
@@ -154,7 +154,7 @@ $translation['label_weekly_report']="Report settimanale";
 
 $translation['label_plan_rotation']="Pianifica rotazioni";
 
-$translation['alert_plan_saved']="Pianificazione salvata.";
+$translation['alert_plan_saved']="Pianificazione salvata";
 
 $translation['label_category_information']="Informazioni per categoria";
 
@@ -172,7 +172,7 @@ $translation['label_artist']="Artista";
 
 $translation['label_exception']="eccezioni";
 
-$translation['info_exception_insert']="Per inserire un'eccezione con data devi prima inserirne una di default.";
+$translation['info_exception_insert']="Per inserire un'eccezione con data devi prima inserirne una di default";
 
 $translation['info_exception_check']="* Se selezionato la traccia è disabilitata per tale orario.";
 
@@ -206,25 +206,25 @@ $translation['label_songs_exceptions']="Eccezioni Traccia";
 
 $translation['label_consolidate_categories']="Consolida categorie";
 
-$translation['text_settings']="impostazioni per la configurazione del database, il percorso della directory e la lingua.";
+$translation['text_settings']="Impostazioni per la configurazione del database, percorso della directory e lingua.";
 
-$translation['text_weekly_report']="permette di visualizzare il consumo settimanale di tracce per una categoria specifica.";
+$translation['text_weekly_report']="Visualizza il consumo settimanale di tracce per una categoria specifica.";
 
-$translation['text_plan_rotation']="permette di definire e modificare la programmazione musicale settimanale programmando la rotazione da caricare per ogni ora.";
+$translation['text_plan_rotation']="Definisce e modifica la programmazione musicale settimanale programmando la rotazione da caricare ogni ora.";
 
-$translation['text_category_information']="permette di il numero di eccezioni di categoria dato un giorno.";
+$translation['text_category_information']="Visualizza il numero di eccezioni di categoria dato un giorno.";
 
-$translation['text_songs_exceptions']="permette di definire e modificare l'ora, le eccezioni settimanali e mensili per le tracce audio.";
+$translation['text_songs_exceptions']="Definisce e modifica le eccezioni per le tracce audio per ore, settimane e mesi.";
 
-$translation['text_consolidate_categories']="permette di aggiornare il percorso nel database e sposta le tracce audio nella cartella indicata dal nuovo percorso.";
+$translation['text_consolidate_categories']="Aggiorna il percorso dei file nel database e sposta le tracce audio relative nella cartella indicata dal nuovo percorso.";
 
-$translation['title_consolidate_categories']="Tool per la consolidazione delle categorie";
+$translation['title_consolidate_categories']="Tool per consolidare le categorie";
 
 $translation['title_songs_exceptions']="Tool per definire le eccezioni per le tracce";
 
-$translation['title_category_information']="Category information Tool per avere informazioni riguardanti";
+$translation['title_category_information']="Tool di informazioni categoria";
 
-$translation['title_plan_rotation']="Tool per la pianificazione della rotazione";
+$translation['title_plan_rotation']="Tool per la pianificazione delle rotazioni";
 
 $translation['title_weekly_report']="Tool per il report settimanale";
 

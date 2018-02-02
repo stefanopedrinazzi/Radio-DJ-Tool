@@ -72,21 +72,21 @@ $translation['label_data_start']="Start";
 
 $translation['label_data_active']="Active date";
 
-$translation['alert_delete_exception']="Exception successfully deleted.";
+$translation['alert_delete_exception']="Exception successfully deleted";
 
-$translation['alert_delete_default']="You can not delete the default before the other exceptions.";
+$translation['alert_delete_default']="You can not delete the default before other exceptions";
 
-$translation['alert_delete_confirm']="Are you sure to delete this exception?";
+$translation['alert_delete_confirm']="Are you sure you want to delete this exception?";
 
-$translation['alert_already_set']="An exception for this range is already set.";
+$translation['alert_already_set']="An exception for this range is already set";
 
-$translation['alert_exception_add']="exception added successfully.";
+$translation['alert_exception_add']="Exception successfully added";
 
-$translation['alert_exception_changed']="exception changed successfully.";
+$translation['alert_exception_changed']="Exception successfully changed";
 
-$translation['alert_enter_hour']="you must enter an hourly exception.";
+$translation['alert_enter_hour']="You must enter an hour exception";
 
-$translation['alert_enter_date']="you must enter both dates";
+$translation['alert_enter_date']="You must enter both dates";
 
 $translation['label_delete']="Delete";
 
@@ -96,33 +96,33 @@ $translation['label_continue']="Continue";
 
 $translation['label_statistics']="Statistics";
 
-$translation['info_active_track']="audio track activated ";
+$translation['info_active_track']="Audio track activated ";
 
-$translation['info_support_table']="support table updated successfully. \n\n";
+$translation['info_support_table']="Support table successfully updated \n\n";
 
-$translation['info_quelist']="audio track present in quelist, will be moved later.\n\n";
+$translation['info_quelist']="This track is in quelist, will be moved later\n\n";
 
-$translation['info_cue_file']="Copy CUE-file successful.\n";
+$translation['info_cue_file']="CUE-file copied\n";
 
-$translation['info_copy_file']="File copy successful.\n";
+$translation['info_copy_file']="File copied\n";
 
-$translation['info_delete_file']="file deletion successful.\n";
+$translation['info_delete_file']="File deleted\n\n";
 
 $translation['info_error_file']="File move error\n\n";
 
-$translation['info_noactive_track']="audio track turned off ";
+$translation['info_noactive_track']="Audio track turned off ";
 
 $translation['label_none']="None";
 
 $translation['label_info_green']="Number of calls per hour / No. of exceptions:";
 
-$translation['label_info_red']="finished tracks by category:";
+$translation['label_info_red']="Finished tracks by category:";
 
 $translation['label_consolidate_button']="Consolidate";
 
 $translation['text_select_category']="Select category";
 
-$translation['title_consolidate_category']="Categories consolidate";
+$translation['title_consolidate_category']="Consolidate categories";
 
 $translation['title_validation']="Validation";
 
@@ -138,23 +138,23 @@ $translation['label_database_name_RDJ']="Database name radioDJ:";
 
 $translation['label_host_name']="RadioDJ Host Name (and Tool):";
 
-$translation['label_RDJ_user_name']="RadioDJ user name:";
+$translation['label_RDJ_user_name']="RadioDJ DB user name:";
 
-$translation['label_RDJ_password']="RadioDJ password:";
+$translation['label_RDJ_password']="RadioDJ DB password:";
 
 $translation['alert_login']="You must enter the database name, host, Username and path.";
 
-$translation['alert_login_not_correct']="the parameters entered are not correct";
+$translation['alert_login_not_correct']="entered parameters are not correct";
 
-$translation['alert_login_correct']="the parameters entered are correct.";
+$translation['alert_login_correct']="entered parameters are ok";
 
-$translation['title_weekly_statement']="Weekly statement";
+$translation['title_weekly_statement']="Weekly report";
 
 $translation['label_weekly_report']="Weekly report";
 
 $translation['label_plan_rotation']="Plan rotations";
 
-$translation['alert_plan_saved']="plan saved.";
+$translation['alert_plan_saved']="Rotation plan saved";
 
 $translation['label_category_information']="Category information";
 
@@ -172,9 +172,9 @@ $translation['label_artist']="Artist";
 
 $translation['label_exception']="Exceptions";
 
-$translation['info_exception_insert']="To insert an exception with date you must first enter a default.";
+$translation['info_exception_insert']="Enter a default exception first";
 
-$translation['info_exception_check']="* If selected the track is disabled for that hour.";
+$translation['info_exception_check']="* If selected the track is disabled for that hour";
 
 $translation['label_action']="Action";
 
@@ -192,31 +192,31 @@ $translation['label_audio_track']="Audio track";
 
 $translation['label_select_day']="Select day:";
 
-$translation['label_hour_exception']="Hourly exceptions";
+$translation['label_hour_exception']="Hour exceptions";
 
 $translation['label_active']="Active";
 
 $translation['label_inactive']="Inactive";
 
-$translation['info_result_category']="Results for the category";
+$translation['info_result_category']="Results for category";
 
-$translation['info_result_day']="for the day";
+$translation['info_result_day']="in day";
 
 $translation['label_songs_exceptions']="Songs exceptions";
 
 $translation['label_consolidate_categories']="Consolidate categories";
 
-$translation['text_settings']="settings for database configuration and directory path.";
+$translation['text_settings']="Settings for database configuration and directory path.";
 
-$translation['text_weekly_report']="displays the weekly consumption of tracks for a specific category.";
+$translation['text_weekly_report']="Display the weekly distribution of tracks for a specific category.";
 
-$translation['text_plan_rotation']="define and modify the weekly music programming by scheduling the rotation to be loaded for each hour.";
+$translation['text_plan_rotation']="Define and edit the weekly music programming by scheduling the rotation to be loaded.";
 
-$translation['text_category_information']="get the number of category exceptions given a day.";
+$translation['text_category_information']="Get the number of category exceptions for a selected day.";
 
-$translation['text_songs_exceptions']="define and modify the hour, weekly and monthly exceptions for audio tracks.";
+$translation['text_songs_exceptions']="Define and edit audio track exceptions by hour, week and month.";
 
-$translation['text_consolidate_categories']="updates the path saved in the database and moves the audio tracks to the folder indicated by the new path.";
+$translation['text_consolidate_categories']="Update the file path saved in the database and move the audio tracks in the specified folder.";
 
 $translation['title_consolidate_categories']="Consolidate categories tool";
 
@@ -248,7 +248,7 @@ $translation['label_separation']="separation";
 
 $translation['label_enabled']="Enabled";
 
-$translation['info_toggle']="Time to enable audio tracks ";
+$translation['info_toggle']="Time to enable audio tracks";
 
 $translation['mon_00']="Mon00";
 

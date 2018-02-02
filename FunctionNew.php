@@ -210,6 +210,8 @@
 
 	function Sposta_file(){
 
+		include("languages/".$_SESSION['language']);
+
 		$info="";
 
 		$connectionrd=DBrd_connection();
@@ -952,9 +954,8 @@
 		date_isodate_set($date, $actual_year, $actual_week, $day);
 		$now=date_format($date, 'md');
 
-
+		
 		//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
-
 		$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$now' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
 
 		$i=0;
@@ -974,7 +975,6 @@
 
 		
 		//Array ID e ID_song di tutte le eccezioni di default
-
 		$default="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE data_in='0'";
 
 		$i=0;
@@ -993,7 +993,6 @@
 		}
 
 		//Creazione array di $c=$b-$a (default-eccezioni attive) 
-		
 		for($x=0;$x<sizeof($b);$x++){
 
 				$flag=0;
@@ -1028,12 +1027,10 @@
 		//Compilazione array $c completo di tutte eccezioni di default e le eccezioni attive ora
 		for($x=0;$x<sizeof($a);$x++){
 
-					
-				$c[]=$a[$x];
+			$c[]=$a[$x];
 
 		}		
 
-		
 		//Creazione array contenente ID song e valore dell'eccezione per ora e giorno passati dalla funzione
 		for($x=0;$x<sizeof($c);$x++){
 
@@ -1047,7 +1044,6 @@
 
 			$result=$Grid->fetch_assoc();
 		
-
 					if($hour==0){
 
 						$y=24*$day;
@@ -1064,7 +1060,6 @@
 
 		}
 
-		
 		//Creazione array contentente ID song della categoria passsata dalla funzione
 		$query="SELECT ID FROM songs WHERE id_subcat='$id_subcat'";
 
@@ -1089,8 +1084,6 @@
 
 			}
 		}
-
-		//print_r($res);
 		
 		$disattive=0;
 

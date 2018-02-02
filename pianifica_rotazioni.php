@@ -283,7 +283,6 @@ Load Rotation"){
 	?>
 
 <!DOCTYPE html>
-	<!DOCTYPE html>
 	<html>
 	<head>
 		<title<?php echo $translation['label_plan_rotation']?></title>

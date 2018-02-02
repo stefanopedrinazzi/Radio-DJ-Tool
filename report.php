@@ -367,14 +367,14 @@
 						    var activeData = {
 							  	label: <?php echo "\"".$translation['label_active']."\"";?>,
 								data:<?php echo $active; ?>
-								backgroundColor: 'rgba(0, 200, 0, 0.6)',
+								backgroundColor: '#21ba45',
 								borderWidth: 0
 							};
 
 							var notactiveData = {
 								label: <?php echo "\"".$translation['label_inactive']."\"";?>,
 								data: <?php echo $notactive; ?>
-								backgroundColor: 'rgba(200, 0, 0, 0.6)',
+								backgroundColor: '#db2828',
 								borderWidth: 0
 								
 							};

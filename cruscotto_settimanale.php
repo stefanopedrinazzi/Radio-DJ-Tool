@@ -311,7 +311,7 @@
 		
 		<div style="line-height:0;width:70%;margin:0 auto;">
 		
-		<strong style="margin-left:30px"><?php echo $translation['label_ilnfo_green']?></strong>
+		<strong style="margin-left:30px"><?php echo $translation['label_info_green']?></strong>
 			<a style="margin-left:5px" class="ui green circular label"><label></label>1/1</a>
 		<strong style="margin-left:60px"><?php echo $translation['label_info_red']?></strong>
 			<a style="margin-left:5px" class="ui red circular label"><label></label>1/1</a>

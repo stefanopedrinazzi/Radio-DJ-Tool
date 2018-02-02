@@ -2,7 +2,7 @@
 <html>
 	
 	<head>
-		<title>Toggle Song</title>
+	<title>Toggle Song</title>
 	<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">
   	<script src="js/semantic.min.js"></script>
@@ -11,7 +11,7 @@
 		$(document).ready(function() {
    			if (window.location.href.indexOf('reload')==-1) {
          		window.location.replace(window.location.href+'?reload');
-   			 }
+   			}
 		});
 
 		setTimeout (window.close, 10000);
@@ -27,7 +27,6 @@
 	</body>
 </html>
 <?php
-
 
 	include("FunctionNew.php");
 

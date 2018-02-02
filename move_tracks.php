@@ -9,12 +9,12 @@
 
   	<script type="text/javascript">
 	  	$(document).ready(function() {
-	   			if (window.location.href.indexOf('reload')==-1) {
-	         		window.location.replace(window.location.href+'?reload');
-	   			 }
-			});
+	   		if (window.location.href.indexOf('reload')==-1) {
+	         	window.location.replace(window.location.href+'?reload');
+	   		}
+		});
 
-			setTimeout (window.close, 10000);
+		setTimeout (window.close, 10000);
 		
 	</script>
   	

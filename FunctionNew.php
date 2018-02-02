@@ -947,13 +947,15 @@
 
 		$actual_year = date ('Y', time());
 
-
 		$date = date_create();
-
 
 		date_isodate_set($date, $actual_year, $actual_week, $day);
 		$now=date_format($date, 'md');
 
+		if(substr($now,-4,1)==0){
+
+			$now=substr($now,-3, 3);
+		}
 		
 		//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 		$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$now' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
@@ -973,7 +975,6 @@
 			
 		}
 
-		
 		//Array ID e ID_song di tutte le eccezioni di default
 		$default="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE data_in='0'";
 
@@ -1080,8 +1081,8 @@
 				if($category[$x]==$array_day[$y][0]){
 
 					$res[]=$array_day[$y][1];
-				}
 
+				}
 			}
 		}
 		

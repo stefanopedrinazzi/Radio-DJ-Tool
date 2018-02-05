@@ -204,6 +204,8 @@ $translation['info_result_category']="Results for category";
 
 $translation['info_result_day']="in day";
 
+$translation['info_result_today']="for today.";
+
 $translation['label_songs_exceptions']="Songs exceptions";
 
 $translation['label_consolidate_categories']="Consolidate categories";
@@ -251,6 +253,12 @@ $translation['label_separation']="separation";
 $translation['label_enabled']="Enabled";
 
 $translation['info_toggle']="Time to enable audio tracks";
+
+$translation['label_settings_toggle']="Toggle songs event:";
+
+$translation['label_settings_events']="Hour events:";
+
+$translation['label_settings_move']="Move tracks events:";
 
 $translation['mon_00']="Mon00";
 

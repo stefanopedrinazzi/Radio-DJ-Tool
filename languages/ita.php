@@ -204,6 +204,8 @@ $translation['info_result_category']="Risultati per la categoria";
 
 $translation['info_result_day']="per il giorno";
 
+$translation['info_result_today']="per oggi.";
+
 $translation['label_songs_exceptions']="Eccezioni Traccia";
 
 $translation['label_consolidate_categories']="Consolida categorie";
@@ -251,6 +253,12 @@ $translation['label_separation']="separazione";
 $translation['label_enabled']="Abilitata";
 
 $translation['info_toggle']="Ora per abiltiazione traccia ";
+
+$translation['label_settings_toggle']="Evento Toggle songs:";
+
+$translation['label_settings_events']="Eventi orari:";
+
+$translation['label_settings_move']="Evento Move tracks:";
 
 $translation['mon_00']="Lun00";
 

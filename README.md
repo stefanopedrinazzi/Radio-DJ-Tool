@@ -33,4 +33,4 @@ Durante il primo accesso non sarà possibile utilizzare le varie funzionalità s
   
  *cartella nella quale il tool "consolida categorie" copierà i file.
  
- Una volta inserite le credenziali per l'accesso ai database, i tool saranno attivati e pronti all'uso.
+ Una volta inserite le credenziali corrette per l'accesso ai database, i tool saranno attivati e pronti all'uso.

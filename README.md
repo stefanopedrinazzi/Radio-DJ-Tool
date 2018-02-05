@@ -31,6 +31,6 @@ Durante il primo accesso non sarà possibile utilizzare le varie funzionalità s
  -Root directory*;<br />
  -Lingua.<br />
   
- *cartella nella quale il tool "consolida categorie" copierà i file.
+ *cartella nella quale il tool "consolida categorie" sposterà i file.
  
  Una volta inserite le credenziali corrette per l'accesso ai database, i tool saranno attivati e pronti all'uso.

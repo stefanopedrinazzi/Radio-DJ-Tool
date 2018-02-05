@@ -1,5 +1,7 @@
 # RadioDJ Library Assistant
 
+  RadioDJ Library Assistant è un tool che implementa delle funzionalità aggiuntive per una migliore gestione della libreria e della programmazione musicale di RadioDJ.<br /><br />
+
 ## Installazione
 
   Per l'utilizzo di RadioDJ Library Assistant è necessario aver installato sul proprio pc un web server e un RDBMS.

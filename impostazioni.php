@@ -42,6 +42,108 @@
 			$stamp_languages .= "<option value=\"".$files[$i]."\">".$text."</option>" ;
 		}
 	}
+
+	$status_toggle=0;
+
+	$status_move=0;
+
+	$status_events=0;
+
+	$connectionrd=DBrd_connection();
+
+	global $db_namerd;
+
+	mysqli_select_db($connectionrd,$db_namerd);
+
+	if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='Toggle Song'")){
+
+		if($exist->num_rows == 1){
+
+			$status_toggle=1;
+		
+		}else{
+
+			$status_toggle=0;
+		}
+	}
+
+	if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='Move Tracks'")){
+
+		if($exist->num_rows == 1){
+
+			$status_move=1;
+		
+		}else{
+
+			$status_move=0;
+		}
+	}
+
+	for($x=1;$x<=7;$x++){
+
+		for($y=0;$y<=23;$y++){
+
+			if($y-1==-1){
+
+				$hours="&23";
+			
+				if($x-1==0){
+
+					$day="&7";
+
+				}else{
+
+					$d=$x-1;
+
+					$day="&".$d;
+
+				}
+			
+			}else{
+
+				$h=$y-1;
+
+				$hours="&".$h;
+
+				$day="&".$x;
+			}
+
+			switch ($x) {
+				case '1':
+					$name=$translation['label_mon'];
+					break;
+				case '2':
+					$name=$translation['label_tue'];
+					break;
+				case '3':
+					$name=$translation['label_wed'];
+					break;
+				case '4':
+					$name=$translation['label_thu'];
+					break;
+				case '5':
+					$name=$translation['label_fri'];
+					break;
+				case '6':
+					$name=$translation['label_sat'];
+					break;
+				case '7':
+					$name=$translation['label_sun'];
+					break;
+			}
+
+			
+			//scrittura degli eventi nel database se non esistenti utilizzando giorno e ora ricavati
+			if($exist=$connectionrd->query("SELECT ID FROM events WHERE day='$day' AND hours='$hours'")){
+
+				if($exist->num_rows == 1){
+
+					$status_events+=1;
+
+				}
+			}
+		}
+	}
 	
 ?>
 
@@ -72,6 +174,30 @@
 			var language=<?php echo "\"".$language."\""; ?>;
 
 			$('#files option[value="'+language+'"]').prop("selected", true);
+
+			var status_move=<?php echo $status_move;?>;
+
+			var status_toggle=<?php echo $status_toggle;?>;
+
+			var status_events=<?php echo $status_events;?>;
+
+			if(status_move===1){
+
+				$("#move").removeClass("red");
+				$("#move").addClass("green");
+			}
+
+			if(status_toggle===1){
+
+				$("#toggle").removeClass("red");
+				$("#toggle").addClass("green");
+			}
+
+			if(status_events===168){
+
+				$("#events").removeClass("red");
+				$("#events").addClass("green");
+			}
 
 			$("#conferma").on('click',function(){
 
@@ -245,12 +371,30 @@
 		
 	</table>
 
+	<div>
 	<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-right:30px">
   		<i class="window close icon"></i><label><?php echo $translation['label_close']?></label>
 	</button>
 	<button id="conferma" class=" big right floated ui icon labeled primary button">
   		<i class="checkmark icon"></i><label><?php echo $translation['label_save']?></label>
 	</button>
+	</div>
+
+	<div style="margin-left:10px; font-size:13px">
+		
+		<?php echo $translation['label_settings_toggle'];?>
+				
+		<a class="ui red empty circular label" id="toggle" style="padding:.3em!important; vertical-align:1px"></a>
+				
+		<?php echo $translation['label_settings_move'];?>
+				
+		<a class="ui red empty circular label" id="move" style="padding:.3em!important; vertical-align:1px"></a>
+				
+		<?php echo $translation['label_settings_events'];?>
+				
+		<a class="ui red empty circular label" id="events" style="padding:.3em!important; vertical-align:1px"></a>
+				
+	</div>
 
 
 </body>

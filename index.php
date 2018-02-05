@@ -67,6 +67,53 @@
 
 	}
 
+	$connectionrd=DBrd_connection();
+
+	global $db_namerd;
+
+	mysqli_select_db($connectionrd,$db_namerd);
+
+	if($control_ID=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
+
+		//se non esiste la categoria viene creata
+		if($control_ID->num_rows == 0){
+
+			$insert="INSERT INTO events_categories (name) values ('RDJLA-events')";
+
+			$inser=$connectionrd->query($insert);
+		
+		}else{
+
+			$riga = mysqli_fetch_assoc($cat);
+
+					$catID=$riga['ID'];
+
+				
+		}
+	}
+
+
+	//scrittura degli eventi nel database se non esistenti per Toogle_Song e Move_Tracks
+	if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='Toggle Song'")){
+
+		if($exist->num_rows == 0){
+
+			$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('2','00:57:00','Toggle Song','&1&2&3&4&5&6&0','&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21&22&23&0','$catID','0','Launch Internet Link|http://localhost/git/toggle_song.php')";
+
+			$event=$connectionrd->query($events);
+		}
+	}
+
+	if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='Move Tracks'")){
+
+		if($exist->num_rows == 0){
+
+			$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('2','00:50:00','Move Tracks','&1&2&3&4&5&6&0','&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21&22&23&0','$catID','0','Launch Internet Link|http://localhost/git/move_tracks.php')";
+
+			$event=$connectionrd->query($events);
+		}
+	}
+
 ?>
 
 <!DOCTYPE html>

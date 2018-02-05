@@ -2,7 +2,7 @@
 
 	include("FunctionNew.php");
 
-	include("languages/eng.php");
+	include("languages/".$_SESSION['language']);
 
 	$connectionrd=DBrd_connection();
 	$connectionap=DBap_connection();
@@ -112,8 +112,6 @@
 		
 		}
 
-		
-		
 		if($search!="" && $category_ID=="0"){
 			
 			$app="";
@@ -125,6 +123,7 @@
 			$count = $count."".$app;
 
 		}
+
 		if($search!="" && $category_ID!="0"){
 
 			$app="";
@@ -152,13 +151,12 @@
 			$query=$countquery->fetch_assoc();
 	
 			$total=$query['total'];
-
 		}
+
 		$elenco_songs=array('draw'=> $draw,'recordsTotal'=>$total,'recordsFiltered'=>$total,'data'=>array( ));
 
 		if($songquery=$connectionrd->query($song)){
 
-	
 			while($riga=$songquery->fetch_assoc()){
 
 			error_reporting(E_ERROR | E_WARNING | E_PARSE);
@@ -169,9 +167,8 @@
 				array_push($elenco_songs['data'], array('Titolo' => $riga['title'], 'Artista' => $riga['artist'], 'Abilitata' => $riga['enabled'], 'Eccezioni' => $number, 'Azione'=>$riga['ID']));
 
 			}
-
 		}		
 
-
 		echo json_encode($elenco_songs);
+
 ?>

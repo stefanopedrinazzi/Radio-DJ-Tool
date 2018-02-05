@@ -25,8 +25,6 @@
 	
 	$control=0;
 	
-
-	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
 	
@@ -40,6 +38,7 @@
 	$language=str_replace($order, $replace,$language);
 
 	include("languages/".$language);
+	
 	//richiamo funzioni per testare le connessioni dei due database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
@@ -50,6 +49,7 @@
 		if(!test_db_connection($nomedbap,$hostname,$toolusr,$toolpwd)){
 
 			$control=0;
+	
 		}else{
 
 			$control=1;
@@ -57,6 +57,7 @@
 
 	}
 
+	//set delle variabili di sessione
 	if($control==1){
 		$_SESSION['db_namerd']=$nomedbrd;
 		$_SESSION['hostnamerd']=$hostname;
@@ -86,6 +87,16 @@
 
 			$inser=$connectionrd->query($insert);
 		
+		}
+	}
+
+	//acquisizione ID dell'evento RDJA-events
+	if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
+
+		while($riga = mysqli_fetch_assoc($cat)){
+
+			$catID=$riga['ID'];
+
 		}
 	}
 	
@@ -158,22 +169,12 @@
 			$time="00:59:00";
 
 
-			//acquisizione ID dell'evento RDJA-events
-			if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
-
-				while($riga = mysqli_fetch_assoc($cat)){
-
-					$catID=$riga['ID'];
-
-				}
-			}
-
 			//scrittura degli eventi nel database se non esistenti utilizzando giorno e ora ricavati
 			if($exist=$connectionrd->query("SELECT ID FROM events WHERE day='$day' AND hours='$hours'")){
 
 				if($exist->num_rows == 0){
 
-				$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','INIT')"; 
+				$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','Clear Playlist!')"; 
 
 				$event=$connectionrd->query($events);
 
@@ -261,7 +262,7 @@
 
 						}else{
 							if($array[0]=="Clear Playlist!
-Load Rotation"){
+Load Rotation" && isset($array[3])==false){
 								
 								$rotation_array[]=$array[2];
 							}else{
@@ -283,7 +284,7 @@ Load Rotation"){
 <!DOCTYPE html>
 	<html>
 	<head>
-		<title<?php echo $translation['label_plan_rotation']?></title>
+		<title><?php echo $translation['label_plan_rotation'];?></title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="Semantic/semantic.min.css">

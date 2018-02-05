@@ -120,6 +120,9 @@
 		global $db_namerd;
 		global $db_nameap;
 
+		mysqli_set_charset($connectionrd,"utf8");
+		mysqli_set_charset($connectionap,"utf8");
+
 		mysqli_select_db($connectionrd,$db_namerd);
 		mysqli_select_db($connectionap,$db_nameap);
 
@@ -216,6 +219,9 @@
 
 		$connectionrd=DBrd_connection();
 		$connectionap=DBap_connection();
+
+		mysqli_set_charset($connectionrd,"utf8");
+		mysqli_set_charset($connectionap,"utf8");
 
 		global $db_namerd;
 		global $db_nameap;

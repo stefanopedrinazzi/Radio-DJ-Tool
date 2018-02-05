@@ -89,21 +89,6 @@
 
     		$stamp_category .= "<option value=\"".$riga['ID']."~".$riga['name']."\">" . $riga['name'] ."</option>" ;
 
-
-
-    		//Numero di canzoni per sottocategoria
-    		/*$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub'";
-
-			if($number = mysqli_query($connectionrd,$num)){
-	
-				while($number_song = mysqli_fetch_assoc($number)){
-
-					$num_song=$number_song['NUM'];
-
-				}
-
-			}
-			*/
 		}  
 	}	
 

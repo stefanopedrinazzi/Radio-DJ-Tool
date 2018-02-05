@@ -101,6 +101,11 @@
 
 	$now = date ('md', time());
 
+	if(substr($now,-4,1)==0){
+
+			$now=substr($now,-3, 3);
+		}
+
 	fwrite($logger," ".PHP_EOL);
 
 	$actual_hour = date ('H', time());

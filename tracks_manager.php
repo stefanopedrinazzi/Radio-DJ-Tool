@@ -107,16 +107,16 @@
 
 		            	if(song.Abilitata==1){
 						
-							song.Abilitata='<a class="ui mini green empty circular label" style="margin-top:7px;"></a>';
+							song.Abilitata='<a class="ui tiny green empty circular label" style="padding:.3em!important; "></a>';
 						
 						}else{
 
-							song.Abilitata='<a class="ui mini red empty circular label" style="margin-top:7px;"></a>';
+							song.Abilitata='<a class="ui tiny red empty circular label" style="padding:.3em!important;"></a>';
 						}
 
 		            	if(song.Eccezioni!==0){
 						
-							song.Azione='<button class="mini ui icon labeled primary button" name="get_song" value='+song.Azione+'><i class="setting icon"></i><?php echo $translation['label_edit']?></button>';
+							song.Azione='<button class="mini ui icon labeled blue button" name="get_song" value='+song.Azione+'><i class="setting icon"></i><?php echo $translation['label_edit']?></button>';
 						}else{
 
 							song.Azione='<button class="mini ui icon labeled green button" name="get_song" value='+song.Azione+'><i class="icon plus"></i><?php echo $translation['label_add']?></button>';

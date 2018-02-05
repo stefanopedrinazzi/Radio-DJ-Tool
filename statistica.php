@@ -98,14 +98,10 @@
 	
 				while($number_song = mysqli_fetch_assoc($number)){
 
-					$num_song=$number_song['NUM'];
-
-					//echo $num_song ."\n";				
+					$num_song=$number_song['NUM'];				
 
 					$total[$count][]=$num_song;
-
 				}
-
 			}
 
 				if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
@@ -116,7 +112,6 @@
 
 					}
 				}
-
 
 				if($name_events=$connectionrd->query("SELECT name,ID FROM rotations")){
 
@@ -144,39 +139,27 @@
 
 									$i++;
 								}
-
-								
-
-
 							}
 						}
 
 						$total[$count][]=$i;
 			
 
-			$number_rotation="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub' AND pID='$rotation_ID'";
+							$number_rotation="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub' AND pID='$rotation_ID'";
 
-				if($num_rotation=$connectionrd->query($number_rotation)){
+						if($num_rotation=$connectionrd->query($number_rotation)){
 
-					while($num_rot=$num_rotation->fetch_assoc()){
+							while($num_rot=$num_rotation->fetch_assoc()){
 
-						$var=$num_rot['TOTAL'];
+								$var=$num_rot['TOTAL'];
 
-							//echo $var;
-
-						$total[$count][]=$var;
-					}
-
-									
+								$total[$count][]=$var;
+							}			
+						}
+					}  		
 				}
 
-			
-					}  
-					
-				
-			}
-
-		$call_total="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub'";
+				$call_total="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub'";
 
 				if($call_tot=$connectionrd->query($call_total)){
 
@@ -184,23 +167,17 @@
 
 						$var=$call['TOTAL'];
 
-							//echo $var;
-
 						$total[$count][]=$var;
 					}
-
-									
+					
 				}
-
-							
+						
 		$count++;					
 
 		} 
-
-		 
+	 
 	}
 	
-
 	$stamp_table="<tbody><tr>";
 
 	for($x=0;$x<sizeof($total);$x++){
@@ -218,8 +195,6 @@
 
 		for($y=2;$y<sizeof($total[$x]);$y++){
 
-			//echo $y."\n";
-
 			$chiamate_cat+=$total[$x][$y];
 
 			$app=$total[$x][$y]*$total[$x][$y+1];
@@ -236,9 +211,6 @@
 
 		}
 			
-			//echo $chiamate_cat."*\n";
-
-			//echo $chiamate_tot."\n ";
 
 			if($chiamate_tot==0){
 				

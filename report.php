@@ -96,7 +96,14 @@
 
 	if($now==""){
 
-	$actual_day = date ('N', time()-1);
+	$actual_day = date ('N', time())-1;
+
+	$now = date ('md',time());
+
+   		if(substr($now,-4,1)==0){
+    
+   			$date_for_query=substr($now,-3, 3);
+  		}
 
 	}else{
 
@@ -128,7 +135,7 @@
 		}
 		
 	}
-
+	
 	//Array ID e ID_song di tutte le eccezioni di default
 
 	$default="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE data_in='0'";
@@ -147,7 +154,7 @@
 		}
 		
 	}
-
+	
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
 	
 	for($x=0;$x<sizeof($b);$x++){
@@ -240,7 +247,7 @@
 
 		}
 	}
-
+	
 	//creazione dell'array confrontanto gli ID della cateogria e gli ID delle eccezioni per la data selezionata
 	for($x=0;$x<sizeof($category);$x++){
 
@@ -254,7 +261,6 @@
 		}
 	}
 	
-
 	//creazione array contenente le tracce attive e disattive per ogni ora e giorno delle tracce della categoria
 	$disabled=0;
 
@@ -334,8 +340,8 @@
 		<table class="ui blue table">
 			<tr>
 				<td>
-					<h3><i class="bar chart icon"></i><?php if($now==""){
-						echo "Risultati per oggi "; 
+					<h3><i class="bar chart icon"></i><?php if($data==""){
+						echo $translation['info_result_category']." ".$categoria." , ".$translation['info_result_today']; 
 					}else{
 						echo $translation['info_result_category']." ".$categoria." , ".$translation['info_result_day']." ".$data;
 					}

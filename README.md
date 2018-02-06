@@ -22,9 +22,9 @@ Prima di effettuare qualsiasi operazione si consiglia di effettuare una copia di
 Copiare la cartella <strong>RadioDJ-Library-Assistant</strong> in <strong>htdocs</strong>, presente nella cartella <strong>XAMPP</strong> creata dall'installazione. <br /><br />
 
 
-Non resta che accedere a Radiodj Library Assistant http://localhost/RadioDJ-Library-Assistant/index.php per iniziare ad utilizzare il tool.
+L'applicazione sarà quindi raggiungibile all'indirizzo http://localhost/RadioDJ-Library-Assistant/index.php
   
-Per utilizzare le funzionalità di Radiodj Library Assistant é necessario inserire le credenziali di accesso ai database nel menù <strong>impostazioni</strong> dove sarà possibile definire:
+Per utilizzare le funzionalità é necessario inserire le credenziali di accesso ai database nel menù <strong>impostazioni</strong> dove sarà possibile definire:
  
  -Nome del database di radioDJ;<br />
  -Nome dell'host;<br />
@@ -36,9 +36,7 @@ Per utilizzare le funzionalità di Radiodj Library Assistant é necessario inser
  -Lingua.<br />
   
  *cartella nella quale il tool "consolida categorie" sposterà i file.
- 
-Inserite le credenziali corrette per l'accesso ai database, i tool saranno attivati e pronti all'uso.
-  
+   
  ## Autori
  
  - Stefano Pedrinazzi

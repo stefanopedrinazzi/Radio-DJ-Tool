@@ -41,7 +41,20 @@ Durante il primo accesso non sarà possibile utilizzare le varie funzionalità s
  *cartella nella quale il tool "consolida categorie" sposterà i file.
  
  Una volta inserite le credenziali corrette per l'accesso ai database, i tool saranno attivati e pronti all'uso.
+  
+ ## Autori
  
- ## Credits
+ - Stefano Pedrinazzi
+ - Paolo Camozzi
  
+ <br />
+ ## Licenza
+Questo progetto è concesso in licenza con la licenza MIT - per i dettagli vedere il file LICENSE.md <br /><br />
+ 
+  ## Credits
+  
+  - [RadioDJ](http://www.radiodj.ro/)
+  - [Semantic UI](https://semantic-ui.com/)
+  - [DataTables](https://datatables.net/)
+  - [Charts.js](http://www.chartjs.org/)
  

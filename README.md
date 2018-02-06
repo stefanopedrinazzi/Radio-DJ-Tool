@@ -58,4 +58,5 @@ Questo progetto è concesso in licenza con la licenza MIT - per i dettagli veder
   - [Semantic UI](https://semantic-ui.com/)
   - [DataTables](https://datatables.net/)
   - [Charts.js](http://www.chartjs.org/)
+  - [Semantic-UI-Calendar](https://github.com/mdehoog/Semantic-UI-Calendar)
  

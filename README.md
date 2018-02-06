@@ -50,7 +50,7 @@ Durante il primo accesso non sarà possibile utilizzare le varie funzionalità s
  
  ## Licenza
  
-Questo progetto è concesso in licenza con la licenza MIT - per i dettagli vedere il file LICENSE.md <br /><br />
+Questo progetto è concesso in licenza con la licenza MIT - per i dettagli vedere il file [LICENSE.md](https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md) <br /><br />
  
   ## Credits
   

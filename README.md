@@ -1,6 +1,13 @@
 # RadioDJ Library Assistant
 
   RadioDJ Library Assistant è un tool che implementa delle funzionalità aggiuntive per una migliore gestione della libreria e della programmazione musicale di RadioDJ.<br /><br />
+  
+## Attenzione
+<strong>RadioDJ Library Assistant</strong> è un software che <strong>non sostituisce</strong> tracks manager e events builders di RadioDJ, ma implementa delle funzionalità aggiuntive che permettono una migliore gestione della libreria e degli eventi.
+
+Non ci assumiamo nessuna responsabilità sull'uso di questo software.
+
+Prima di effettuare qualsiasi operazione si consiglia di effettuare una copia di <strong>backup</strong> del database e dei file utilizzati da RadioDJ.<br /><br />
 
 ## Prerequisiti
 
@@ -34,3 +41,7 @@ Durante il primo accesso non sarà possibile utilizzare le varie funzionalità s
  *cartella nella quale il tool "consolida categorie" sposterà i file.
  
  Una volta inserite le credenziali corrette per l'accesso ai database, i tool saranno attivati e pronti all'uso.
+ 
+ ## Credits
+ 
+ 

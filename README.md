@@ -49,6 +49,7 @@ Durante il primo accesso non sarà possibile utilizzare le varie funzionalità s
  
  <br />
  ## Licenza
+ 
 Questo progetto è concesso in licenza con la licenza MIT - per i dettagli vedere il file LICENSE.md <br /><br />
  
   ## Credits

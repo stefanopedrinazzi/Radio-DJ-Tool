@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * RadioDJ Library Assistant
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant
+ * Version: 1.0.0
+ *
+ * Copyright 2017-2018 Stefano Pedrinazzi & Paolo Camozzi
+ * Released under the MIT license
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md
+ */
+
 	include("FunctionNew.php");
 
 	//acquisizione dei dati per la connessione ai database
@@ -111,7 +121,7 @@
 			
 				if($x-1==0){
 
-					$day="&7";
+					$day="&0";
 
 				}else{
 
@@ -126,8 +136,13 @@
 				$h=$y-1;
 
 				$hours="&".$h;
+				
+				if ($x==7){
+					$day="&0";
+				}else{
+					$day="&".$x;
 
-				$day="&".$x;
+				}
 			}
 
 			switch ($x) {
@@ -256,7 +271,7 @@
 
 					$array=explode("|", $events['data']);
 
-						if($events['data']=="Clear Playlist!" || $events['data']=="INIT"){
+						if($events['data']=="Clear Playlist!"){
 
 						$rotation_array[]="0";
 

@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * RadioDJ Library Assistant
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant
+ * Version: 1.0.0
+ *
+ * Copyright 2017-2018 Stefano Pedrinazzi & Paolo Camozzi
+ * Released under the MIT license
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md
+ */
 	
 	include("FunctionNew.php");
 
@@ -89,7 +99,7 @@
 			
 				if($x-1==0){
 
-					$day="&7";
+					$day="&0";
 
 				}else{
 
@@ -105,7 +115,12 @@
 
 				$hours="&".$h;
 
-				$day="&".$x;
+				if ($x==7){
+					$day="&0";
+				}else{
+					$day="&".$x;
+
+				}
 			}
 
 			switch ($x) {
@@ -384,15 +399,15 @@
 		
 		<?php echo $translation['label_settings_toggle'];?>
 				
-		<a class="ui red empty circular label" id="toggle" style="padding:.3em!important; vertical-align:1px"></a>
+		<a class="ui red empty circular label" id="toggle" style="padding:.3em!important; vertical-align:0px"></a>
 				
 		<?php echo $translation['label_settings_move'];?>
 				
-		<a class="ui red empty circular label" id="move" style="padding:.3em!important; vertical-align:1px"></a>
+		<a class="ui red empty circular label" id="move" style="padding:.3em!important; vertical-align:0px"></a>
 				
 		<?php echo $translation['label_settings_events'];?>
 				
-		<a class="ui red empty circular label" id="events" style="padding:.3em!important; vertical-align:1px"></a>
+		<a class="ui red empty circular label" id="events" style="padding:.3em!important; vertical-align:0px"></a>
 				
 	</div>
 

@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * RadioDJ Library Assistant
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant
+ * Version: 1.0.0
+ *
+ * Copyright 2017-2018 Stefano Pedrinazzi & Paolo Camozzi
+ * Released under the MIT license
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md
+ */
 	 
 	ini_set('memory_limit','512M');
 
@@ -1133,6 +1143,16 @@
 		
 		}
 	}
+
+	//acquisizione ID dell'evento RDJA-events
+	if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
+
+		while($riga = mysqli_fetch_assoc($cat)){
+
+			$catID=$riga['ID'];
+
+		}
+	}
 	
 	//creazione degli eventi (24/7) da utilizzare per la pianificazione 					
 	for($x=1;$x<=7;$x++){
@@ -1145,7 +1165,7 @@
 			
 				if($x-1==0){
 
-					$day="&7";
+					$day="&0";
 
 				}else{
 
@@ -1161,7 +1181,12 @@
 
 				$hours="&".$h;
 
-				$day="&".$x;
+				if ($x==7){
+					$day="&0";
+				}else{
+					$day="&".$x;
+
+				}
 			}
 
 			switch ($x) {
@@ -1203,23 +1228,12 @@
 			$time="00:59:00";
 
 
-			//acquisizione ID dell'evento RDJA-events
-			if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
-
-				while($riga = mysqli_fetch_assoc($cat)){
-
-					$catID=$riga['ID'];
-
-				}
-			}
-
 			//scrittura degli eventi nel database se non esistenti utilizzando giorno e ora ricavati
 			if($exist=$connectionrd->query("SELECT ID FROM events WHERE day='$day' AND hours='$hours'")){
 
 				if($exist->num_rows == 0){
 
-				$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','Clear Playlist!
-')"; 
+				$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('$type','$time','$name','$day','$hours','$catID','0','Clear Playlist!')"; 
 
 				$event=$connectionrd->query($events);
 

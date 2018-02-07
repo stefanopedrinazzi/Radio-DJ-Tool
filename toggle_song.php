@@ -1,3 +1,15 @@
+<?php
+/**
+ * RadioDJ Library Assistant
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant
+ * Version: 1.0.0
+ *
+ * Copyright 2017-2018 Stefano Pedrinazzi & Paolo Camozzi
+ * Released under the MIT license
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md
+ */
+?>
+
 <!DOCTYPE html>
 <html>
 	

@@ -1,4 +1,14 @@
-	<?php
+<?php
+
+/**
+ * RadioDJ Library Assistant
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant
+ * Version: 1.0.0
+ *
+ * Copyright 2017-2018 Stefano Pedrinazzi & Paolo Camozzi
+ * Released under the MIT license
+ * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md
+ */
 
 	include("FunctionNew.php");
 
@@ -66,7 +76,7 @@
 
 			$data="SELECT data FROM events WHERE catID='$cat_events_ID'";
 
-			if($data_events=$connectionrd->query($data)){
+			/*if($data_events=$connectionrd->query($data)){
 
 				$i=0;
 				
@@ -74,13 +84,15 @@
 
 					$array=explode("|", $events['data']);
 
+					//print_r($array);
+
 					if($array[1]!="" && $rotation_name==$array[2]){
 						
 						$i++;
 					}
 
 				}
-			}
+			}*/
 
 			$total[]=$rotation_name;
 
@@ -151,13 +163,22 @@
 
 					$array1=explode("|", $events['data']);
 
-					if($array1[2]==""){
+					if($events['data']=="Clear Playlist!"){
 
-						$rotation_array[]="0";
+						$rotation_array[]=0;
 
 					}else{
+						
+						if($array1[0]=="Clear Playlist!
+Load Rotation" && isset($array1[3])==false){
 
-						$rotation_array[]=$array1[2];
+							$rotation_array[]=$array1[2];
+
+						}else{
+
+							$rotation_array[]=0;
+
+						}
 					}
 
 				}
@@ -165,6 +186,7 @@
 
 		}
 	}
+
 
 	$result=array();
 	error_reporting(E_ALL);
@@ -194,6 +216,7 @@
 	}
 
 	$i=0;
+
 
 	$ult_result[]=$total[0];
 
@@ -240,7 +263,7 @@
 
 
 			if(array_key_exists( $i , $result)==1){
-
+				
 				$ult_result[]=$name;
 				$ult_result[]=$result[$i];
 			}
@@ -257,7 +280,9 @@
 
 		}
 
-	}	
+
+	}
+	
 
 
 	$ult_result=json_encode($ult_result);

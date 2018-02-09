@@ -320,24 +320,24 @@
 		<table class="ui table" style="line-height:0;width:70%;margin:0 auto;">
 			<thead>
 				<tr>
-					<th>
+					<th style="width:10%">
 					</th>
-					<th class="ui center aligned">
+					<th class="ui center aligned" style="width:12.5%">
 						<h3><?php echo $translation['label_monday']?></h3>
 					</th>
-					<th class="ui center aligned"l>
+					<th class="ui center aligned" style="width:12.5%">
 						<h3><?php echo $translation['label_tuesday']?></h3>
 					</th>
-					<th class="ui center aligned">
+					<th class="ui center aligned" style="width:12.5%">
 						<h3><?php echo $translation['label_wednesday']?></h3>
 					</th>
-					<th class="ui center aligned">
+					<th class="ui center aligned" style="width:12.5%">
 						<h3><?php echo $translation['label_thursday']?></h3>
 					</thl>
-					<th class="ui center aligned">
+					<th class="ui center aligned" style="width:12.5%">
 						<h3><?php echo $translation['label_friday']?></h3>
 					</th>
-					<th class="ui center aligned"l>
+					<th class="ui center aligned" style="width:12.5%">
 						<h3><?php echo $translation['label_saturday']?></h3>
 					</th>
 					<th class="ui center aligned">

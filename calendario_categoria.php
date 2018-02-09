@@ -76,23 +76,6 @@
 
 			$data="SELECT data FROM events WHERE catID='$cat_events_ID'";
 
-			/*if($data_events=$connectionrd->query($data)){
-
-				$i=0;
-				
-				while($events=$data_events->fetch_assoc()){
-
-					$array=explode("|", $events['data']);
-
-					//print_r($array);
-
-					if($array[1]!="" && $rotation_name==$array[2]){
-						
-						$i++;
-					}
-
-				}
-			}*/
 
 			$total[]=$rotation_name;
 

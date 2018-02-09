@@ -174,7 +174,7 @@
 			error_reporting(E_ALL);
 				
 
-				array_push($elenco_songs['data'], array('Titolo' => $riga['title'], 'Artista' => $riga['artist'], 'Abilitata' => $riga['enabled'], 'Eccezioni' => $number, 'Azione'=>$riga['ID']));
+				array_push($elenco_songs['data'], array('Titolo' => $riga['title'], 'Artista' => $riga['artist'], 'Abilitata' => $riga['enabled'], 'Eccezioni' => $number, 'Info' => $riga['ID'] , 'Azione'=>$riga['ID']));
 
 			}
 		}		

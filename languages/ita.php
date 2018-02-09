@@ -260,6 +260,8 @@ $translation['label_settings_events']="Eventi orari:";
 
 $translation['label_settings_move']="Evento Move tracks:";
 
+$translation['title_song_report']="Song Report";
+
 $translation['mon_00']="Lun00";
 
 $translation['tue_00']="Mar00";

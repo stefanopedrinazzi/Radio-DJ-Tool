@@ -14,7 +14,7 @@
 
 		$connectionrd=DBrd_connection();
 
-		//global $db_namerd;
+		global $db_namerd;
 
 		mysqli_select_db($connectionrd,$db_namerd);
 

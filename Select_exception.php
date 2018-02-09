@@ -10,7 +10,7 @@
  * @link https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md
  */
 
-	include("languages/eng.php");
+	include("languages/".$_SESSION['language']);
 
 	include("FunctionNew.php");
 

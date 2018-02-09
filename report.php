@@ -205,6 +205,7 @@
 			$c[]=$a[$x];
 
 	}
+
 	
 	//creazione della matrice contenente ID delle canzoni e le informazioni delle eccezioni attive per la data selezionata
 	for($x=0;$x<sizeof($c);$x++){
@@ -375,6 +376,7 @@
     							</div>
    						
 					    <script>
+
 						    var densityCanvas = document.getElementById("canvas");
 
 						    Chart.defaults.global.defaultFontFamily = "Lato";

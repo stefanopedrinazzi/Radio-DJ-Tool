@@ -1249,4 +1249,91 @@
 		}
 	}
 	}
+
+
+	function exception_value_day_hour_ID(&$day,&$hour,&$song_ID){
+
+		$connectionrd=DBrd_connection();
+
+		global $db_namerd;
+
+		mysqli_select_db($connectionrd,$db_namerd);
+
+		$count=0;
+
+		$actual_week = date ('W', time());
+
+		$actual_year = date ('Y', time());
+
+		$date1 = date_create();
+
+		if($hour<10){
+
+				$hour="0".$hour;
+			
+			}else{
+
+				$hour=strval($hour);
+			}
+
+		date_isodate_set($date1, $actual_year, $actual_week, $day);
+		
+		$between1=date_format($date1, 'Y-m-d');
+
+		$between1.=" ".$hour.":00:00";
+
+
+		$hour_plus=intval($hour);
+
+		if($hour_plus+1==24){
+
+			$hour_plus="00";
+
+			$day+=1;
+		}else{
+
+			$hour_plus+=1;
+			if($hour_plus<10){
+
+				$hour_plus="0".$hour_plus;
+			
+			}else{
+
+				$hour_plus=strval($hour_plus);
+			}
+		}
+
+		$date2 = date_create();
+
+		date_isodate_set($date2, $actual_year, $actual_week, $day);
+
+		$between2=date_format($date2, 'Y-m-d');
+
+		$between2.=" ".$hour_plus.":00:00";
+
+		
+		$query="SELECT history.title, history.artist FROM history WHERE (history.date_played BETWEEN '$between1' AND '$between2') AND history.trackID='$song_ID'";
+
+			if($result=$connectionrd->query($query)){
+
+				if($result->num_rows != 0){
+
+					$count++;
+
+				}
+			}
+
+		if($count!=0){
+		
+		return 1;
+		
+		}else{
+
+		return 0;
+		
+		}
+
+		$connectionrd->close();
+
+	}
 ?>	

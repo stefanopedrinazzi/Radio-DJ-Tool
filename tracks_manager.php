@@ -115,6 +115,8 @@
 		        	
 		            json.data=json.data.map(function(song){
 
+		            	song.Info='<button class="mini ui icon labeled button" name="report" value='+song.Info+' formaction="report_song.php"><i class="line chart icon"></i>Info</button>';
+
 		            	if(song.Abilitata==1){
 						
 							song.Abilitata='<a class="ui tiny green empty circular label" style="padding:.3em!important; "></a>';
@@ -151,6 +153,7 @@
 	  					{ data: "Artista" },
 	  					{ data: "Abilitata" },
 	  					{ data: "Eccezioni" },
+	  					{ data: "Info" },
 	  					{ data: "Azione" }
 	  				],
 	  				columnDefs: [
@@ -357,17 +360,20 @@
 		<thead>
 	        
 			<tr>
-				<th style="width:30%">
+				<th style="width:25%">
 					<i class="music icon"></i><?php echo $translation['label_title']?>	
 				</th>
-				<th style="width:30%">
+				<th style="width:25%">
 					<i class="user icon"></i><?php echo $translation['label_artist']?>
 				</th>
 				<th style="width:15%">
 					<?php echo $translation['label_enabled']?>
 				</th>
-				<th style="width:10%">
+				<th style="width:12%">
 					<i class="hashtag icon"></i><?php echo $translation['label_exception']?>
+				</th>
+				<th style="width:12%">
+					<i class="info icon"></i>Info
 				</th>
 				<th>
 					<i class="setting icon"></i><?php echo $translation['label_action']?>

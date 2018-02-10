@@ -131,7 +131,7 @@
 
 	<head>
 
-		<title>Radio DJ Library Assistant</title>
+		<title>RadioDJ Library Assistant</title>
 
 		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 	  	<script type="text/javascript" type="text/css" href="js/buttons.semanticui.min.css"></script>
@@ -220,7 +220,7 @@
 	</head>
 
 	<body>
-		<h1 class="ui blue center aligned header" style="margin-top:40px">Radio DJ Library Assistant</h1>
+		<h1 class="ui blue center aligned header" style="margin-top:40px">RadioDJ Library Assistant</h1>
 
 		<table id="menutable" class="ui blue large table" style="margin-top:50px">
 			<tr>

@@ -295,24 +295,25 @@
 
 		<table class="ui blue table"></table>
 		<div style="line-height:0;width:70%;margin:0 auto;">
-		
-		<strong style="margin-left:30px"><?php echo $translation['text_select_category'].":"?> </strong>
-		<i style="margin-left:30px" id="category" class="large folder outline icon"></i>
-		<select class="uli focus dropdown" id="sottocategoria" name="sottocategoria">
-			<option value="0" selected="selected"><?php echo $translation['label_none'];  echo $stamp_category; ?></option>
-		</select>
-		<strong style="margin-left:30px"><?php echo $translation['label_num_cat']?> </strong>
+			
+			<strong style="margin-left:30px"><?php echo $translation['text_select_category'].":"?> </strong>
+			<i style="margin-left:30px" id="category" class="large folder outline icon"></i>
+			<select class="uli focus dropdown" id="sottocategoria" name="sottocategoria">
+				<option value="0" selected="selected"><?php echo $translation['label_none'];  echo $stamp_category; ?></option>
+			</select>
+			<strong style="margin-left:30px"><?php echo $translation['label_num_cat']?> </strong>
 			<strong id="num_song" style="margin-left:30px"></strong>
 			
 		</div>
 		
 		<div style="line-height:0;width:70%;margin:0 auto;">
-		
-		<strong style="margin-left:30px"><?php echo $translation['label_info_green']?></strong>
-			<a style="margin-left:5px" class="ui green circular label"><label></label>1/1</a>
-		<strong style="margin-left:60px"><?php echo $translation['label_info_red']?></strong>
-			<a style="margin-left:5px" class="ui red circular label"><label></label>1/1</a>
-			<br>
+			
+			<strong style="margin-left:30px"><?php echo $translation['label_info_green']?></strong>
+				<a style="margin-left:5px" class="ui green circular label"><label></label>1/1</a>
+			<strong style="margin-left:60px"><?php echo $translation['label_info_red']?></strong>
+				<a style="margin-left:5px" class="ui red circular label"><label></label>1/1</a>
+				<br>
+
 		</div> 
 		<div id="caricamento" class="ui inverted dimmer">
     		<div class="ui massive text loader"><?php echo $translation['label_loading']?></div>
@@ -970,16 +971,17 @@
 				</td>
 			</tr>
 		</table>
+		
 		<div>
-		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px;margin-top:10px">
-	  		<i class="reply icon"></i><label><?php echo $translation['label_close'] ?></label>
-		</button>
-		<button id="pianifica_rotazione" class="big ui icon labeled button" style="margin-left:10px;;margin-top:10px">
-  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_plan_rotation']?></label>
-		</button>
-		<button id="statistica" class="big ui icon labeled button" style="margin-left:10px;;margin-top:10px">
-  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_statistics']?></label>
-		</button>
+			<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px;margin-top:10px">
+		  		<i class="reply icon"></i><label><?php echo $translation['label_close'] ?></label>
+			</button>
+			<button id="pianifica_rotazione" class="big ui icon labeled button" style="margin-left:20px;;margin-top:10px">
+	  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_plan_rotation']?></label>
+			</button>
+			<button id="statistica" class="big ui icon labeled button">
+	  			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_statistics']?></label>
+			</button>
 		</div>
 	</body>
 </html>

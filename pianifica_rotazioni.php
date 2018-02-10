@@ -1649,10 +1649,10 @@ Load Rotation" && isset($array[3])==false){
 		<button id="salva" class="big right floated ui icon labeled primary button">
   			<i class="checkmark icon"></i><label><?php echo $translation['label_save']?></label>
 		</button>
-		<button id="report_settimanale" class="big ui icon labeled button" style="margin-left:10px">
+		<button id="report_settimanale" class="big ui icon labeled button" style="margin-left:20px;">
   			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_weekly_report']?></label>
 		</button>
-		<button id="statistica" class="big ui icon labeled button" style="margin-left:10px;;margin-top:10px">
+		<button id="statistica" class="big ui icon labeled button">
   			<i class="plus square outline icon icon"></i><label><?php echo $translation['label_statistics']?></label>
 		</button>
 		</div>

@@ -64,8 +64,6 @@
 
   			var oggi=new Date();
 
-  			console.log(oggi);
-
 			$("#data_select").val(oggi.toLocaleString());
 
   			$('#dateinput').calendar({
@@ -198,7 +196,7 @@
 				<div class="ui calendar" id="dateinput">
    					<div class="ui input left icon">
       					<i class="calendar icon"></i>
-      						<input id="data_select" type="text" placeholder="Date" name="data">
+      						<input id="data_select" type="text" placeholder="Date" name="data" style="width:225px">
     				</div>
   				</div>
 			</td>

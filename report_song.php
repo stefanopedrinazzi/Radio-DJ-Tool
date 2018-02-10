@@ -12,71 +12,7 @@
 
 	include("FunctionNew.php");
 
-	$riga=check_config();
-
-	$nomedbrd=$riga[0];
-
-	$hostname=$riga[1];
-
-	$usr=$riga[2];
-
-	$pwd=$riga[3];
-
-	$toolusr=$riga[4];
-
-	$toolpwd=$riga[5];
-
-	$path=$riga[6];
-
-	$language=$riga[7];
-
-	$nomedbap='rdj_library_assistant';
-	
-	$control=0;
-	
- 
-	
-	$order= array("\r\n", "\n", "\r");
-	$replace = '';
-	
-	$nomedbrd=str_replace($order, $replace,$nomedbrd);
-	$hostname=str_replace($order, $replace,$hostname);
-	$usr=str_replace($order, $replace,$usr);
-	$pwd=str_replace($order, $replace,$pwd);
-	$toolusr=str_replace($order, $replace,$toolusr);
-	$toolpwd=str_replace($order, $replace,$toolpwd);
-	$path=str_replace($order, $replace,$path);
-	$language=str_replace($order, $replace,$language);
-
-	include("languages/".$language);
-	
-	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
-
-		$control=0;
-
-	}else{
-
-		if(!test_db_connection($nomedbap,$hostname,$toolusr,$toolpwd)){
-
-			$control=0;
-		}else{
-
-			$control=1;
-		}
-
-	}
-
-	if($control==1){
-		$_SESSION['db_namerd']=$nomedbrd;
-		$_SESSION['hostnamerd']=$hostname;
-		$_SESSION['usernamerd']=$usr;
-		$_SESSION['passwordrd']=$pwdl;
-		$_SESSION['usernameap']=$toolusr;
-		$_SESSION['passwordap']=$toolpwd;
-		$_SESSION['path']=$path;
-		$_SESSION['language']=$language;
-	
-	}
+	include("languages/".$_SESSION['language']);
 
 	$song_ID= $_POST['report'];
 
@@ -85,43 +21,6 @@
 	for($x=1;$x<=7;$x++){
 
 		for($y=1;$y<=24;$y++){
-
-
-			switch ($x) {
-				case '1':
-					$name=$translation['label_mon'];
-					break;
-				case '2':
-					$name=$translation['label_tue'];
-					break;
-				case '3':
-					$name=$translation['label_wed'];
-					break;
-				case '4':
-					$name=$translation['label_thu'];
-					break;
-				case '5':
-					$name=$translation['label_fri'];
-					break;
-				case '6':
-					$name=$translation['label_sat'];
-					break;
-				case '7':
-					$name=$translation['label_sun'];
-					break;
-			}
-
-			$app=$y-1;
-
-			if($app<10){
-				
-				$name.="0".$app;
-									
-			}else{
-
-				$name.=$app;
-									
-			}
 
 			$day=$x;
 
@@ -157,66 +56,68 @@
 
   				var i=0;
 
-  					$('#caricamento').addClass("active");
+  				$('#caricamento').addClass("active");
 
-  					for(var y=1;y<=7;y++){
+  				for(var y=1;y<=7;y++){
 						
-						for(var x=0;x<=23;x++){	
+					for(var x=0;x<=23;x++){	
 
 						var ID="";
 							
-							switch(y){
-								case 1:
-									name='<?php echo $translation['label_mon']?>';
-									break;
-								case 2:
-									name='<?php echo $translation['label_tue']?>';
-									break;
-								case 3:
-									name='<?php echo $translation['label_wed']?>';
-									break;
-								case 4:
-									name='<?php echo $translation['label_thu']?>';
-									break;
-								case 5:
-									name='<?php echo $translation['label_fri']?>';
-									break;
-								case 6:
-									name='<?php echo $translation['label_sat']?>';
-									break;
-								case 7:
-									name='<?php echo $translation['label_sun']?>';
-									break;
-							}
-							
-							if(x<10){
-									
-								ID=name+"0"+x;
-									
-							}else{
-
-								ID=name+x;
-									
-							}
-							if(array[i]=="0"){
-
-								$('#'+ID).removeClass("green");
-								$('#'+ID).addClass("grey");
-
-							}else{
-
-								$('#'+ID).removeClass("grey");
-								$('#'+ID).addClass("green");
-
-							
-							}
-							i++;
+						switch(y){
+							case 1:
+								name='<?php echo $translation['label_mon']?>';
+								break;
+							case 2:
+								name='<?php echo $translation['label_tue']?>';
+								break;
+							case 3:
+								name='<?php echo $translation['label_wed']?>';
+								break;
+							case 4:
+								name='<?php echo $translation['label_thu']?>';
+								break;
+							case 5:
+								name='<?php echo $translation['label_fri']?>';
+								break;
+							case 6:
+								name='<?php echo $translation['label_sat']?>';
+								break;
+							case 7:
+								name='<?php echo $translation['label_sun']?>';
+								break;
 						}
+							
+						if(x<10){
+									
+							ID=name+"0"+x;
+									
+						}else{
 
+							ID=name+x;
+									
+						}
+						
+						if(array[i]=="0"){
+
+							$('#'+ID).removeClass("green");
+							$('#'+ID).addClass("grey");
+
+						}else{
+
+							$('#'+ID).removeClass("grey");
+							$('#'+ID).addClass("green");
+
+							
+						}
+						
+						i++;
 						
 					}
 
-					$('#caricamento').removeClass("active");
+				}
+
+				$('#caricamento').removeClass("active");
 
 
 				$('#annulla').on('click',function(){
@@ -232,7 +133,7 @@
 	<body>
 
 		<h3 class="ui header" style="margin-top:10px; margin-left:10px">
- 		 <i class="calendar icon"></i>
+ 			<i class="calendar icon"></i>
   			<div class="content">
     			<?php echo $translation['title_song_report']?>
   			</div>
@@ -917,10 +818,12 @@
 				</td>
 			</tr>
 		</table>
+		
 		<div>
-		<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px;margin-top:10px">
-	  		<i class="reply icon"></i><label><?php echo $translation['label_close'] ?></label>
-		</button>
+			<button id="annulla" class=" big right floated ui icon labeled button" style="margin-right:30px;margin-top:10px">
+		  		<i class="reply icon"></i><label><?php echo $translation['label_close'] ?></label>
+			</button>
 		</div>
+		
 	</body>
 </html>

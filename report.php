@@ -35,8 +35,6 @@
 	
 	$control=0;
 	
-
-	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
 	
@@ -65,7 +63,6 @@
 
 			$control=1;
 		}
-
 	}
 
 	//assegnazione delle variabili di sessione per la connessione ai database
@@ -78,7 +75,6 @@
 		$_SESSION['passwordap']=$toolpwd;
 		$_SESSION['path']=$path;
 		$_SESSION['language']=$language;
-	
 	}
 
 	//connessione al database di appoggio
@@ -125,9 +121,7 @@
 
 	}
 	
-	
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
-
 	$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$date_for_query' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
 
 	$i=0;
@@ -142,12 +136,10 @@
 			$a[$i][$x]=$exc['ID_song'];
 			$i++;
 			$x=0;
-		}
-		
+		}	
 	}
 	
 	//Array ID e ID_song di tutte le eccezioni di default
-
 	$default="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE data_in='0'";
 
 	$i=0;
@@ -161,20 +153,21 @@
 			$b[$i][$x]=$def['ID_song'];
 			$i++;
 			$x=0;
-		}
-		
+		}		
 	}
 	
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
-	
 	for($x=0;$x<sizeof($b);$x++){
 
 			$flag=0;
+		
 		if(sizeof($a)==0){
+			
 			$c[]=$b[$x];
+		
 		}else{
+			
 			for($y=0;$y<sizeof($a);$y++){
-
 
 				if($b[$x][1]!=$a[$y][1]){
 					
@@ -186,27 +179,20 @@
 					
 					break;
 				}
-
 			}
 			if($flag==1){
 
 				$c[]=$b[$x];
-
 			}
 		}
-		
-	
 	}
 
 	//Compilazione array $c completo di tutte eccezioni di default e le eccezioni attive ora
 	for($x=0;$x<sizeof($a);$x++){
-
-				
+			
 			$c[]=$a[$x];
-
 	}
 
-	
 	//creazione della matrice contenente ID delle canzoni e le informazioni delle eccezioni attive per la data selezionata
 	for($x=0;$x<sizeof($c);$x++){
 
@@ -255,7 +241,6 @@
 			$category[]=$song['ID'];
 
 			$i++;
-
 		}
 	}
 	
@@ -268,7 +253,6 @@
 
 				$res[]=$matrix[$y];
 			}
-
 		}
 	}
 	
@@ -282,7 +266,6 @@
 			if ($res[$x][$y]==1){
 
 				$disabled+=1;
-
 			}
 		}
 		
@@ -291,7 +274,6 @@
 		$arrayhour[$y-1][1]=sizeof($category)-$disabled;
 		$disabled=0;
 	}
-	
 	
 	$active="[";
 	$notactive="[";

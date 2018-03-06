@@ -12,6 +12,7 @@
 	
 	include("FunctionNew.php");
 
+	//acquisizone variabili $_POST di impostazioni.php
 	$nomedbrd=$_POST['nomedb'];
 
 	$nomedbap="rdj_library_assistant";
@@ -28,6 +29,7 @@
 
 	$control=0;
 
+	//test della connessione dei due DB
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;

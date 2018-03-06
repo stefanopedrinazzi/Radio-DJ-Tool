@@ -310,6 +310,7 @@ Load Rotation" && isset($array[3])==false){
 
   				$('#salva').prop("disabled",true);
 
+  				//acquisizione dell'array contenente informazioni sulla rotazione
   				var rot_array=<?php echo json_encode($rotation_array); ?>
 
   					var i=0;
@@ -366,21 +367,25 @@ Load Rotation" && isset($array[3])==false){
 
   				var obj ="";
 
+  				//eventi onclick del button annulla
   				$("#annulla").on('click',function(){
 	
 					window.location.href = ("index.php");
   				});
 
+  				//eventi onclick del button report settimanale
   				$("#report_settimanale").on('click',function(){
 	
 					window.open("cruscotto_settimanale.php");
   				});
 
+  				//eventi onclick del button statistica
   				$("#statistica").on('click',function(){
 	
 					window.open("statistica.php");
   				});
 
+  				//compilazione dell'array al variare di una delle selcet box
   				$('.ui .dropdown').on('change',function(){
 
   					$('#salva').prop("disabled",false);
@@ -425,28 +430,23 @@ Load Rotation" && isset($array[3])==false){
 									
 							}else{
 
-								ID=name+x;
-									
+								ID=name+x;		
 							}
 							
 							print=$('#'+ID).val();
 
-							//console.log(print);
 							if(y==7 && x==23){
 
 								obj += '"'+ID+'":"'+print+'"}';
 
 							}else{
 							
-								obj += '"'+ID+'":"'+print+'",';
-							
-							}
-							
-							
+								obj += '"'+ID+'":"'+print+'",';							
+							}				
 						}	
 					}
 				});
-
+  				//salvataggio della rotazione con evento onclick di salva
   				$('#salva').on('click',function(){
 	
 					$('#salva').prop("disabled",true);
@@ -462,13 +462,9 @@ Load Rotation" && isset($array[3])==false){
 							$('#annulla').prop("disabled",false);
 
 							location.reload(true);
-
 						}
 					});	
-
 				});
-
-
   			});
 
   		</script>

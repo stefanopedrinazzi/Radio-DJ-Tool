@@ -19,6 +19,7 @@
 
 	mysqli_select_db($connectionap,$db_nameap);
 
+	//assegnazione variabili ottenute da $_POST del file main_eccezioni.php 
 	$song_ID= $_POST['ID_song'];
 
 	$ExceptionID= $_POST['ExceptionID'];

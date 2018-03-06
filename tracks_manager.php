@@ -12,6 +12,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizione lingua da utilizzare
 	$riga=check_config();
 
 	$language=$riga[7];
@@ -31,6 +32,7 @@
 
 	$stamp_category = "";
 
+	//creazione select box con il nome e ID delle subcategory
 	$category_query="SELECT category.name, category.ID FROM category ORDER BY category.name";
 
 	if($category=$connectionrd->query($category_query)){
@@ -41,7 +43,7 @@
 		}
 	}
 
-
+	//creazione select box con il nome e ID dei generi
 	$genre_query="SELECT genre.name, genre.ID FROM genre";
 
 	$stamp_genre = "";
@@ -141,7 +143,6 @@
 		        })
 		            
 		        .dataTable( {
-		        	//ordering: false,
 		      		serverSide: true,
 		            ajax: {
 	    				url: 'PrintSong.php',
@@ -206,7 +207,14 @@
 			//assegnazione del valori alle select
 			$('#category').val(cat);
 
-			ID_cat=$('#category').val();			
+			ID_cat=$('#category').val();
+
+			if(ID_cat=="0"){
+				$("#cat.folder").removeClass("open");
+			}else{
+				$("#cat.folder").addClass("open");
+			}
+				
 
 			$.ajax({
 		        type: 'POST',
@@ -218,6 +226,19 @@
 	            	$('#subcategory').html(stamp_subcategory);
 	            	$('#subcategory').val(subcat);
 	            	$('#genre').val(genr);
+
+	            	if($('#subcategory').val()=="0"){
+						$("#sub.folder").removeClass("open");
+					}else{
+						$("#sub.folder").addClass("open");
+					}
+					
+					if($('#genre').val(genr)=="0"){
+						$("#gen.folder").removeClass("open");
+					}else{
+						$("#gen.folder").addClass("open");
+					}		
+	            	
 	            	refresh();
 	        		}
 	    	});

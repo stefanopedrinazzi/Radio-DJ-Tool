@@ -19,6 +19,7 @@
 
 	mysqli_select_db($connectionap,$db_nameap);
 
+	//cariabili passate da $_POST dal file main_eccezioni.php
 	$song_ID = $_POST['ID_song'];
 
 	$date_start = $_POST['date_start'];
@@ -34,7 +35,7 @@
 
 	$data_end=Convert_date($date_end);
 
-	//richiamo della funzione di controllo per le date
+	//richiamo della funzione di controllo per le date di inizio e di fine
 	$control=Control_date($song_ID,$data_start,$ExceptionID);
 
 	echo $control;

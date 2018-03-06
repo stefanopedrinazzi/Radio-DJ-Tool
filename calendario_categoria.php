@@ -23,6 +23,7 @@
 
 	include("languages/".$language);
 
+	//separazione ID nome della categoria passata da $_POST
 	$var = $_POST['categoria'];
 
 	$explode = explode('~', $var);
@@ -33,6 +34,7 @@
 
 	$rotation_array=array();
 
+	//connessione al database di radiodj
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;
@@ -41,6 +43,7 @@
 
 	error_reporting(E_ERROR);
 
+	//conteggio canzoni abilitate per la categoria passata
 	$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$category_ID' AND songs.enabled='1'";
 
 		if($number = mysqli_query($connectionrd,$num)){
@@ -50,22 +53,19 @@
 				$num_song=$number_song['NUM'];			
 
 				$total[]=$num_song;
-
 			}
-
 		}
 
-
+	//ID categoria eventi di RDJLA
 	if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
 
 		while($riga =$cat->fetch_assoc()){
 
 				$cat_events_ID=$riga['ID'];
-
 		}
-
 	}
 
+	//nome e ID delle rotazioni 
 	if($name_events=$connectionrd->query("SELECT name,ID FROM rotations")){
 
 		while($rotations=$name_events->fetch_assoc()){
@@ -74,11 +74,12 @@
 
 			$rotation_ID=$rotations['ID'];
 
+			//informazioni riguardante gli eventi di RDJLA
 			$data="SELECT data FROM events WHERE catID='$cat_events_ID'";
-
-
+	
 			$total[]=$rotation_name;
 
+			//numero di chiamate della categoria nella rotazione 
 			$number_rotation="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$category_ID' AND pID='$rotation_ID'";
 
 				if($num_rotation=$connectionrd->query($number_rotation)){
@@ -88,20 +89,17 @@
 						$var=$num_rot['TOTAL'];
 
 						$total[]=$var;
-					}
-
-									
+					}					
 				}
-
 		}
 	}
 
+	//ciclo per trovare il nome di tutti gli eventi della settimana
 	for($x=1;$x<=7;$x++){
 
 		for($y=0;$y<=23;$y++){
 
 			$day="&".$x;
-
 			$hours="&".$y;
 
 			switch ($x) {
@@ -128,18 +126,18 @@
 					break;
 			}
 
-			if($y<10){
+			if($y<10) {
 									
-				$name.="0".$y;
-									
-			}else{
-
-				$name.=$y;
-									
-			}
+				$name.="0".$y;							
 			
+			} else {
+
+				$name.=$y;						
+			}
+			//selezione delle informazioni per ogni evento settimanale
 			$data="SELECT data FROM events WHERE name='$name'";
 
+			//creazione array in base ai risultati della query
 			if($data_events = mysqli_query($connectionrd,$data)){
 		
 				while($events = mysqli_fetch_assoc($data_events)){
@@ -160,21 +158,17 @@ Load Rotation" && isset($array1[3])==false){
 						}else{
 
 							$rotation_array[]=0;
-
 						}
 					}
-
 				}
 			}
-
 		}
 	}
-
 
 	$result=array();
 	error_reporting(E_ALL);
 
-
+	//confronto dell'array contenente informazioni sulla rotazione e le chiamate della categoria
 	for($x=0;$x<sizeof($rotation_array);$x++){
 
 		for($y=1;$y<sizeof($total);$y++){
@@ -200,13 +194,12 @@ Load Rotation" && isset($array1[3])==false){
 
 	$i=0;
 
-
 	$ult_result[]=$total[0];
 
+	//ciclo per trovare il nome di tutti gli eventi della settimana
 	for($x=1;$x<=7;$x++){
 
 		for($y=1;$y<=24;$y++){
-
 
 			switch ($x) {
 				case '1':
@@ -244,7 +237,7 @@ Load Rotation" && isset($array1[3])==false){
 									
 			}
 
-
+			//controllo dell'esistenza dell'indice nell'array
 			if(array_key_exists( $i , $result)==1){
 				
 				$ult_result[]=$name;
@@ -252,26 +245,22 @@ Load Rotation" && isset($array1[3])==false){
 			}
 
 		$day=$x-1;
-
+		
 		$hour=$y-1;
 		
+		//calcolo del numero di eccezioni dato giorno,ora e sottocategoria
 		$n_exception=exception_value_day_hour_subcat($day,$hour,$category_ID);
 		
 		$ult_result[]="".$n_exception."";
-
+		
 		$i++;
 
 		}
-
-
 	}
 	
-
-
 	$ult_result=json_encode($ult_result);
 	print_r($ult_result);
 
 	$connectionrd->close();
 	
-
 ?>

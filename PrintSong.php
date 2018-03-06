@@ -14,6 +14,7 @@
 
 	include("languages/".$_SESSION['language']);
 
+	//connesione ai database
 	$connectionrd=DBrd_connection();
 	$connectionap=DBap_connection();
 
@@ -26,6 +27,7 @@
 	mysqli_select_db($connectionrd,$db_namerd);
 	mysqli_select_db($connectionap,$db_nameap);
 
+		//variabili ottenute dal $_POST di tracks_manager.php
 		$ID_cat = $_POST['ID_cat'];
 
 		$ID_subcat = $_POST['ID_subcat'];
@@ -56,7 +58,7 @@
 
 		$count="";
 
-
+		//calcolo del valore di limit e di order by della query
 		$limit=" LIMIT ".$length . " OFFSET " . $start;
 
 		$array=Number_exception();
@@ -81,12 +83,13 @@
 				break;
 		}
 
-
+		//utilizzo della vecchia query per creare la tabella
 		if($old!="0"){
 
 		$song=$_SESSION["song"];
 		$count=$_SESSION["count"];
 
+		//creazione nuova query in base ai parametri inseriti nelle select box dall'utente
 		} else {
 
 		if($category_ID=="0" && $ID_genre=="0" && $ID_subcat=="0"){
@@ -122,6 +125,7 @@
 		
 		}
 
+		//inserimento di LIKE nella query se valore di ricerca se presente
 		if($search!="" && $category_ID=="0"){
 			
 			$app="";
@@ -150,12 +154,14 @@
 
 		}
 
+		//impostazione delle variabili di sessione per ricordare il valore della query per il refresh 
 		$_SESSION["song"]=$song;
 		$_SESSION["count"]=$count;
 		$_SESSION["ID_cat"]=$ID_cat;
 		$_SESSION["ID_subcat"]=$ID_subcat;
 		$_SESSION["ID_genre"]=$ID_genre;
 
+		//creazione dell'oggetto da restituire al tracks manager per la creazione della tabella
 		if($countquery=$connectionrd->query($count)){
 
 			$query=$countquery->fetch_assoc();

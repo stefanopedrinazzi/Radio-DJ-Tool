@@ -22,10 +22,11 @@
 	$language=str_replace($order, $replace,$language);
 
 	include("languages/".$language);
+	
 	//recupero category
 	$var = $_POST['categoria'];
 
-
+	//root path della cartella per staticizzare la musica
 	$root_path = $_SESSION['path'];
 
 
@@ -37,6 +38,7 @@
 
 	error_reporting(E_ERROR);
 	
+	//controllo dell'esistenza della cartella root o creazione
 	if (is_dir($root_path)) {
   		
 	} else {
@@ -45,6 +47,7 @@
   		
 	}
 
+	//calcolo dell'indirizzo di root aggiungendo il nome della categoria
 	$explode = explode('~', $var);
 
 	$category=$explode[1];
@@ -53,6 +56,7 @@
 
 	$extendedpath=$root_path.$category;
 
+	//se non esiste l'extended path crealo
 	if (is_dir($extendedpath)) {
 
 	} else {
@@ -60,9 +64,10 @@
 
 	}
 
-	
+	//compilazione del database con il nuovo path ed il vecchio
 	$response=Modifica_tabella_appoggio($root_path,$category,$category_ID);
 
+	//lettura del database e spostamento file
 	$response.=Sposta_file();
 
 	error_reporting(E_ALL);	

@@ -62,24 +62,27 @@
   			
   		$(document).ready(function(){
 
+  			//azioni legate al cambiamento della select box della categoria
 	  		$('#cat').on('change',function() {
 	 				
  				var category=$('#cat').val();
 
-  			if(category=="0"){
-	  			$("#consolida").prop("disabled",true);
-				$("#category.folder").removeClass("open");
-			}else{
-				$("#consolida").prop("disabled",false);
-				$("#category.folder").addClass("open");	  			
-		  	}
-	  		});
+ 				//attivazione dinamica del tasto consolida
+  				if(category=="0"){
+	  				$("#consolida").prop("disabled",true);
+					$("#category.folder").removeClass("open");
+				}else{
+					$("#consolida").prop("disabled",false);
+					$("#category.folder").addClass("open");	  			
+		  		}
+	  			});
 
-	  		$("#annulla").on('click',function(){
-		
-			window.location.href = ('index.php');
+	  			//azione legata all'evento onclick del tasto annulla
+	  			$("#annulla").on('click',function(){
+			
+				window.location.href = ('index.php');
 
-			});	
+				});	
 
 		});	
 

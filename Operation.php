@@ -12,18 +12,14 @@
 
 	include("FunctionNew.php");
 
+		//connesione al database di radiodj
 		$connectionrd=DBrd_connection();
 
 		global $db_namerd;
 
 		mysqli_select_db($connectionrd,$db_namerd);
 
-
 		$ID_cat = $_POST['ID_cat'];
-
-		//$ID_subcat = $_POST['ID_subcat'];
-
-		//$ID_genre = $_POST['ID_genre'];
 
 		$explode = explode('~', $ID_cat);
 
@@ -33,6 +29,7 @@
 
 		$category_ID=$explode[0];
 
+		//nome e ID delle sottocategorie della categoria selezionata
 		$subcategory_query=("SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid='$category_ID' ORDER BY subcategory.name");
 
 		$stamp_subcategory = "<option value=\"0\" selected=\"selected\">All</option>";
@@ -41,6 +38,7 @@
 		
 			while($riga =$subcategory->fetch_assoc()){
 		    
+		    //creazione select box con le informazioni ottenute dalla query
 		    $stamp_subcategory .= "<option value=\"".$riga['ID']."\">" . $riga['name'] ."</option>" ;
 
 		    }  

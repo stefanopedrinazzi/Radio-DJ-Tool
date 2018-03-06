@@ -36,7 +36,6 @@
 	$control=0;
 	
 
-	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
 	
@@ -59,7 +58,6 @@
 
 	}
 	
-
 	//richiamo funzioni per testare le connessioni dei due database 
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
@@ -74,7 +72,6 @@
 
 			$control=1;
 		}
-
 	}
 
 	$connectionrd=DBrd_connection();

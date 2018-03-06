@@ -12,6 +12,7 @@
 
 	include("FunctionNew.php");
 
+	//assegnazione variabili da file config.txt
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -35,7 +36,7 @@
 	$control=0;
 	
  
-	
+	//formattazione delle variabili rimuovendo i caratteri speciali
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
 	
@@ -50,6 +51,7 @@
 
 	include("languages/".$language);
 	
+	//test di connessione dei due database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -66,6 +68,7 @@
 
 	}
 
+	//se i test delle connessioni restituiscono valore TRUE vengono create le variabili di sessione 
 	if($control==1){
 		$_SESSION['db_namerd']=$nomedbrd;
 		$_SESSION['hostnamerd']=$hostname;
@@ -78,6 +81,7 @@
 	
 	}
 
+	//controllo e/o creazione degli eventi settimanali
 	write_events();
 
 	$connectionrd=DBrd_connection();
@@ -120,6 +124,9 @@
   		<script type="text/javascript">
   			$(document).ready(function(){
 
+  				$(' .ui .circular').popup();
+
+  				//eventi legati al cambio della sottocategoria
   				$('#sottocategoria').on('change',function(){
 
   					$('#caricamento').addClass("active");
@@ -186,11 +193,14 @@
   						location.reload(true);
   					}
 					
+					//chiamata ajax a calendario_categoria.php per la creazione della UI
 					$.ajax({	
 						type: "POST",
 						url: "calendario_categoria.php",
 						data: { categoria: categoria},
 						success: function(result){
+
+							//assegnazione variabili da oggetto JSON
 							var obj=JSON.parse(result);
 							
 							var y=1;
@@ -207,6 +217,7 @@
 
 							var diff;
 
+							//ciclo per creare UI di ogni evento
 							obj.forEach(function(x){
 
 								var control=obj[y+1];
@@ -221,23 +232,34 @@
 
 									count+=control;
 
-									//number_tracks-=control;
-
 									if(previous!=exc){
 
 										diff=previous-exc;
 
 										number_tracks=number_tracks+diff;
-										}
+									}
 
+									var parse=obj[y];
+									if(parse!== undefined){
+										var hour = parse.substr(3,2);
+										hour=hour+":00-"+hour+":59";
+									}
 
-									
 									if(count<number_tracks){
 										$('#'+obj[y]+'l').text(obj[y+1]+"/"+obj[y+2]);
+										
+										$('#'+obj[y]).popup({
+											html: "<h4>"+hour+"</h4><?php echo $translation['popup_info_1']?>: <strong>"+obj[y+1]+"</strong><br /> <?php echo $translation['popup_info_2']?>: <strong>"+obj[y+2]+"</strong>"
+										});
+
 										$('#'+obj[y]).removeClass("grey");
 										$('#'+obj[y]).addClass("green");
 									}else{
 										$('#'+obj[y]+'l').text(obj[y+1]+"/"+obj[y+2]);
+
+										$('#'+obj[y]).popup({
+											html: "<h4>"+hour+"</h4><strong><?php echo $translation['popup_info_3']?></strong> <br /><?php echo $translation['popup_info_1']?>: <strong>"+obj[y+1]+"</strong><br /> <?php echo $translation['popup_info_2']?>: <strong>"+obj[y+2]+"</strong>"
+										});
 										$('#'+obj[y]).removeClass("grey");
 										$('#'+obj[y]).addClass("red");
 										count=count-number_tracks;
@@ -262,18 +284,21 @@
 
 				});
 
+  				//evento onclick di annulla
 				$('#annulla').on('click',function(){
 	
 					window.location.href = ('index.php');
 
 				});	
 
+				//evento onclick di pianifica rotazione
 				$('#pianifica_rotazione').on('click',function(){
 	
 					window.open('pianifica_rotazioni.php');
 
 				});
 
+				//evento onclick di statistica
 				$('#statistica').on('click',function(){
 	
 					window.open('statistica.php');
@@ -351,7 +376,7 @@
 					<strong>00:00 - 00:59</strong>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
-					<a class="ui grey circular label" id="<?php echo $translation['mon_00']?>" ><label id="<?php echo $translation['mon_00l']?>"></label></a>
+					<a class="ui grey circular label" id="<?php echo $translation['mon_00']?>"><label id="<?php echo $translation['mon_00l']?>"></label></a>
 				</td>
 				<td class="ui center aligned" style="padding:2px">
 					<a class="ui grey circular label" id="<?php echo $translation['tue_00']?>" ><label id="<?php echo $translation['tue_00l']?>"></label></a>

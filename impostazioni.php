@@ -23,6 +23,7 @@
 
 	$language=str_replace($order, $replace,$language);
 
+	//impostazione della lingua inglese se il file config.txt non è ancora configurato
 	if($language==""){
 
 		include("languages/eng.php");
@@ -33,6 +34,7 @@
 
 	}
 
+	//creazione select box con le lingue presenti nella cartella languages
 	$stamp_languages="";
 
 	$dir="languages/";
@@ -53,6 +55,7 @@
 		}
 	}
 
+	//controllo della presenza degli eventi creati dal tool RDJLA
 	$status_toggle=0;
 
 	$status_move=0;
@@ -65,6 +68,7 @@
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
+	//evento Toggle Song
 	if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='Toggle Song'")){
 
 		if($exist->num_rows == 1){
@@ -77,6 +81,7 @@
 		}
 	}
 
+	//evento Move Tracks
 	if($exist=$connectionrd->query("SELECT ID FROM events WHERE name='Move Tracks'")){
 
 		if($exist->num_rows == 1){
@@ -89,6 +94,7 @@
 		}
 	}
 
+	//ciclo per ricavare il nome degli eventi settimanali
 	for($x=1;$x<=7;$x++){
 
 		for($y=0;$y<=23;$y++){
@@ -148,7 +154,7 @@
 			}
 
 			
-			//scrittura degli eventi nel database se non esistenti utilizzando giorno e ora ricavati
+			//controllo degli eventi settimanali per la rotazione
 			if($exist=$connectionrd->query("SELECT ID FROM events WHERE day='$day' AND hours='$hours'")){
 
 				if($exist->num_rows == 1){
@@ -185,17 +191,18 @@
 			var toolusr=$('#toolusr').val(<?php echo json_encode($riga[4]) ?>);
 			var toolpwd=$('#toolpwd').val(<?php echo json_encode($riga[5]) ?>);
 			var path=$('#root').val(<?php echo json_encode($riga[6]) ?>);
-
 			var language=<?php echo "\"".$language."\""; ?>;
 
 			$('#files option[value="'+language+'"]').prop("selected", true);
 
+			//controllo esistenza degli eventi sopra elencati 
 			var status_move=<?php echo $status_move;?>;
 
 			var status_toggle=<?php echo $status_toggle;?>;
 
 			var status_events=<?php echo $status_events;?>;
 
+			//attivazione report di stato
 			if(status_move===1){
 
 				$("#move").removeClass("red");
@@ -214,6 +221,7 @@
 				$("#events").addClass("green");
 			}
 
+			//evento on click di conferma
 			$("#conferma").on('click',function(){
 
 			nomedb=$('#nomedb').val();
@@ -279,11 +287,6 @@
 
 	</script>
 
-	<script type="text/javascript">
-	$(document).ready(function(){
-
-});
-</script>
 
 </head>
 <body>
@@ -387,12 +390,12 @@
 	</table>
 
 	<div>
-	<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-right:30px">
-  		<i class="window close icon"></i><label><?php echo $translation['label_close']?></label>
-	</button>
-	<button id="conferma" class=" big right floated ui icon labeled primary button">
-  		<i class="checkmark icon"></i><label><?php echo $translation['label_save']?></label>
-	</button>
+		<button id="annulla" class=" big red right floated ui icon labeled button" style="margin-right:30px">
+  			<i class="window close icon"></i><label><?php echo $translation['label_close']?></label>
+		</button>
+		<button id="conferma" class=" big right floated ui icon labeled primary button">
+  			<i class="checkmark icon"></i><label><?php echo $translation['label_save']?></label>
+		</button>
 	</div>
 
 	<div style="margin-left:10px; font-size:13px">

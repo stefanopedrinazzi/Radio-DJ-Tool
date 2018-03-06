@@ -645,6 +645,8 @@
 
 	function Get_date(&$songID){
 
+		include("languages/".$_SESSION['language']);
+
 		$connectionap=DBap_connection();
 
 		global $db_nameap;
@@ -661,15 +663,6 @@
 
 			while($riga = $date_array->fetch_assoc()){
 
-				//$data_start=substr($riga['data_in'], 5, 6);
-				
-				//$data_end=substr($riga['data_out'], 5 , 6);
-
-				//$start=Convert_date_name($data_start);
-				
-				//$end=Convert_date_name($data_end);
-
-
 				$start=Convert_date_name($riga['data_in']);
 				
 				$end=Convert_date_name($riga['data_out']);
@@ -684,7 +677,7 @@
 
 				$end=substr($end, 0 , strlen($end));
 
-				$date_string .= "\"dal ".$start." al ".$end."\",";
+				$date_string .= "\"".$translation['label_from']." ".$start." ".$translation['label_to']." ".$end."\",";
 				}
 
 			}
@@ -1310,7 +1303,6 @@
 		$between2=date_format($date2, 'Y-m-d');
 
 		$between2.=" ".$hour_plus.":00:00";
-
 		
 		$query="SELECT history.title, history.artist FROM history WHERE (history.date_played BETWEEN '$between1' AND '$between2') AND history.trackID='$song_ID'";
 
@@ -1319,7 +1311,6 @@
 				if($result->num_rows != 0){
 
 					$count++;
-
 				}
 			}
 

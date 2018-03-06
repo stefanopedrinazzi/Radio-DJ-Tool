@@ -12,6 +12,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizione variabili per la connesione ai DB
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -34,8 +35,6 @@
 	
 	$control=0;
 	
-
-	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
 	
@@ -49,6 +48,7 @@
 	$language=str_replace($order, $replace,$language);
 
 	include("languages/".$language);
+	
 	//richiamo funzioni per testare le connessioni dei due database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
@@ -66,6 +66,7 @@
 
 	}
 
+	//impostazione delle variabili di sessione
 	if($control==1){
 		$_SESSION['db_namerd']=$nomedbrd;
 		$_SESSION['hostnamerd']=$hostname;
@@ -94,7 +95,7 @@
 
 	$stamp=(json_decode($obj,true));
 
-
+	//creazione di un array con il numero di riferimento della rotazione per ogni evento settimanale
 	for($x=1;$x<=7;$x++){
 
 		for($y=0;$y<=23;$y++){
@@ -127,7 +128,6 @@
 					break;
 			}
 
-
 			if($y<10){
 									
 				$name.="0".$y;
@@ -138,16 +138,14 @@
 									
 			}
 
-
 			$array[]=$stamp[$name];
 				
-		}
-		
-			
+		}		
 	}
 
 	$index=0;
 
+	//lettura dell'array e inserimento dei nuovi valori nel database per ogni evento
 	for($x=1;$x<=7;$x++){
 
 		for($y=0;$y<=23;$y++){
@@ -195,28 +193,21 @@
 			if($array[$index]=="0"){
 			
 				$update="UPDATE events SET events.data='Clear Playlist!' WHERE events.name='$name'";
-
 			
 			}else{
 
 				if($array[$index]=="1"){
 
-				
-
 				}else{
 			
 				$rot_ID=get_id_from_rotation($array[$index]);
 
-				//echo $rot_ID."\n";
-
 			$update="UPDATE events SET events.data='Clear Playlist!
 Load Rotation|$rot_ID|$array[$index]' WHERE events.name='$name'";
 
-				//echo $update."\n";
 				}
 			}
 
-			//echo $update."\n";
 			$connectionrd->query($update);
 
 		$index++;

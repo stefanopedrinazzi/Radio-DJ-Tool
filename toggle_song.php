@@ -42,6 +42,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizone variabili per connessioni ai DB
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -77,7 +78,7 @@
 
 	include("languages/".$language);
 
-	
+	//test di connesione ai DB
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -93,17 +94,6 @@
 		}
 
 	}
-
-	if($control==1){
-		$_SESSION['db_namerd']=$nomedbrd;
-		$_SESSION['hostnamerd']=$hostname;
-		$_SESSION['usernamerd']=$usr;
-		$_SESSION['passwordrd']=$pwd;
-		$_SESSION['usernameap']=$toolusr;
-		$_SESSION['passwordap']=$toolpwd;
-	
-	}
-
 
 	$connectionap=DBap_connection();
 

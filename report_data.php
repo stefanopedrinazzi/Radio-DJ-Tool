@@ -12,6 +12,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizione della lingua da utilizzare
 	$riga=check_config();
 
 	$language=$riga[7];
@@ -23,10 +24,12 @@
 
 	include("languages/".$language);
 
+	//connessione al database di radiodj
 	$connectionrd=DBrd_connection();
 
 	mysqli_select_db($connectionrd,$db_namerd);
 
+	//acquisizione e creazione della select box con il nome delle sottocategorie
 	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1 ORDER BY subcategory.name";
 
 	$stamp_category = "";
@@ -66,6 +69,7 @@
 
 			$("#data_select").val(oggi.toLocaleString());
 
+			//creazione del calendario
   			$('#dateinput').calendar({
 
   		
@@ -152,7 +156,7 @@
   			
 		});
 
-
+  		//eventi legati al cambiamento della sottocategoria selezionata
 	  	$('#cat').on('change',function() {
 	 				
  			var category=$("#cat").val();

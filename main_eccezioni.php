@@ -12,6 +12,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizionr lingua
 	$riga=check_config();
 
 	$language=$riga[7];
@@ -24,6 +25,7 @@
 	include("languages/".$language);
 
 ?>
+
 <!DOCTYPE html>
 <html>
 	
@@ -44,15 +46,17 @@
 
 		$ID_song=$song_ID; ?>;
 
-
+	//acquisizione ID della canzone
 	var ID_song= <?php echo $ID_song; ?>;
 
+	//acquisizione degli ID delle eccezioni
 	var ID_exc= <?php 
 
 				$ID_exc=Get_exception($ID_song);
 
 				echo $ID_exc; ?>;
 
+	//acquisizione delle date delle eccezioni
 	var date_array= <?php $date_array=Get_date($ID_song); 
 
 				echo ($date_array);
@@ -70,8 +74,9 @@
 	var ExceptionID="";
 	var modify="";
 	var control;
+	var nonsalvato=0;
 
-
+	//creazione matrice
   	eccezione = new Array();
 			eccezione[0]=new Array();
 			eccezione[1]=new Array();
@@ -81,7 +86,7 @@
 			eccezione[5]=new Array();
 			eccezione[6]=new Array();
 
-	
+	//set della matrice a 0
 	function set_array(){
 			for(var y=0;y<=giorno;y++){
 				for(var x=0;x<=ore;x++){		
@@ -105,6 +110,7 @@
 				}
 	}
 
+	//funzione per attivazione della tab selezionata
 	function change_tab(){
 			if( $('.ui .item.active').attr('data-tab') == '<?php echo $translation['label_mon']?>' ) {
    				day=0;
@@ -141,6 +147,7 @@
 
 	$(document).ready(function(){
 
+		//eventi correlati all'ID delle eccezioni se posto a 1
 		if (ID_exc==0) {
 			
 			$("#datecal").hide();
@@ -155,6 +162,7 @@
 		
 		} else {
 				
+			//creazione select box se gli ID delle eccezioni sono più di 1
 			modify=1;
 			var y=0;
 			ID_exc.forEach(function(x){
@@ -174,7 +182,7 @@
 
 		}
 
-		
+		//eventi legati al cambio dell'eccezione nella select box
 		$('#exception').on('change',function(){
 
 			$('.checkbox').each(function() {
@@ -186,6 +194,7 @@
 
 		ExceptionID = $('#exception').val();
 
+		//attivazione o disattivazione button in base all'ID dell'eccezioni
 		if (ExceptionID==0) {
 			$("#datecal").show();
 			$("#salva").find("label").text("<?php echo $translation['label_add']?>");
@@ -206,6 +215,7 @@
 		
 		set_array();
 	
+		//chiamata ajax per ricavare i dati relativi all'eccezione selezionata
 		$.ajax({	
 			type: "POST",
 			url: "Select_exception.php",
@@ -298,6 +308,7 @@
    	//parte di codice richiamata al variare di un valore di checkbox
 
 		$('.checkbox').on('click', function() {
+			nonsalvato=1;
 			$('.checkbox').each(function() {
 			var count=$(this).find('.orario').attr("name");
 
@@ -324,6 +335,7 @@
 
 		//funzione di check all
     	$('.check.button').on('click', function() {
+    		nonsalvato=1;
     		$('.ui .item .active .checkbox').checkbox('attach events', '.check.button', 'check');
     			$('.checkbox').each(function() {
     				var count=$(this).find('.orario').attr("name");
@@ -338,6 +350,7 @@
   		
   		//funzione di uncheck all
   		$('.uncheck.button').on('click', function() {
+  			nonsalvato=1;
     		$('.ui .item .active .checkbox').checkbox('attach events', '.uncheck.button', 'check');
     			$('.checkbox').each(function() {
     				var count=$(this).find('.orario').attr("name");
@@ -552,13 +565,14 @@
 			modify=1;
 		}
 		
-
+		//controllo della presenza di entrambe le date
 		if((date_end=="" || date_start=="") && $('.checkbox').find('.active_date').is(":checked")){
 			$('.checkbox').find('.active_date').attr("checked",false);
 	       	$('.checkbox').find('.active_date').prop("checked",false);
 			alert("<?php echo $translation['alert_enter_date']?>");
 		}
 
+		//controllo inserimento di almeno un valore di eccezione
 		for (y=0;y<=giorno;y++) {
 			
 			for (x=0;x<=ore;x++) {		
@@ -584,7 +598,7 @@
 		if(flag==1){
 			alert("<?php echo $translation['alert_enter_hour']?>");	
 		}
-
+		//controllo delle date inserite
 		$.ajax({	
 			type: "POST",
 			url: "Controllo_date.php",
@@ -592,7 +606,7 @@
 			success: function(response){
 				control=response;
 				
-
+			//scrittura dell'eccezione se i controlli sono FALSE
 			if(flag==0 && control==0){
 			$.ajax({	
 				type: "POST",
@@ -611,7 +625,7 @@
 				}
 
 			});
-
+			//alert se i controlli sono true
 			}else{
 				alert("<?php echo $translation['alert_already_set']?>");
 			}
@@ -622,37 +636,47 @@
 
 	});	
 
+	//eventi onclick di annulla
 	$("#annulla").on('click',function(){
 	
-		window.location.href = ("tracks_manager.php?global");
-
+		if(nonsalvato==0){
+			window.location.href = ("tracks_manager.php?global");
+		}else{
+			var uscita = window.confirm("<?php echo $translation['alert_exit_confirm']?>");
+				
+				if (uscita) {
+				window.location.href = ("tracks_manager.php?global");
+				}
+		}
 	});	
 
+	//eventi onclick di elimina
 	$("#elimina").on('click',function(){
 
-	var annulla = window.confirm("<?php echo $translation['alert_delete_confirm']?>");
+	var elimina = window.confirm("<?php echo $translation['alert_delete_confirm']?>");
      
-    if (annulla) {
-        $.ajax({	
-				type: "POST",
-				url: "elimina_eccezioni.php",
-				data: {ID_song: ID_song,ExceptionID: ExceptionID},
-				success: function(result){
+	    //controllo della conferma utente e eliminazione eccezione selezionata
+	    if (elimina) {
+	        $.ajax({	
+					type: "POST",
+					url: "elimina_eccezioni.php",
+					data: {ID_song: ID_song,ExceptionID: ExceptionID},
+					success: function(result){
 
-					var res = parseInt(result, 10)
+						var res = parseInt(result, 10)
 
-					if(res===1){
-						alert("<?php echo $translation['alert_delete_exception']?>");
-						location.reload(true);
-					}else{
-						alert("<?php echo $translation['alert_delete_default']?>");
+						if(res===1){
+							alert("<?php echo $translation['alert_delete_exception']?>");
+							location.reload(true);
+						}else{
+							alert("<?php echo $translation['alert_delete_default']?>");
+						}
 					}
-				}
 
-		});
-    }else{
-    	location.reload(true);
-    }
+			});
+	    }else{
+	    	location.reload(true);
+	    }
     	
 	});
 

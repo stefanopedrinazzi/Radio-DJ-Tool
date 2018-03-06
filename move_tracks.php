@@ -44,6 +44,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizione valori per connessione ai DB
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -79,7 +80,7 @@
 
 	include("languages/".$language);
 
-	
+	//test della connessione al database
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -95,18 +96,8 @@
 		}
 
 	}
-
-	if($control==1){
-		$_SESSION['db_namerd']=$nomedbrd;
-		$_SESSION['hostnamerd']=$hostname;
-		$_SESSION['usernamerd']=$usr;
-		$_SESSION['passwordrd']=$pwd;
-		$_SESSION['usernameap']=$toolusr;
-		$_SESSION['passwordap']=$toolpwd;
 	
-	}
-
-	
+	//spostamento dei file e scrittura del file di log
 	error_reporting(E_ERROR);
 
 	$logger = fopen("log_move_track.txt", "a") or die("Unable to open file!");

@@ -14,13 +14,14 @@
 
 	include("FunctionNew.php");
 
+	//connesione al database di RDJLA
 	$connectionap=DBap_connection();
 
 	global $db_nameap;
 
 	mysqli_select_db($connectionap,$db_nameap);
 
-
+	//variabili ottenute dal $_POST di main_eccezioni.php
 	$song_ID= $_POST['ID_song'];
 
 	$date_start=$_POST['date_start'];
@@ -35,11 +36,12 @@
 
 	$array_exc=Convert_exception($eccezione);
 
-	print_r($array_exc);
+	//conversione delle date inserite dall'utente
 	$data_start=Convert_date($date_start);
 
 	$data_end=Convert_date($date_end);
 
+	//conversione delle date se a cavallo tra dicembre e gennaio
 	if($data_start>$data_end){
 
 		$data_start1=$data_start;
@@ -52,6 +54,7 @@
 
 		$modify=0;
 
+		//scritture delle eccezioni
 		$exception=Set_exceptions($song_ID,$data_start1,$data_end1,$array_exc,$modify,$ExceptionID);
 	
 		$exception.=Set_exceptions($song_ID,$data_start2,$data_end2,$array_exc,$modify,$ExceptionID);
@@ -60,9 +63,6 @@
 
 		$exception=Set_exceptions($song_ID,$data_start,$data_end,$array_exc,$modify,$ExceptionID);
 	}
-
-
-	
 
 	echo($exception);
 

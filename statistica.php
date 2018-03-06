@@ -13,6 +13,7 @@
 
 	include("FunctionNew.php");
 
+	//acquisizione valori per la connesione ai DB
 	$riga=check_config();
 
 	$nomedbrd=$riga[0];
@@ -35,8 +36,6 @@
 	
 	$control=0;
 	
-
-	
 	$order= array("\r\n", "\n", "\r");
 	$replace = '';
 	
@@ -51,6 +50,7 @@
 
 	include("languages/".$language);
 	
+	//test di connesione ai DB
 	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
 
 		$control=0;
@@ -67,18 +67,6 @@
 
 	}
 
-	if($control==1){
-		$_SESSION['db_namerd']=$nomedbrd;
-		$_SESSION['hostnamerd']=$hostname;
-		$_SESSION['usernamerd']=$usr;
-		$_SESSION['passwordrd']=$pwd;
-		$_SESSION['usernameap']=$toolusr;
-		$_SESSION['passwordap']=$toolpwd;
-		$_SESSION['path']=$path;
-		$_SESSION['language']=$language;
-	
-	}
-
 	$connectionrd=DBrd_connection();
 
 	global $db_namerd;
@@ -86,13 +74,13 @@
 	mysqli_select_db($connectionrd,$db_namerd);
 
 	$count=0;
-
+	
+	//acquisizione nome e ID di ogni subcategory di song
 	$query="SELECT subcategory.name, subcategory.ID FROM category JOIN subcategory ON subcategory.parentid=category.ID WHERE parentid=1 ORDER BY subcategory.name";
 
-	if($category = mysqli_query($connectionrd,$query)){
+	if($category=$connectionrd->query($query)){
 
-	
-		while($riga = mysqli_fetch_assoc($category)){
+		while($riga=$category->fetch_assoc()){
 
 			$stamp_category =$riga['name'];
 
@@ -100,39 +88,38 @@
 
 			$total[$count][]=$stamp_category;
 
+			//conteggio delle canzoni attive per ogni sottocategoria
+			$num="SELECT count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub' AND enabled='1'";
 
-			$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$ID_sub' AND enabled='1'";
-
-			if($number = mysqli_query($connectionrd,$num)){
+			if($number=$connectionrd->query($num)){
 	
-				while($number_song = mysqli_fetch_assoc($number)){
+				while($number_song=$number->fetch_assoc()){
 
 					$num_song=$number_song['NUM'];				
 
 					$total[$count][]=$num_song;
 				}
 			}
-
+				//acquisizione ID della categoria eventi RDJLA
 				if($cat=$connectionrd->query("SELECT ID FROM events_categories WHERE name='RDJLA-events'")){
 
-					while($riga =$cat->fetch_assoc()){
+					while($riga=$cat->fetch_assoc()){
 
 						$cat_events_ID=$riga['ID'];
 
 					}
 				}
 
+				//acquisizione nome e ID delle rotazioni
 				if($name_events=$connectionrd->query("SELECT name,ID FROM rotations")){
 
 					while($rotations=$name_events->fetch_assoc()){
-
 
 						$rotation_name=$rotations['name'];
 
 						$rotation_ID=$rotations['ID'];
 
-						//$rotation_array[]=$rotation_ID;
-
+						//acquisizione data dagli eventi di RDJLA
 						$data="SELECT data FROM events WHERE catID='$cat_events_ID'";
 
 						if($data_events=$connectionrd->query($data)){
@@ -153,7 +140,7 @@
 
 						$total[$count][]=$i;
 			
-
+							//conteggio delle volte in cui la sottocategoria viene richiamata in una rotazione
 							$number_rotation="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub' AND pID='$rotation_ID'";
 
 						if($num_rotation=$connectionrd->query($number_rotation)){
@@ -168,6 +155,7 @@
 					}  		
 				}
 
+				//conteggio delle volte in cui la sottocategoria viene chiamata
 				$call_total="SELECT count(*) as TOTAL FROM rotations_list WHERE subID='$ID_sub'";
 
 				if($call_tot=$connectionrd->query($call_total)){
@@ -184,9 +172,10 @@
 		$count++;					
 
 		} 
-	 
 	}
+	$connectionrd->close();
 	
+	//creazione delle variabili da inserire nella tabella
 	$stamp_table="<tbody><tr>";
 
 	for($x=0;$x<sizeof($total);$x++){

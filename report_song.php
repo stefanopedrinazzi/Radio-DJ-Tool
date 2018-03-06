@@ -12,12 +12,82 @@
 
 	include("FunctionNew.php");
 
+<<<<<<< HEAD
+	//acquisizione del valori per le connessioni ai DB
+	$riga=check_config();
+
+	$nomedbrd=$riga[0];
+
+	$hostname=$riga[1];
+
+	$usr=$riga[2];
+
+	$pwd=$riga[3];
+
+	$toolusr=$riga[4];
+
+	$toolpwd=$riga[5];
+
+	$path=$riga[6];
+
+	$language=$riga[7];
+
+	$nomedbap='rdj_library_assistant';
+	
+	$control=0;
+	
+	$order= array("\r\n", "\n", "\r");
+	$replace = '';
+	
+	$nomedbrd=str_replace($order, $replace,$nomedbrd);
+	$hostname=str_replace($order, $replace,$hostname);
+	$usr=str_replace($order, $replace,$usr);
+	$pwd=str_replace($order, $replace,$pwd);
+	$toolusr=str_replace($order, $replace,$toolusr);
+	$toolpwd=str_replace($order, $replace,$toolpwd);
+	$path=str_replace($order, $replace,$path);
+	$language=str_replace($order, $replace,$language);
+
+	include("languages/".$language);
+	
+	//controllo della connesione ai DB
+	if(!test_db_connection($nomedbrd,$hostname,$usr,$pwd)){
+
+		$control=0;
+
+	}else{
+
+		if(!test_db_connection($nomedbap,$hostname,$toolusr,$toolpwd)){
+
+			$control=0;
+		}else{
+
+			$control=1;
+		}
+
+	}
+
+	//creazione delle variabili di sessione se le connessioni sono TRUE
+	if($control==1){
+		$_SESSION['db_namerd']=$nomedbrd;
+		$_SESSION['hostnamerd']=$hostname;
+		$_SESSION['usernamerd']=$usr;
+		$_SESSION['passwordrd']=$pwdl;
+		$_SESSION['usernameap']=$toolusr;
+		$_SESSION['passwordap']=$toolpwd;
+		$_SESSION['path']=$path;
+		$_SESSION['language']=$language;
+	
+	}
+=======
 	include("languages/".$_SESSION['language']);
+>>>>>>> 075c1f01c9fecc565465952c99f9ee53f857eeaf
 
 	$song_ID= $_POST['report'];
 
 	$use="[";
 
+	//creazione nome eventi settimanali da utilizzare nella funzione
 	for($x=1;$x<=7;$x++){
 
 		for($y=1;$y<=24;$y++){
@@ -26,6 +96,7 @@
 
 			$hour=$y-1;
 
+	//creazione dell'array contenente le informazioni della traccia selezionata
 	$use.="\"".exception_value_day_hour_ID($day,$hour,$song_ID)."\",";
 
 		}
@@ -52,6 +123,7 @@
 
   				$('.ui .circular').popup();
 
+  				//creazione della UI con i valori dell'array calcolato per la canzone
   				var array=<?php print_r($use); ?>;
 
   				var i=0;
@@ -119,10 +191,10 @@
 
 				$('#caricamento').removeClass("active");
 
-
-				$('#annulla').on('click',function(){
+				//eventi onclick del button annulla
+				$("#annulla").on('click',function(){
 	
-					window.location.href = ('index.php');
+					window.location.href = ("tracks_manager.php?global");
 
 				});
 

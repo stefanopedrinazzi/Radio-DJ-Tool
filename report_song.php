@@ -12,7 +12,6 @@
 
 	include("FunctionNew.php");
 
-<<<<<<< HEAD
 	//acquisizione del valori per le connessioni ai DB
 	$riga=check_config();
 
@@ -79,9 +78,8 @@
 		$_SESSION['language']=$language;
 	
 	}
-=======
+
 	include("languages/".$_SESSION['language']);
->>>>>>> 075c1f01c9fecc565465952c99f9ee53f857eeaf
 
 	$song_ID= $_POST['report'];
 

@@ -94,9 +94,17 @@
 
 			$control=1;
 		}
-
 	}
-	
+
+	if($control==1){
+        $_SESSION['db_namerd']=$nomedbrd;
+        $_SESSION['hostnamerd']=$hostname;
+        $_SESSION['usernamerd']=$usr;
+        $_SESSION['passwordrd']=$pwd;
+        $_SESSION['usernameap']=$toolusr;
+        $_SESSION['passwordap']=$toolpwd;
+    }
+
 	//spostamento dei file e scrittura del file di log
 	error_reporting(E_ERROR);
 

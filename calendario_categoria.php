@@ -44,7 +44,7 @@
 	error_reporting(E_ERROR);
 
 	//conteggio canzoni abilitate per la categoria passata
-	$num="SELECT songs.ID,count(*) AS NUM FROM songs WHERE songs.id_subcat='$category_ID' AND songs.enabled='1'";
+	$num="SELECT count(*) AS NUM FROM songs WHERE songs.id_subcat='$category_ID' AND songs.enabled='1'";
 
 		if($number = mysqli_query($connectionrd,$num)){
 		

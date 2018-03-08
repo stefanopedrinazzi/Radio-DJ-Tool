@@ -376,7 +376,7 @@
   	<div id="caricamento" class="ui inverted dimmer">
     		<div class="ui massive text loader"><?php echo $translation['label_loading']?></div>
   	</div>
-	<table id="tablesong"  class="ui striped blue table" style="width:100%">
+	<table id="tablesong" class="ui striped blue table" style="width:100%">
 			
 		<thead>
 	        

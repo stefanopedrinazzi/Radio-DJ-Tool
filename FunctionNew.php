@@ -756,10 +756,8 @@
 		if($mese=="Default"){
 			$return="".$mese."";
 		}else{
-			//$explode[1]=substr($explode[1], 0 , strlen($explode[1])-1);
-			//$return="".$explode[1]." ".$mese."/";
-			$return=$day." , ".$mese;
 			
+			$return=$day." , ".$mese;			
 		}
 
 		return ($return);

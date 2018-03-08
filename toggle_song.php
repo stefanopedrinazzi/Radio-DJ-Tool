@@ -95,6 +95,15 @@
 
 	}
 
+    if($control==1){
+        $_SESSION['db_namerd']=$nomedbrd;
+        $_SESSION['hostnamerd']=$hostname;
+        $_SESSION['usernamerd']=$usr;
+        $_SESSION['passwordrd']=$pwd;
+        $_SESSION['usernameap']=$toolusr;
+        $_SESSION['passwordap']=$toolpwd; 
+    }
+
 	$connectionap=DBap_connection();
 
 	global $db_nameap;
@@ -125,7 +134,6 @@
 
 	fwrite($logger, $stamp.PHP_EOL);
 
-
 	//Array ID e ID_song di tutte le eccezioni con range di data che comprende la data e ora attuale
 
 	$exception="SELECT songs_exceptions.ID,songs_exceptions.ID_song FROM songs_exceptions WHERE ('$now' BETWEEN songs_exceptions.data_in AND songs_exceptions.data_out) AND data_in!='0'";
@@ -141,10 +149,8 @@
 			$a[$i][$x]=$exc['ID_song'];
 			$i++;
 			$x=0;
-		}
-		
+		}	
 	}
-
 	
 	//Array ID e ID_song di tutte le eccezioni di default
 
@@ -161,8 +167,7 @@
 			$b[$i][$x]=$def['ID_song'];
 			$i++;
 			$x=0;
-		}
-		
+		}	
 	}
 
 	//Creazione array di $c=$b-$a (default-eccezioni attive) 
@@ -194,8 +199,6 @@
 
 			}
 		}
-		
-	
 	}
 
 	//Compilazione array $c completo di tutte eccezioni di default e le eccezioni attive ora
@@ -203,9 +206,7 @@
 
 				
 			$c[]=$a[$x];
-
 	}		
-
 
 	//query per ricavare la grid settimanale di ogni traccia
 	for($x=0;$x<sizeof($c);$x++){
@@ -225,23 +226,18 @@
 
 		$actual_day = date ('N', time())-1;
 
-
 		//creo l'array per il giorno corrente
 		for($y=(24*$actual_day);$y<((24*$actual_day)+24);$y++){
 
 			$array_day[]=$result["grid"][$y];
-
 		}
 
-	
 		$status=$array_day[$hour];
-
 
 		fwrite($logger,toggle_song($ID_song,$status).PHP_EOL);
 
 		$array_day= array();
 	}
-
 
 ?>
 

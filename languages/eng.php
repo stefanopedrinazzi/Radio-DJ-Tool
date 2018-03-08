@@ -120,6 +120,12 @@ $translation['label_info_green']="No. of calls per hour / No. of exceptions:";
 
 $translation['label_info_red']="If red, finished tracks (No. of calls per hour/No. of exceptions):";
 
+$translation['popup_info_1']="No. of calls per hour";
+
+$translation['popup_info_2']="No. of exceptions";
+
+$translation['popup_info_3']="Finished tracks for this category";
+
 $translation['label_consolidate_button']="Consolidate";
 
 $translation['text_select_category']="Select category";

@@ -120,6 +120,12 @@ $translation['label_info_green']="N° di chiamate per ora / N° eccezioni:";
 
 $translation['label_info_red']="Se rosso tracce esaurite (N° di chiamate per ora/N° eccezioni):";
 
+$translation['popup_info_1']="N° di chiamate";
+
+$translation['popup_info_2']="N° eccezioni";
+
+$translation['popup_info_3']="Tracce esaurite per questa categoria";
+
 $translation['label_consolidate_button']="Consolida";
 
 $translation['text_select_category']="Seleziona categoria";

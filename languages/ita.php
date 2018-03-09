@@ -268,6 +268,12 @@ $translation['label_settings_move']="Evento Move tracks:";
 
 $translation['title_song_report']="Song Report";
 
+$translation['alert_exit_confirm']="Sei sicuro di voler uscire?le modifiche non saranno salvate";
+
+$translation['label_from']="Dal";
+
+$translation['label_to']="al";
+
 $translation['mon_00']="Lun00";
 
 $translation['tue_00']="Mar00";
@@ -939,6 +945,5 @@ $translation['fri_23l']="Ven23l";
 $translation['sat_23l']="Sab23l";
 
 $translation['sun_23l']="Dom23l";
-
 
 ?>

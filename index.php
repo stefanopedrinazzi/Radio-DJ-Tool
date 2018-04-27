@@ -105,7 +105,7 @@
 
 		if($exist->num_rows == 0){
 
-			$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('2','00:57:00','Toggle Song','&1&2&3&4&5&6&0','&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21&22&23&0','$catID','0','Launch Internet Link|http://localhost/git/toggle_song.php')";
+			$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('2','00:57:00','Toggle Song','&1&2&3&4&5&6&0','&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21&22&23&0','$catID','0','Launch Internet Link|http://localhost/RadioDj-Library-Assistant/toggle_song.php')";
 
 			$event=$connectionrd->query($events);
 		}
@@ -115,7 +115,7 @@
 
 		if($exist->num_rows == 0){
 
-			$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('2','00:50:00','Move Tracks','&1&2&3&4&5&6&0','&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21&22&23&0','$catID','0','Launch Internet Link|http://localhost/git/move_tracks.php')";
+			$events="INSERT INTO events (type,time,name,day,hours,catID,smart,data) VALUES ('2','00:50:00','Move Tracks','&1&2&3&4&5&6&0','&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21&22&23&0','$catID','0','Launch Internet Link|http://localhost/RadioDj-Library-Assistant/move_tracks.php')";
 
 			$event=$connectionrd->query($events);
 		}

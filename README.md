@@ -46,11 +46,7 @@
 
 ## Licenza
 
-<<<<<<< .merge_file_a02672
-  Questo progetto è concesso in licenza con la licenza MIT - per i dettagli vedere il file [LICENSE.md](https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE.md) <br /><br />
-=======
   Questo progetto è concesso in licenza con la licenza MIT - per i dettagli vedere il file [LICENSE](https://github.com/stefanopedrinazzi/RadioDJ-Library-Assistant/blob/master/LICENSE) <br /><br />
->>>>>>> .merge_file_a01752
 
 
 ## Credits
@@ -59,8 +55,5 @@
   - [Semantic UI](https://semantic-ui.com/)
   - [DataTables](https://datatables.net/)
   - [Charts.js](http://www.chartjs.org/)
-<<<<<<< .merge_file_a02672
   - [Semantic-UI-Calendar](https://github.com/mdehoog/Semantic-UI-Calendar)
-=======
-  - [Semantic-UI-Calendar](https://github.com/mdehoog/Semantic-UI-Calendar)
->>>>>>> .merge_file_a01752
+

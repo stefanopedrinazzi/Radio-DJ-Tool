@@ -17,7 +17,7 @@
 ## Installazione
 
   Effettuata l'installazione di <strong>XAMPP</strong>, dopo aver avviato MySQL e Apache è necessario importare il database rdj_library_assistant.sql .
-  Per importare il database bisogna accedere a [phpmyadmin](http://localhost/phpmyadmin/index.php), creare un nuovo db, assegnandogli il nome <strong>RadioDj-Library-Assistant</strong> e importando il file <strong>rdj_library_assistant.sql</strong> presente nella cartella <strong>RadioDJ-Library-Assistant</strong>.<br />
+  Per importare il database bisogna accedere a [phpmyadmin](http://localhost/phpmyadmin/index.php), creare un nuovo db, assegnandogli il nome <strong>rdj_library_assistant</strong> e importando il file <strong>rdj_library_assistant.sql</strong> presente nella cartella <strong>RadioDJ-Library-Assistant</strong>.<br />
 
  Copiare la cartella <strong>RadioDJ-Library-Assistant</strong> in <strong>htdocs</strong>, presente nella cartella <strong>XAMPP</strong> creata dall'installazione. <br /><br />
 
